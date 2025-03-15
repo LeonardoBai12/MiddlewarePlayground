@@ -1,7 +1,6 @@
-package io.lb.middleware.common.data.user.remote.model
+package io.lb.middleware.common.remote.user.remote.model
 
 data class UserResult(
-    val token: String,
     val userId: String,
     val userName: String,
     val phone: String,

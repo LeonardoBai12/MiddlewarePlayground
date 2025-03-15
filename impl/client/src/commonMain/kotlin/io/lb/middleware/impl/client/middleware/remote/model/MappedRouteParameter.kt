@@ -8,23 +8,18 @@ import kotlinx.serialization.json.JsonObject
 /**
  * Data class representing a mapped route.
  *
- * @property uuid The UUID of the mapped route.
  * @property path The path of the mapped route.
- * @property mappedApi The mapped API.
  * @property originalRoute The original route.
  * @property method The HTTP method of the mapped route.
  * @property preConfiguredQueries The pre-configured queries of the mapped route.
  * @property preConfiguredHeaders The pre-configured headers of the mapped route.
  * @property preConfiguredBody The pre-configured body of the mapped route.
+ * @property mappingRules The mapping rules of the mapped route.
  */
 @Serializable
-data class MappedRouteParameter(
-    @SerialName("uuid")
-    val uuid: String,
+internal data class MappedRouteParameter(
     @SerialName("path")
     val path: String,
-    @SerialName("mappedApi")
-    val mappedApi: MappedApiParameter,
     @SerialName("originalRoute")
     var originalRoute: OriginalRouteParameter,
     @SerialName("method")
@@ -35,4 +30,6 @@ data class MappedRouteParameter(
     val preConfiguredHeaders: Map<String, String> = originalRoute.headers,
     @SerialName("preConfiguredBody")
     val preConfiguredBody: JsonObject? = originalRoute.body,
+    @SerialName("rulesAsString")
+    val mappingRules: NewBodyMappingRuleParameter?
 )

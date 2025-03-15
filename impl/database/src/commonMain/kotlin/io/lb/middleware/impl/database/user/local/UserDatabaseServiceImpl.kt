@@ -1,4 +1,4 @@
-package io.lb.middleware.impl.client.user.local
+package io.lb.middleware.impl.database.user.local
 
 import io.lb.middleware.common.data.user.local.UserDatabaseService
 import io.lb.middleware.common.data.user.local.model.UserEntity

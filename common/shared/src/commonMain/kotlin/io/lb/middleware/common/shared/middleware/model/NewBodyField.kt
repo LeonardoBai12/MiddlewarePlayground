@@ -1,4 +1,4 @@
-package io.lb.middleware.common.data.middleware.remote.model
+package io.lb.middleware.common.shared.middleware.model
 
 /**
  * Represents a field in the new body.

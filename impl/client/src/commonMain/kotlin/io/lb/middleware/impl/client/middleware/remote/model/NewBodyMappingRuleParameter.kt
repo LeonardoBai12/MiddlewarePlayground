@@ -28,7 +28,7 @@ import kotlinx.serialization.Serializable
  * @property ignoreEmptyValues Whether to ignore empty values.
  */
 @Serializable
-data class NewBodyMappingRuleParameter(
+internal data class NewBodyMappingRuleParameter(
     @SerialName("newBodyFields")
     val newBodyFields: Map<String, NewBodyFieldParameter>,
     @SerialName("oldBodyFields")

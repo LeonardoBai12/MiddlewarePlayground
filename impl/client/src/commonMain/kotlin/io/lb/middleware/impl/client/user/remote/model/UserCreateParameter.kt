@@ -13,15 +13,15 @@ import kotlinx.serialization.Serializable
  * @property profilePictureUrl The URL of the user's profile picture (optional).
  */
 @Serializable
-data class UserCreateParameter(
+internal data class UserCreateParameter(
     @SerialName("userName")
-    val userName: String,
+    val userName: String?,
     @SerialName("phone")
-    val phone: String,
+    val phone: String?,
     @SerialName("password")
-    val password: String,
+    val password: String?,
     @SerialName("email")
-    val email: String,
+    val email: String?,
     @SerialName("profilePictureUrl")
     val profilePictureUrl: String? = null
 )

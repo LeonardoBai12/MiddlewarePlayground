@@ -1,22 +1,132 @@
 package io.lb.middleware.impl.client.middleware.remote
 
+import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.request.bearerAuth
+import io.ktor.client.request.get
+import io.ktor.client.request.post
+import io.ktor.client.request.setBody
+import io.ktor.client.request.url
+import io.ktor.http.ContentType
+import io.ktor.http.contentType
 import io.lb.middleware.common.remote.middleware.remote.model.MappingRequest
 import io.lb.middleware.common.data.middleware.remote.model.PreviewRequest
 import io.lb.middleware.common.remote.middleware.remote.MiddlewareClientService
+import io.lb.middleware.common.remote.middleware.remote.model.MappedRouteResult
+import io.lb.middleware.impl.client.NetworkConstants
+import io.lb.middleware.impl.client.middleware.remote.model.MappedRouteParameter
+import io.lb.middleware.impl.client.middleware.remote.model.MappedRouteResponse
+import io.lb.middleware.impl.client.middleware.remote.model.NewBodyFieldParameter
+import io.lb.middleware.impl.client.middleware.remote.model.NewBodyMappingRuleParameter
+import io.lb.middleware.impl.client.middleware.remote.model.OldBodyFieldParameter
+import io.lb.middleware.impl.client.middleware.remote.model.OriginalApiParameter
+import io.lb.middleware.impl.client.middleware.remote.model.OriginalRouteParameter
+import io.lb.middleware.impl.client.middleware.remote.model.PreviewParameter
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.jsonObject
 
 /**
  * Service for making requests to the middleware server.
  */
-class MiddlewareClientServiceImpl : MiddlewareClientService {
+class MiddlewareClientServiceImpl(
+    private val httpClient: HttpClient
+) : MiddlewareClientService {
+    private val baseUrl = NetworkConstants.MIDDLEWARE_BASE_URL
+    private val json = Json {
+        ignoreUnknownKeys = true
+    }
+
     override suspend fun requestPreview(token: String, data: PreviewRequest): String {
-        TODO("Not yet implemented")
+        val result = httpClient.post {
+            url("$baseUrl/v1/preview")
+            contentType(ContentType.Application.Json)
+            bearerAuth(token)
+            setBody(
+                PreviewParameter(
+                    originalResponse = data.originalResponse,
+                    mappingRules = NewBodyMappingRuleParameter(
+                        newBodyFields = data.mappingRules.newBodyFields.mapValues {
+                            NewBodyFieldParameter.fromNewBodyField(it.value)
+                        },
+                        oldBodyFields = data.mappingRules.oldBodyFields.mapValues {
+                            OldBodyFieldParameter.fromOldBodyField(it.value)
+                        },
+                        ignoreEmptyValues = data.mappingRules.ignoreEmptyValues
+                    )
+                )
+            )
+        }.body<String?>()
+
+        return result ?: ""
     }
 
     override suspend fun createNewRoute(token: String, data: MappingRequest): String {
-        TODO("Not yet implemented")
+        val result = httpClient.post {
+            url("$baseUrl/v1/mapping")
+            contentType(ContentType.Application.Json)
+            bearerAuth(token)
+            setBody(
+                MappedRouteParameter(
+                    path = data.path,
+                    originalRoute = OriginalRouteParameter(
+                        path = data.originalPath,
+                        originalApi = OriginalApiParameter(
+                            baseUrl = data.originalBaseUrl
+                        ),
+                        method = data.originalMethod,
+                        queries = data.originalQueries,
+                        headers = data.originalHeaders,
+                        body = data.originalBody?.let {
+                            json.parseToJsonElement(it).jsonObject
+                        }
+                    ),
+                    method = data.method,
+                    preConfiguredQueries = data.preConfiguredQueries,
+                    preConfiguredHeaders = data.preConfiguredHeaders,
+                    preConfiguredBody = data.preConfiguredBody?.let {
+                        json.parseToJsonElement(it).jsonObject
+                    } ?: data.originalBody?.let {
+                        json.parseToJsonElement(it).jsonObject
+                    },
+                    mappingRules = NewBodyMappingRuleParameter(
+                        newBodyFields = data.mappingRules.newBodyFields.mapValues {
+                            NewBodyFieldParameter.fromNewBodyField(it.value)
+                        },
+                        oldBodyFields = data.mappingRules.oldBodyFields.mapValues {
+                            OldBodyFieldParameter.fromOldBodyField(it.value)
+                        },
+                        ignoreEmptyValues = data.mappingRules.ignoreEmptyValues
+                    )
+                )
+            )
+        }.body<String?>()
+
+        return result ?: ""
     }
 
-    override suspend fun getAllRoutes(token: String): List<String> {
-        TODO("Not yet implemented")
+    override suspend fun getAllRoutes(token: String): List<MappedRouteResult> {
+        val result = httpClient.get {
+            url("$baseUrl/v1/routes")
+            contentType(ContentType.Application.Json)
+            bearerAuth(token)
+        }.body<List<MappedRouteResponse>?>()
+
+        return result?.map {
+            MappedRouteResult(
+                uuid = it.uuid,
+                path = it.path,
+                method = it.method,
+                originalBaseUrl = it.originalRoute.originalApi.baseUrl,
+                originalPath = it.originalRoute.path,
+                originalMethod = it.originalRoute.method,
+                originalQueries = it.originalRoute.queries,
+                originalHeaders = it.originalRoute.headers,
+                originalBody = it.originalRoute.body?.toString(),
+                preConfiguredQueries = it.preConfiguredQueries,
+                preConfiguredHeaders = it.preConfiguredHeaders,
+                preConfiguredBody = json.encodeToString(it.preConfiguredBody),
+            )
+        } ?: emptyList()
     }
 }

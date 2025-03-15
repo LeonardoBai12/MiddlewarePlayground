@@ -1,9 +1,9 @@
 package io.lb.middleware.common.remote.middleware.remote.model
 
-import io.lb.middleware.common.shared.middleware.model.MappingRules
 import io.lb.middleware.common.shared.middleware.request.MiddlewareHttpMethods
 
-data class MappingRequest(
+data class MappedRouteResult(
+    val uuid: String,
     val path: String,
     val method: MiddlewareHttpMethods,
     val originalBaseUrl: String,
@@ -15,5 +15,4 @@ data class MappingRequest(
     val preConfiguredQueries: Map<String, String> = mapOf(),
     val preConfiguredHeaders: Map<String, String> = mapOf(),
     val preConfiguredBody: String? = null,
-    val mappingRules: MappingRules
 )

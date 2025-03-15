@@ -4,7 +4,9 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class MappingRulesParameter(
+internal data class PreviewParameter(
+    @SerialName("originalResponse")
+    val originalResponse: String,
     @SerialName("mappingRules")
-    val mappingRules: NewBodyMappingRuleParameter,
+    val mappingRules: NewBodyMappingRuleParameter
 )

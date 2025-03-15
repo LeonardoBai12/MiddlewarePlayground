@@ -1,4 +1,4 @@
-package io.lb.middleware.impl.client.middleware.local
+package io.lb.middleware.impl.database.middleware.local
 
 import io.lb.middleware.common.data.middleware.local.MiddlewareDatabaseService
 import io.lb.middleware.common.data.middleware.local.model.MappedApiEntity
@@ -7,7 +7,9 @@ import io.lb.middleware.common.data.middleware.local.model.MappedRouteEntity
 /**
  * Service interface for interacting with the database.
  */
-class MiddlewareDatabaseServiceImpl : MiddlewareDatabaseService {
+class MiddlewareDatabaseServiceImpl(
+    val dataBase: MiddlewareDatabase
+) : MiddlewareDatabaseService {
     override suspend fun getRoutesHistory(): List<MappedRouteEntity> {
         TODO("Not yet implemented")
     }

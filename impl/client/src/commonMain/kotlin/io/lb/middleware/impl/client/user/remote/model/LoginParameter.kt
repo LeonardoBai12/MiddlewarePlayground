@@ -10,7 +10,7 @@ import kotlinx.serialization.Serializable
  * @property email The user's email address.
  */
 @Serializable
-data class LoginParameter(
+internal data class LoginParameter(
     @SerialName("email")
     val email: String,
     @SerialName("password")

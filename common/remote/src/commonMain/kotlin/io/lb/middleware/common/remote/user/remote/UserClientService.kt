@@ -1,8 +1,11 @@
-package io.lb.middleware.common.data.user.remote
+package io.lb.middleware.common.remote.user.remote
 
-import io.lb.middleware.common.data.user.remote.model.LoginRequest
-import io.lb.middleware.common.data.user.remote.model.UpdatePasswordRequest
-import io.lb.middleware.common.data.user.remote.model.UserResult
+import io.lb.middleware.common.remote.user.remote.model.LoginRequest
+import io.lb.middleware.common.remote.user.remote.model.UpdatePasswordRequest
+import io.lb.middleware.common.remote.user.remote.model.LoginResult
+import io.lb.middleware.common.remote.user.remote.model.UserCreateRequest
+import io.lb.middleware.common.remote.user.remote.model.UserResult
+import io.lb.middleware.common.remote.user.remote.model.UserUpdateRequest
 
 /**
  * Service for making requests to the middleware server.
@@ -14,7 +17,16 @@ interface UserClientService {
      * @param data The login request data.
      * @return The user response.
      */
-    suspend fun login(data: LoginRequest): UserResult?
+    suspend fun login(data: LoginRequest): LoginResult?
+
+    /**
+     * Gets the user's data.
+     *
+     * @param token The user's token.
+     * @param userId The ID of the user to get.
+     * @return The user response.
+     */
+    suspend fun getUserById(token: String, userId: String): UserResult?
 
     /**
      * Registers the user.
@@ -22,7 +34,7 @@ interface UserClientService {
      * @param data The login request data.
      * @return The user response.
      */
-    suspend fun register(data: LoginRequest): UserResult?
+    suspend fun signUp(data: UserCreateRequest): UserResult?
 
     /**
      * Gets the user's data.
@@ -30,7 +42,7 @@ interface UserClientService {
      * @param token The user's token.
      * @return The user response.
      */
-    suspend fun updateUser(token: String, data: LoginRequest): UserResult?
+    suspend fun updateUser(token: String, data: UserUpdateRequest): UserResult?
 
     /**
      * Updates the user's password.
@@ -46,9 +58,10 @@ interface UserClientService {
      *
      * @param token The user's token.
      * @param userId The ID of the user to delete.
+     * @param password The user's password.
      * @return True if the user was successfully deleted, false otherwise.
      */
-    suspend fun deleteUser(token: String, userId: String): Boolean
+    suspend fun deleteUser(token: String, userId: String, password: String): Boolean
 
     /**
      * Logs out the user.

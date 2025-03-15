@@ -1,5 +1,6 @@
 package io.lb.middleware.impl.client.middleware.remote.model
 
+import io.lb.middleware.common.shared.middleware.model.NewBodyField
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -15,9 +16,18 @@ import kotlinx.serialization.Serializable
  * <br>- [Boolean]
  */
 @Serializable
-data class NewBodyFieldParameter(
+internal data class NewBodyFieldParameter(
     @SerialName("key")
     val key: String,
     @SerialName("type")
     val type: String
-)
+) {
+    companion object {
+        internal fun fromNewBodyField(newBodyField: NewBodyField): NewBodyFieldParameter {
+            return NewBodyFieldParameter(
+                key = newBodyField.key,
+                type = newBodyField.type
+            )
+        }
+    }
+}

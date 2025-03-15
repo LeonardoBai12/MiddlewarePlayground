@@ -9,7 +9,7 @@ import kotlinx.serialization.Serializable
  * @property baseUrl The base URL of the original API.
  */
 @Serializable
-data class OriginalApiParameter(
+internal data class OriginalApiParameter(
     @SerialName("baseUrl")
     val baseUrl: String
 )

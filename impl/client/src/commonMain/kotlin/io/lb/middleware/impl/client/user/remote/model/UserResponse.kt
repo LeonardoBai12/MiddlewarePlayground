@@ -1,5 +1,6 @@
 package io.lb.middleware.impl.client.user.remote.model
 
+import io.lb.middleware.common.remote.user.remote.model.UserResult
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -13,7 +14,7 @@ import kotlinx.serialization.Serializable
  * @property profilePictureUrl The URL of the user's profile picture (optional).
  */
 @Serializable
-data class UserResponse(
+internal data class UserResponse(
     @SerialName("userId")
     val userId: String,
     @SerialName("userName")
@@ -26,4 +27,14 @@ data class UserResponse(
     val email: String,
     @SerialName("profilePictureUrl")
     val profilePictureUrl: String? = null
-)
+) {
+    fun toResult(): UserResult {
+        return UserResult(
+            userId = userId,
+            userName = userName,
+            phone = phone,
+            email = email,
+            profilePictureUrl = profilePictureUrl
+        )
+    }
+}

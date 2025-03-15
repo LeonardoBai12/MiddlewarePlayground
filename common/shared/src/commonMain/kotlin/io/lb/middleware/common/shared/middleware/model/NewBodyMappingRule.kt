@@ -1,7 +1,5 @@
 package io.lb.middleware.common.shared.middleware.model
 
-import io.lb.middleware.common.data.middleware.remote.model.NewBodyField
-
 /**
  * Represents a new body mapping rule.
  *

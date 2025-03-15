@@ -61,7 +61,7 @@ android {
 sqldelight {
     databases {
         create("MiddlewareDatabase") {
-            packageName = "io.lb.middleware.database"
+            packageName = "io.lb.middleware.impl.database"
         }
     }
 }

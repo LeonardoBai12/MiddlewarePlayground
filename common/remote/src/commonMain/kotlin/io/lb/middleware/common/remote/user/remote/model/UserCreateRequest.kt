@@ -1,4 +1,4 @@
-package io.lb.middleware.common.data.user.remote.model
+package io.lb.middleware.common.remote.user.remote.model
 
 /**
  * Data class representing a request to create a new user.

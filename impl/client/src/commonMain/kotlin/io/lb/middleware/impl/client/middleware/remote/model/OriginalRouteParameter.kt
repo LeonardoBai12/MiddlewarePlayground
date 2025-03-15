@@ -16,7 +16,7 @@ import kotlinx.serialization.json.JsonObject
  * @property body The body of the original route.
  */
 @Serializable
-data class OriginalRouteParameter(
+internal data class OriginalRouteParameter(
     @SerialName("path")
     val path: String,
     @SerialName("originalApi")

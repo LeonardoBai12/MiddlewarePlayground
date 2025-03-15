@@ -2,6 +2,7 @@ package io.lb.middleware.common.remote.middleware.remote
 
 import io.lb.middleware.common.remote.middleware.remote.model.MappingRequest
 import io.lb.middleware.common.data.middleware.remote.model.PreviewRequest
+import io.lb.middleware.common.remote.middleware.remote.model.MappedRouteResult
 
 /**
  * Service for making requests to the middleware server.
@@ -31,5 +32,5 @@ interface MiddlewareClientService {
      * @param token The user's token.
      * @return The list of routes.
      */
-    suspend fun getAllRoutes(token: String): List<String>
+    suspend fun getAllRoutes(token: String): List<MappedRouteResult>
 }

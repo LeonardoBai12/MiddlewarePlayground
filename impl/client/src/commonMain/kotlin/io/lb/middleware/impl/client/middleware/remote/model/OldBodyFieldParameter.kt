@@ -1,5 +1,6 @@
 package io.lb.middleware.impl.client.middleware.remote.model
 
+import io.lb.middleware.common.shared.middleware.model.OldBodyField
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -16,11 +17,21 @@ import kotlinx.serialization.Serializable
  * @property parents The parent keys of the field. It will be empty if it's a root field.
  */
 @Serializable
-data class OldBodyFieldParameter(
+internal data class OldBodyFieldParameter(
     @SerialName("keys")
     val keys: List<String>,
     @SerialName("type")
     val type: String,
     @SerialName("parents")
     val parents: List<String> = emptyList()
-)
+) {
+    companion object {
+        internal fun fromOldBodyField(oldBodyField: OldBodyField): OldBodyFieldParameter {
+            return OldBodyFieldParameter(
+                keys = oldBodyField.keys,
+                type = oldBodyField.type,
+                parents = oldBodyField.parents
+            )
+        }
+    }
+}
