@@ -17,7 +17,9 @@ dependencyResolutionManagement {
 
 rootProject.name = "Middleware_Playground"
 include(":androidApp")
-include(":common:data")
+include(":common:remote")
+include(":common:local")
+include(":common:shared")
 include(":common:state")
 include(":impl:client")
 include(":impl:database")

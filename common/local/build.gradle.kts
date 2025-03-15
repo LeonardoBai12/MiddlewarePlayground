@@ -3,7 +3,6 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinCocoapods)
-    alias(libs.plugins.serialization)
     id("io.lb.android.library")
 }
 
@@ -22,30 +21,20 @@ kotlin {
     iosSimulatorArm64()
 
     cocoapods {
-        summary = "Some description for the client Module"
-        homepage = "Link to the client Module homepage"
+        summary = "Some description for the Shared Module"
+        homepage = "Link to the Shared Module homepage"
         version = "1.0"
         ios.deploymentTarget = "16.0"
         podfile = project.file("../../iosApp/Podfile")
         framework {
-            baseName = "client"
+            baseName = "common-remote"
             isStatic = false
         }
     }
 
     sourceSets {
-        androidMain.dependencies {
-            implementation(libs.ktor.android)
-        }
         commonMain.dependencies {
-            implementation(libs.ktor.core)
-            implementation(libs.ktor.serialization)
-            implementation(libs.ktor.serialization.json)
-            implementation(project(":common:remote"))
             implementation(project(":common:shared"))
-        }
-        iosMain.dependencies {
-            implementation(libs.ktor.ios)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -54,5 +43,5 @@ kotlin {
 }
 
 android {
-    namespace = "io.lb.middleware.client"
+    namespace = "io.lb.middleware.common.remote"
 }

@@ -42,7 +42,8 @@ kotlin {
             implementation(libs.sqldelight.runtime)
             implementation(libs.sqldelight.coroutines.extensions)
             implementation(libs.kotlin.datetime)
-            implementation(project(":common:data"))
+            implementation(project(":common:local"))
+            implementation(project(":common:shared"))
         }
         iosMain.dependencies {
             implementation(libs.sqldelight.native.driver)
