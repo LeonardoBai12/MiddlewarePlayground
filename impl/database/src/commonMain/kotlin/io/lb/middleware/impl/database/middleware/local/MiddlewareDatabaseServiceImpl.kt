@@ -1,8 +1,8 @@
 package io.lb.middleware.impl.database.middleware.local
 
 import io.lb.middleware.common.data.middleware.local.MiddlewareDatabaseService
-import io.lb.middleware.common.data.middleware.local.model.MappedApiEntity
-import io.lb.middleware.common.data.middleware.local.model.MappedRouteEntity
+import io.lb.middleware.common.shared.middleware.model.MappedApi
+import io.lb.middleware.common.shared.middleware.model.MappedRoute
 import io.lb.middleware.common.shared.middleware.request.MiddlewareHttpMethods
 import io.lb.middleware.impl.client.MiddlewareDatabase
 import kotlinx.serialization.encodeToString
@@ -19,9 +19,9 @@ class MiddlewareDatabaseServiceImpl(
     }
     private val queries = dataBase.middlewareQueries
 
-    override suspend fun getRoutesHistory(): List<MappedRouteEntity> {
+    override suspend fun getRoutesHistory(): List<MappedRoute> {
         return queries.getRoutesHistory().executeAsList().map {
-            MappedRouteEntity(
+            MappedRoute(
                 uuid = it.uuid,
                 path = it.path,
                 method = MiddlewareHttpMethods.valueOf(it.method),
@@ -38,19 +38,19 @@ class MiddlewareDatabaseServiceImpl(
         }
     }
 
-    override suspend fun getApiHistory(): List<MappedApiEntity> {
+    override suspend fun getApiHistory(): List<MappedApi> {
         return queries.getApiHistory().executeAsList().map {
-            MappedApiEntity(
+            MappedApi(
                 uuid = it.uuid,
                 baseUrl = it.baseUrl,
-                originalApiBaseUrl = it.originalApiBaseUrl
+                originalBaseUrl = it.originalApiBaseUrl
             )
         }
     }
 
-    override suspend fun getRouteBysApiId(routeId: String): List<MappedRouteEntity> {
-        return queries.getRouteByApiId(routeId).executeAsList().map {
-            MappedRouteEntity(
+    override suspend fun getRoutesByApiId(apiId: String): List<MappedRoute> {
+        return queries.getRouteByApiId(apiId).executeAsList().map {
+            MappedRoute(
                 uuid = it.uuid,
                 path = it.path,
                 method = MiddlewareHttpMethods.valueOf(it.method),
@@ -67,9 +67,9 @@ class MiddlewareDatabaseServiceImpl(
         }
     }
 
-    override suspend fun getRouteById(routeId: String): MappedRouteEntity? {
+    override suspend fun getRouteById(routeId: String): MappedRoute? {
         return queries.getRouteById(routeId).executeAsOneOrNull()?.let {
-            MappedRouteEntity(
+            MappedRoute(
                 uuid = it.uuid,
                 path = it.path,
                 method = MiddlewareHttpMethods.valueOf(it.method),
@@ -86,17 +86,17 @@ class MiddlewareDatabaseServiceImpl(
         }
     }
 
-    override suspend fun getApiById(apiId: String): MappedApiEntity? {
+    override suspend fun getApiById(apiId: String): MappedApi? {
         return queries.getApiById(apiId).executeAsOneOrNull()?.let {
-            MappedApiEntity(
+            MappedApi(
                 uuid = it.uuid,
                 baseUrl = it.baseUrl,
-                originalApiBaseUrl = it.originalApiBaseUrl
+                originalBaseUrl = it.originalApiBaseUrl
             )
         }
     }
 
-    override suspend fun saveRoute(route: MappedRouteEntity) {
+    override suspend fun saveRoute(route: MappedRoute) {
         queries.saveRoute(
             uuid = route.uuid,
             path = route.path,
@@ -113,11 +113,11 @@ class MiddlewareDatabaseServiceImpl(
         )
     }
 
-    override suspend fun saveApi(api: MappedApiEntity) {
+    override suspend fun saveApi(api: MappedApi) {
         queries.saveApi(
             uuid = api.uuid,
             baseUrl = api.baseUrl,
-            originalApiBaseUrl = api.originalApiBaseUrl
+            originalApiBaseUrl = api.originalBaseUrl
         )
     }
 

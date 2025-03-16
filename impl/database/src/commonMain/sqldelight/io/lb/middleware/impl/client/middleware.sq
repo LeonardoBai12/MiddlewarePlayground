@@ -4,7 +4,6 @@ CREATE TABLE UserEntity (
     userId TEXT NOT NULL PRIMARY KEY,
     userName TEXT NOT NULL,
     phone TEXT NOT NULL,
-    password TEXT,
     email TEXT NOT NULL,
     profilePictureUrl TEXT
 );
@@ -34,15 +33,15 @@ CREATE TABLE MappedApiEntity (
 
 -- Queries for UserDatabaseService
 insertUser:
-INSERT INTO UserEntity (token, userId, userName, phone, password, email, profilePictureUrl)
-VALUES (?, ?, ?, ?, ?, ?, ?);
+INSERT INTO UserEntity (token, userId, userName, phone, email, profilePictureUrl)
+VALUES (?, ?, ?, ?, ?, ?);
 
 getUser:
-SELECT * FROM UserEntity WHERE userId = ?;
+SELECT * FROM UserEntity LIMIT 1;
 
 updateUser:
 UPDATE UserEntity
-SET token = ?, userName = ?, phone = ?, password = ?, email = ?, profilePictureUrl = ?
+SET token = ?, userName = ?, phone = ?, email = ?, profilePictureUrl = ?
 WHERE userId = ?;
 
 deleteUser:

@@ -35,7 +35,11 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(libs.kotlinx.serialization.json)
+            implementation(project(":common:local"))
+            implementation(project(":common:remote"))
+            implementation(project(":common:shared"))
+            implementation(project(":common:state"))
+            implementation(project(":middleware:domain"))
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

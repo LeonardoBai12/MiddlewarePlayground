@@ -1,13 +1,13 @@
 package io.lb.middleware.common.data.user.local
 
-import io.lb.middleware.common.data.user.local.model.UserEntity
+import io.lb.middleware.common.shared.user.UserData
 
 /**
  * Service interface for interacting with the database.
  */
 interface UserDatabaseService {
-    suspend fun saveUser(user: UserEntity)
-    suspend fun getUser(userId: String): UserEntity?
-    suspend fun updateUser(user: UserEntity)
+    suspend fun saveUser(user: UserData)
+    suspend fun getUser(): UserData?
+    suspend fun updateUser(user: UserData)
     suspend fun deleteUser(userId: String)
 }

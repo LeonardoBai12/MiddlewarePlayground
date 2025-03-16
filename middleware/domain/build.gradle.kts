@@ -35,6 +35,8 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            implementation(project(":common:shared"))
+            implementation(project(":common:state"))
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

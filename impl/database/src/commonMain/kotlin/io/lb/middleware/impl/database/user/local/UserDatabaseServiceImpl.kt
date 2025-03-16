@@ -1,26 +1,53 @@
 package io.lb.middleware.impl.database.user.local
 
 import io.lb.middleware.common.data.user.local.UserDatabaseService
-import io.lb.middleware.common.data.user.local.model.UserEntity
 import io.lb.middleware.common.shared.user.UserData
+import io.lb.middleware.impl.client.MiddlewareDatabase
 
 /**
  * Service interface for interacting with the database.
  */
-class UserDatabaseServiceImpl : UserDatabaseService {
+class UserDatabaseServiceImpl(
+    database: MiddlewareDatabase
+) : UserDatabaseService {
+    private val queries = database.middlewareQueries
+
     override suspend fun saveUser(user: UserData) {
-        TODO("Not yet implemented")
+        queries.insertUser(
+            token = user.token ?: "",
+            userId = user.userId,
+            userName = user.userName,
+            phone = user.phone,
+            email = user.email,
+            profilePictureUrl = user.profilePictureUrl
+        )
     }
 
-    override suspend fun getUser(userId: String): UserData? {
-        TODO("Not yet implemented")
+    override suspend fun getUser(): UserData? {
+        return queries.getUser().executeAsOneOrNull()?.let {
+            UserData(
+                token = it.token,
+                userId = it.userId,
+                userName = it.userName,
+                phone = it.phone,
+                email = it.email,
+                profilePictureUrl = it.profilePictureUrl
+            )
+        }
     }
 
     override suspend fun updateUser(user: UserData) {
-        TODO("Not yet implemented")
+        queries.updateUser(
+            token = user.token ?: "",
+            userId = user.userId,
+            userName = user.userName,
+            phone = user.phone,
+            email = user.email,
+            profilePictureUrl = user.profilePictureUrl
+        )
     }
 
     override suspend fun deleteUser(userId: String) {
-        TODO("Not yet implemented")
+        queries.deleteUser(userId)
     }
 }

@@ -1,7 +1,7 @@
 package io.lb.middleware.common.data.middleware.local
 
-import io.lb.middleware.common.data.middleware.local.model.MappedApiEntity
-import io.lb.middleware.common.data.middleware.local.model.MappedRouteEntity
+import io.lb.middleware.common.shared.middleware.model.MappedApi
+import io.lb.middleware.common.shared.middleware.model.MappedRoute
 
 /**
  * Service interface for interacting with the database.
@@ -10,20 +10,20 @@ interface MiddlewareDatabaseService {
     /**
      * Get the history of routes.
      */
-    suspend fun getRoutesHistory(): List<MappedRouteEntity>
+    suspend fun getRoutesHistory(): List<MappedRoute>
 
     /**
      * Get the history of APIs.
      */
-    suspend fun getApiHistory(): List<MappedApiEntity>
+    suspend fun getApiHistory(): List<MappedApi>
 
     /**
      * Get the route by its API ID.
      *
-     * @param routeId The ID of the route.
+     * @param apiId The ID of the API.
      * @return The route.
      */
-    suspend fun getRouteBysApiId(routeId: String): List<MappedRouteEntity>
+    suspend fun getRoutesByApiId(apiId: String): List<MappedRoute>
 
     /**
      * Get the API by its ID.
@@ -31,7 +31,7 @@ interface MiddlewareDatabaseService {
      * @param routeId The ID of the API.
      * @return The API.
      */
-    suspend fun getRouteById(routeId: String): MappedRouteEntity?
+    suspend fun getRouteById(routeId: String): MappedRoute?
 
     /**
      * Get the API by its ID.
@@ -39,21 +39,21 @@ interface MiddlewareDatabaseService {
      * @param apiId The ID of the API.
      * @return The API.
      */
-    suspend fun getApiById(apiId: String): MappedApiEntity?
+    suspend fun getApiById(apiId: String): MappedApi?
 
     /**
      * Save a route.
      *
      * @param route The route to save.
      */
-    suspend fun saveRoute(route: MappedRouteEntity)
+    suspend fun saveRoute(route: MappedRoute)
 
     /**
      * Save an API.
      *
      * @param api The API to save.
      */
-    suspend fun saveApi(api: MappedApiEntity)
+    suspend fun saveApi(api: MappedApi)
 
     /**
      * Delete a route.
