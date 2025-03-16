@@ -44,6 +44,9 @@ kotlin {
             implementation(project(":common:remote"))
             implementation(project(":common:shared"))
         }
+        commonTest.dependencies {
+            implementation(libs.kotlin.test)
+        }
         iosMain.dependencies {
             implementation(libs.ktor.ios)
         }

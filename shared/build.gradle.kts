@@ -41,6 +41,9 @@ kotlin {
             implementation(project(":impl:database"))
             implementation(libs.kotlin.datetime)
         }
+        commonTest.dependencies {
+            implementation(libs.kotlin.test)
+        }
         iosMain.dependencies {
             implementation(libs.sqldelight.native.driver)
         }

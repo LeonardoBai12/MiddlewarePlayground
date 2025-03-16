@@ -46,6 +46,9 @@ kotlin {
             implementation(project(":common:local"))
             implementation(project(":common:shared"))
         }
+        commonTest.dependencies {
+            implementation(libs.kotlin.test)
+        }
         iosMain.dependencies {
             implementation(libs.sqldelight.native.driver)
         }
