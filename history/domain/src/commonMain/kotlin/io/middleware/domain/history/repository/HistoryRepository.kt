@@ -2,8 +2,6 @@ package io.middleware.domain.history.repository
 
 import io.lb.middleware.common.shared.middleware.model.MappedApi
 import io.lb.middleware.common.shared.middleware.model.MappedRoute
-import io.lb.middleware.common.state.CommonFlow
-import io.lb.middleware.common.state.Resource
 
 /**
  * The middleware repository.
@@ -12,12 +10,12 @@ interface HistoryRepository {
     /**
      * Get the history of routes.
      */
-    suspend fun getRoutesHistory(): CommonFlow<Resource<List<MappedRoute>>>
+    suspend fun getRoutesHistory(): List<MappedRoute>
 
     /**
      * Get the history of APIs.
      */
-    suspend fun getApiHistory(): CommonFlow<Resource<List<MappedApi>>>
+    suspend fun getApiHistory(): List<MappedApi>
 
     /**
      * Get the route by its API ID.
@@ -25,7 +23,7 @@ interface HistoryRepository {
      * @param apiId The ID of the route.
      * @return The route.
      */
-    suspend fun getRoutesByApiIdFromHistory(apiId: String): CommonFlow<Resource<List<MappedRoute>>>
+    suspend fun getRoutesByApiIdFromHistory(apiId: String): List<MappedRoute>
 
     /**
      * Get the API by its ID.
@@ -34,6 +32,14 @@ interface HistoryRepository {
      * @return The API.
      */
     suspend fun getRouteByIdFromHistory(routeId: String): MappedRoute?
+
+    /**
+     * Get the API by its ID.
+     *
+     * @param apiId The ID of the API.
+     * @return The API.
+     */
+    suspend fun getApiByIdFromHistory(apiId: String): MappedApi?
 
     /**
      * Mark a route as favourite.

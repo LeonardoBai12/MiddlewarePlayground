@@ -44,20 +44,6 @@ class UserDataSource(
      * Gets the user's data.
      *
      * @param token The user's token.
-     * @param userId The ID of the user to get.
-     * @return The user response.
-     */
-    suspend fun getUserById(token: String, userId: String): UserResult? {
-        return userClientService.getUserById(
-            token = token,
-            userId = userId
-        )
-    }
-
-    /**
-     * Gets the user's data.
-     *
-     * @param token The user's token.
      * @return The user response.
      */
     suspend fun updateRemoteUser(token: String, data: UserUpdateRequest): UserResult? {

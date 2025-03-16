@@ -82,4 +82,24 @@ class HistoryDataSource(
     suspend fun deleteAllApis() {
         middlewareDatabaseService.deleteAllApis()
     }
+
+    /**
+     * Mark a route as favourite.
+     *
+     * @param routeId The ID of the route.
+     * @param favourite Whether the route is favourite.
+     */
+    suspend fun switchRouteToFavourite(routeId: String, favourite: Boolean) {
+        middlewareDatabaseService.switchRouteToFavourite(routeId, favourite)
+    }
+
+    /**
+     * Mark an API as favourite.
+     *
+     * @param apiId The ID of the API.
+     * @param favourite Whether the API is favourite.
+     */
+    suspend fun switchApiToFavourite(apiId: String, favourite: Boolean) {
+        middlewareDatabaseService.switchApiToFavourite(apiId, favourite)
+    }
 }
