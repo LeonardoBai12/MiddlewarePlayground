@@ -1,5 +1,6 @@
 package io.lb.middleware.sign_up.data.data_source
 
+import io.lb.middleware.common.data.middleware.local.MiddlewareDatabaseService
 import io.lb.middleware.common.data.user.local.UserDatabaseService
 import io.lb.middleware.common.remote.user.remote.UserClientService
 import io.lb.middleware.common.remote.user.remote.model.UpdatePasswordRequest
@@ -8,6 +9,7 @@ import io.lb.middleware.common.remote.user.remote.model.UserUpdateRequest
 import io.lb.middleware.common.shared.user.UserData
 
 class UserDataSource(
+    private val middlewareDatabaseService: MiddlewareDatabaseService,
     private val userDatabaseService: UserDatabaseService,
     private val userClientService: UserClientService
 ) {
@@ -93,6 +95,20 @@ class UserDataSource(
             userId = userId,
             password = password
         )
+    }
+
+    /**
+     * Delete all routes.
+     */
+    suspend fun deleteAllRoutes() {
+        middlewareDatabaseService.deleteAllRoutes()
+    }
+
+    /**
+     * Delete all APIs.
+     */
+    suspend fun deleteAllApis() {
+        middlewareDatabaseService.deleteAllApis()
     }
 
     /**

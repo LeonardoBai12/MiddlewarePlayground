@@ -3,7 +3,6 @@ package io.middleware.api.domain.repository
 import io.lb.middleware.common.shared.middleware.model.MappedRoute
 import io.lb.middleware.common.shared.middleware.model.MappingRequest
 import io.lb.middleware.common.shared.middleware.model.PreviewRequest
-import io.lb.middleware.common.shared.user.UserData
 import io.lb.middleware.common.state.CommonFlow
 import io.lb.middleware.common.state.Resource
 
@@ -11,13 +10,6 @@ import io.lb.middleware.common.state.Resource
  * The middleware repository.
  */
 interface MiddlewareRepository {
-    /**
-     * Gets the user's data.
-     *
-     * @return The user response.
-     */
-    suspend fun getCurrentUser(): UserData?
-
     /**
      * Requests a preview of the mapping.
      *

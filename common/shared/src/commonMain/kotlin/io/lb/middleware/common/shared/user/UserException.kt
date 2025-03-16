@@ -1,3 +1,3 @@
 package io.lb.middleware.common.shared.user
 
-class UserException : Exception()
+class UserException(message: String) : Exception(message)

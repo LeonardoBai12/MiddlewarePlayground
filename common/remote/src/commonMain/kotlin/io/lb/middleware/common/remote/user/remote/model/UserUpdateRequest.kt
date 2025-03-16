@@ -10,9 +10,9 @@ package io.lb.middleware.common.remote.user.remote.model
  */
 data class UserUpdateRequest(
     val userId: String,
-    val userName: String? = null,
+    val userName: String?,
     val password: String,
-    val phone: String? = null,
-    val email: String? = null,
-    val profilePictureUrl: String? = null
+    val phone: String?,
+    val email: String?,
+    val profilePictureUrl: String?
 )

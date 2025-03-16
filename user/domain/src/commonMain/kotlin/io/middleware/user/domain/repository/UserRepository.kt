@@ -21,7 +21,7 @@ interface UserRepository {
      * @param data The user data.
      * @return The user response.
      */
-    suspend fun updateUser(data: UserData): CommonFlow<UserData?>
+    suspend fun updateUser(data: UserData, password: String): CommonFlow<Resource<UserData?>>
 
     /**
      * Updates the user's password.
@@ -33,16 +33,15 @@ interface UserRepository {
     /**
      * Deletes the user.
      *
-     * @param userId The ID of the user to delete.
      * @param password The user's password.
      * @return True if the user was successfully deleted, false otherwise.
      */
-    suspend fun deleteUser(userId: String, password: String): CommonFlow<Resource<Unit>>
+    suspend fun deleteUser(password: String): CommonFlow<Resource<Unit>>
 
     /**
      * Logs out the user.
      *
      * @return True if the user was successfully logged out, false otherwise.
      */
-    suspend fun logout()
+    suspend fun logout(): CommonFlow<Resource<Unit>>
 }
