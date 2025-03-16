@@ -1,11 +1,18 @@
 package io.lb.middleware.common.data.middleware.local.model
 
+import io.lb.middleware.common.shared.middleware.request.MiddlewareHttpMethods
+
 data class MappedRouteEntity(
-    val id: String,
+    val uuid: String,
     val path: String,
-    val method: String,
-    val originalApiId: String,
-    val originalApiPath: String,
-    val originalApiMethod: String,
-    val originalApiBaseUrl: String
+    val method: MiddlewareHttpMethods,
+    val originalBaseUrl: String,
+    val originalPath: String,
+    val originalMethod: MiddlewareHttpMethods,
+    val originalQueries: Map<String, String> = mapOf(),
+    val originalHeaders: Map<String, String> = mapOf(),
+    val originalBody: String?,
+    val preConfiguredQueries: Map<String, String> = mapOf(),
+    val preConfiguredHeaders: Map<String, String> = mapOf(),
+    val preConfiguredBody: String? = null,
 )
