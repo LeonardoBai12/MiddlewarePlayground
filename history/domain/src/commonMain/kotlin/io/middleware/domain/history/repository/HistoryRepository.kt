@@ -33,7 +33,7 @@ interface HistoryRepository {
      * @param routeId The ID of the API.
      * @return The API.
      */
-    suspend fun getRouteByIdFromHistory(routeId: String): CommonFlow<Resource<MappedRoute?>>
+    suspend fun getRouteByIdFromHistory(routeId: String): MappedRoute?
 
     /**
      * Mark a route as favourite.
@@ -44,7 +44,7 @@ interface HistoryRepository {
     suspend fun switchRouteToFavourite(
         routeId: String,
         isFavourite: Boolean
-    ): CommonFlow<Resource<Unit>>
+    )
 
     /**
      * Mark an API as favourite.
@@ -55,24 +55,24 @@ interface HistoryRepository {
     suspend fun switchApiToFavourite(
         apiId: String,
         isFavourite: Boolean
-    ): CommonFlow<Resource<Unit>>
+    )
 
     /**
      * Delete a route.
      *
      * @param routeId The ID of the route to delete.
      */
-    suspend fun deleteRouteFromHistory(routeId: String): CommonFlow<Resource<Unit>>
+    suspend fun deleteRouteFromHistory(routeId: String)
 
     /**
      * Delete an API.
      *
      * @param apiId The ID of the API to delete.
      */
-    suspend fun deleteApiFromHistory(apiId: String): CommonFlow<Resource<Unit>>
+    suspend fun deleteApiFromHistory(apiId: String)
 
     /**
      * Delete all.
      */
-    suspend fun wipeData(): CommonFlow<Resource<Unit>>
+    suspend fun wipeData()
 }

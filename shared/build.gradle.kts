@@ -35,11 +35,13 @@ kotlin {
 
     sourceSets {
         androidMain.dependencies {
+            implementation(libs.kotlinx.coroutines.android)
         }
         commonMain.dependencies {
+            implementation(libs.kotlinx.coroutines.core)
+            implementation(libs.kotlin.datetime)
             implementation(project(":common:local"))
             implementation(project(":impl:database"))
-            implementation(libs.kotlin.datetime)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

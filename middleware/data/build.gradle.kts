@@ -34,7 +34,11 @@ kotlin {
     }
 
     sourceSets {
+        androidMain.dependencies {
+            implementation(libs.kotlinx.coroutines.android)
+        }
         commonMain.dependencies {
+            implementation(libs.kotlinx.coroutines.core)
             implementation(project(":common:local"))
             implementation(project(":common:remote"))
             implementation(project(":common:shared"))

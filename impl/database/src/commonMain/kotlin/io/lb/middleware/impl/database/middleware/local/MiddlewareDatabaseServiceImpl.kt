@@ -33,7 +33,8 @@ class MiddlewareDatabaseServiceImpl(
                 originalBody = it.originalBody,
                 preConfiguredQueries = json.decodeFromString(it.preConfiguredQueries),
                 preConfiguredHeaders = json.decodeFromString(it.preConfiguredHeaders),
-                preConfiguredBody = it.preConfiguredBody
+                preConfiguredBody = it.preConfiguredBody,
+                isFavourite = it.favourite == 1L
             )
         }
     }
@@ -62,7 +63,8 @@ class MiddlewareDatabaseServiceImpl(
                 originalBody = it.originalBody,
                 preConfiguredQueries = json.decodeFromString(it.preConfiguredQueries),
                 preConfiguredHeaders = json.decodeFromString(it.preConfiguredHeaders),
-                preConfiguredBody = it.preConfiguredBody
+                preConfiguredBody = it.preConfiguredBody,
+                isFavourite = it.favourite == 1L
             )
         }
     }
@@ -81,7 +83,8 @@ class MiddlewareDatabaseServiceImpl(
                 originalBody = it.originalBody,
                 preConfiguredQueries = json.decodeFromString(it.preConfiguredQueries),
                 preConfiguredHeaders = json.decodeFromString(it.preConfiguredHeaders),
-                preConfiguredBody = it.preConfiguredBody
+                preConfiguredBody = it.preConfiguredBody,
+                isFavourite = it.favourite == 1L
             )
         }
     }

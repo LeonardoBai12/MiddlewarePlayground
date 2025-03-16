@@ -9,7 +9,7 @@ import io.middleware.user.domain.repository.UserRepository
 class UserRepositoryImpl(
     private val dataSource: UserDataSource
 ) : UserRepository {
-    override suspend fun getCurrentUser(): CommonFlow<Resource<UserData?>> {
+    override suspend fun getCurrentUser(): UserData? {
         TODO("Not yet implemented")
     }
 
@@ -28,8 +28,7 @@ class UserRepositoryImpl(
         TODO("Not yet implemented")
     }
 
-    override suspend fun logout(): CommonFlow<Resource<Unit>> {
+    override suspend fun logout() {
         TODO("Not yet implemented")
     }
-
 }

@@ -13,7 +13,7 @@ interface UserRepository {
      *
      * @return The user response.
      */
-    suspend fun getCurrentUser(): CommonFlow<Resource<UserData?>>
+    suspend fun getCurrentUser(): UserData?
 
     /**
      * Gets the user's data.
@@ -44,5 +44,5 @@ interface UserRepository {
      *
      * @return True if the user was successfully logged out, false otherwise.
      */
-    suspend fun logout(): CommonFlow<Resource<Unit>>
+    suspend fun logout()
 }

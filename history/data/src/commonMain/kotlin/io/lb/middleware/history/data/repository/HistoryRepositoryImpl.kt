@@ -22,33 +22,28 @@ class HistoryRepositoryImpl(
         TODO("Not yet implemented")
     }
 
-    override suspend fun getRouteByIdFromHistory(routeId: String): CommonFlow<Resource<MappedRoute?>> {
+    override suspend fun getRouteByIdFromHistory(routeId: String): MappedRoute? {
         TODO("Not yet implemented")
     }
 
-    override suspend fun switchRouteToFavourite(
-        routeId: String,
-        isFavourite: Boolean
-    ): CommonFlow<Resource<Unit>> {
+    override suspend fun switchRouteToFavourite(routeId: String, isFavourite: Boolean) {
         TODO("Not yet implemented")
     }
 
-    override suspend fun switchApiToFavourite(
-        apiId: String,
-        isFavourite: Boolean
-    ): CommonFlow<Resource<Unit>> {
+    override suspend fun switchApiToFavourite(apiId: String, isFavourite: Boolean) {
         TODO("Not yet implemented")
     }
 
-    override suspend fun deleteRouteFromHistory(routeId: String): CommonFlow<Resource<Unit>> {
+    override suspend fun deleteRouteFromHistory(routeId: String) {
         TODO("Not yet implemented")
     }
 
-    override suspend fun deleteApiFromHistory(apiId: String): CommonFlow<Resource<Unit>> {
+    override suspend fun deleteApiFromHistory(apiId: String) {
         TODO("Not yet implemented")
     }
 
-    override suspend fun wipeData(): CommonFlow<Resource<Unit>> {
+    override suspend fun wipeData() {
         TODO("Not yet implemented")
     }
+
 }

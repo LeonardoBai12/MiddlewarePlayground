@@ -33,7 +33,11 @@ kotlin {
     }
 
     sourceSets {
+        androidMain.dependencies {
+            implementation(libs.kotlinx.coroutines.android)
+        }
         commonMain.dependencies {
+            implementation(libs.kotlinx.coroutines.core)
             implementation(project(":common:shared"))
         }
         commonTest.dependencies {

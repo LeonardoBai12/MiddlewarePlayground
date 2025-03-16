@@ -12,7 +12,7 @@ import io.middleware.api.domain.repository.MiddlewareRepository
 class MiddlewareRepositoryImpl(
     private val dataSource: MiddlewareDataSource
 ) : MiddlewareRepository {
-    override suspend fun getCurrentUser(): CommonFlow<Resource<UserData?>> {
+    override suspend fun getCurrentUser(): UserData? {
         TODO("Not yet implemented")
     }
 

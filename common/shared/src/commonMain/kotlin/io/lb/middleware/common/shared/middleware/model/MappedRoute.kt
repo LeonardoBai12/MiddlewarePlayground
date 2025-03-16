@@ -15,4 +15,5 @@ data class MappedRoute(
     val preConfiguredQueries: Map<String, String> = mapOf(),
     val preConfiguredHeaders: Map<String, String> = mapOf(),
     val preConfiguredBody: String? = null,
+    val isFavourite: Boolean
 )
