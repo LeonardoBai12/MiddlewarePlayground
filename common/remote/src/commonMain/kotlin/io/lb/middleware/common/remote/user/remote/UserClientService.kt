@@ -34,7 +34,7 @@ interface UserClientService {
      * @param data The login request data.
      * @return The user response.
      */
-    suspend fun signUp(data: UserCreateRequest): UserResult?
+    suspend fun signUp(data: UserCreateRequest): String?
 
     /**
      * Gets the user's data.

@@ -18,13 +18,9 @@ class UserRepositoryImpl(
     }
 
     override suspend fun updateUser(data: UserData, password: String) = flow<Resource<UserData?>> {
-        val currentUser = dataSource.getCurrentUser() ?: run {
-            emit(Resource.Error(UserException("User not found")))
-            return@flow
-        }
-
-        val result = kotlin.runCatching {
-            dataSource.updateRemoteUser(
+        runCatching {
+            val currentUser = dataSource.getCurrentUser() ?: throw UserException("User not found")
+            val result = dataSource.updateRemoteUser(
                 token = currentUser.token ?: "",
                 data = UserUpdateRequest(
                     userId = data.userId,
@@ -35,31 +31,25 @@ class UserRepositoryImpl(
                     profilePictureUrl = data.profilePictureUrl,
                 )
             )
-        }.getOrElse {
-            emit(
-                Resource.Error(UserException(it.message ?: "Failed to update user"))
-            )
-            return@flow
-        }
+            dataSource.updateUserLocally(data.copy(token = currentUser.token))
 
-        emit(
-            result?.let {
-                Resource.Success(data)
-            } ?: Resource.Error(UserException("Failed to update user"))
-        )
+            emit(
+                result?.let {
+                    Resource.Success(data)
+                } ?: Resource.Error(UserException("Failed to update user"))
+            )
+        }.getOrElse {
+            emit(Resource.Error(it))
+        }
     }.toCommonFlow()
 
     override suspend fun updatePassword(
         password: String,
         newPassword: String
-    ) = flow {
-        val currentUser = dataSource.getCurrentUser() ?: run {
-            emit(Resource.Error(UserException("User not found")))
-            return@flow
-        }
-
-        val result = kotlin.runCatching {
-            dataSource.updateRemotePassword(
+    ) = flow<Resource<Unit>> {
+        runCatching {
+            val currentUser = dataSource.getCurrentUser() ?: throw UserException("User not found")
+            val result = dataSource.updateRemotePassword(
                 token = currentUser.token ?: "",
                 data = UpdatePasswordRequest(
                     userId = currentUser.userId,
@@ -67,74 +57,55 @@ class UserRepositoryImpl(
                     newPassword = newPassword
                 )
             )
-        }.getOrElse {
-            emit(
-                Resource.Error(UserException(it.message ?: "Failed to update password"))
-            )
-            return@flow
-        }
 
-        emit(
             if (result) {
-                Resource.Success(Unit)
+                emit(Resource.Success(Unit))
             } else {
-                Resource.Error(UserException("Failed to update password"))
+                throw UserException("Failed to update password")
             }
-        )
+        }.getOrElse {
+            emit(Resource.Error(it))
+        }
     }.toCommonFlow()
 
-    override suspend fun deleteUser(password: String) = flow {
-        val currentUser = dataSource.getCurrentUser() ?: run {
-            emit(Resource.Error(UserException("User not found")))
-            return@flow
-        }
-
-        val result = kotlin.runCatching {
-            dataSource.deleteUserLocally(currentUser.userId)
-            dataSource.deleteRemoteUser(
+    override suspend fun deleteUser(password: String) = flow<Resource<Unit>> {
+        runCatching {
+            val currentUser = dataSource.getCurrentUser() ?: throw UserException("User not found")
+            val result = dataSource.deleteRemoteUser(
                 token = currentUser.token ?: "",
                 userId = currentUser.userId,
                 password = password
             )
-        }.getOrElse {
-            emit(
-                Resource.Error(UserException(it.message ?: "Failed to delete user"))
-            )
-            return@flow
-        }
-
-        if (result) {
-            dataSource.deleteAllRoutes()
-            dataSource.deleteAllApis()
             dataSource.deleteUserLocally(currentUser.userId)
-            emit(Resource.Success(Unit))
-        } else {
-            emit(Resource.Error(UserException("Failed to delete user")))
+
+            if (result) {
+                dataSource.deleteAllRoutes()
+                dataSource.deleteAllApis()
+                dataSource.deleteUserLocally(currentUser.userId)
+                emit(Resource.Success(Unit))
+            } else {
+                emit(Resource.Error(UserException("Failed to delete user")))
+            }
+        }.getOrElse {
+            emit(Resource.Error(it))
         }
     }.toCommonFlow()
 
-    override suspend fun logout() = flow {
-        val currentUser = dataSource.getCurrentUser() ?: run {
-            emit(Resource.Error(UserException("User not found")))
-            return@flow
-        }
+    override suspend fun logout() = flow<Resource<Unit>> {
+        runCatching {
+            val currentUser = dataSource.getCurrentUser() ?: throw UserException("User not found")
+            val result = dataSource.logout(currentUser.token ?: "")
 
-        val result = kotlin.runCatching {
-            dataSource.logout(currentUser.token ?: "")
+            if (result) {
+                dataSource.deleteAllRoutes()
+                dataSource.deleteAllApis()
+                dataSource.deleteUserLocally(currentUser.userId)
+                emit(Resource.Success(Unit))
+            } else {
+                emit(Resource.Error(UserException("Failed to logout")))
+            }
         }.getOrElse {
-            emit(
-                Resource.Error(UserException(it.message ?: "Failed to logout"))
-            )
-            return@flow
-        }
-
-        if (result) {
-            dataSource.deleteAllRoutes()
-            dataSource.deleteAllApis()
-            dataSource.deleteUserLocally(currentUser.userId)
-            emit(Resource.Success(Unit))
-        } else {
-            emit(Resource.Error(UserException("Failed to logout")))
+            emit(Resource.Error(it))
         }
     }.toCommonFlow()
 }

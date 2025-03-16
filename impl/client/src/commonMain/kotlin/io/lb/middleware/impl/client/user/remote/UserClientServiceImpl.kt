@@ -58,7 +58,7 @@ class UserClientServiceImpl(
         return result?.toResult()
     }
 
-    override suspend fun signUp(data: UserCreateRequest): UserResult? {
+    override suspend fun signUp(data: UserCreateRequest): String? {
         val result = httpClient.post {
             url("$baseUrl/api/signUp")
             contentType(ContentType.Application.Json)
@@ -71,9 +71,9 @@ class UserClientServiceImpl(
                     profilePictureUrl = data.profilePictureUrl
                 )
             )
-        }.body<UserResponse?>()
+        }.body<String?>()
 
-        return result?.toResult()
+        return result
     }
 
     override suspend fun updateUser(token: String, data: UserUpdateRequest): UserResult? {

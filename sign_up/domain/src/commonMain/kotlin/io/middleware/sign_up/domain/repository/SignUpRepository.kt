@@ -23,5 +23,5 @@ interface SignUpRepository {
      * @param data The login request data.
      * @return The user response.
      */
-    suspend fun signUp(data: UserData, password: String): CommonFlow<Resource<Unit>>
+    suspend fun signUp(data: UserData, password: String): CommonFlow<Resource<UserData?>>
 }
