@@ -7,7 +7,7 @@ import io.lb.middleware.common.data.user.local.model.UserEntity
  */
 interface UserDatabaseService {
     suspend fun saveUser(user: UserEntity)
-    suspend fun getUser(): UserEntity?
+    suspend fun getUser(userId: String): UserEntity?
     suspend fun updateUser(user: UserEntity)
     suspend fun deleteUser(userId: String)
 }

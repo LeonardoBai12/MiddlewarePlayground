@@ -1,0 +1,85 @@
+-- UserEntity table
+CREATE TABLE UserEntity (
+    token TEXT NOT NULL,
+    userId TEXT NOT NULL PRIMARY KEY,
+    userName TEXT NOT NULL,
+    phone TEXT NOT NULL,
+    password TEXT,
+    email TEXT NOT NULL,
+    profilePictureUrl TEXT
+);
+
+-- MappedRouteEntity table
+CREATE TABLE MappedRouteEntity (
+    uuid TEXT NOT NULL PRIMARY KEY,
+    path TEXT NOT NULL,
+    method TEXT NOT NULL,
+    originalBaseUrl TEXT NOT NULL,
+    originalPath TEXT NOT NULL,
+    originalMethod TEXT NOT NULL,
+    originalQueries TEXT NOT NULL,
+    originalHeaders TEXT NOT NULL,
+    originalBody TEXT,
+    preConfiguredQueries TEXT NOT NULL,
+    preConfiguredHeaders TEXT NOT NULL,
+    preConfiguredBody TEXT
+);
+
+-- MappedApiEntity table
+CREATE TABLE MappedApiEntity (
+    uuid TEXT NOT NULL PRIMARY KEY,
+    baseUrl TEXT NOT NULL,
+    originalApiBaseUrl TEXT NOT NULL
+);
+
+-- Queries for UserDatabaseService
+insertUser:
+INSERT INTO UserEntity (token, userId, userName, phone, password, email, profilePictureUrl)
+VALUES (?, ?, ?, ?, ?, ?, ?);
+
+getUser:
+SELECT * FROM UserEntity WHERE userId = ?;
+
+updateUser:
+UPDATE UserEntity
+SET token = ?, userName = ?, phone = ?, password = ?, email = ?, profilePictureUrl = ?
+WHERE userId = ?;
+
+deleteUser:
+DELETE FROM UserEntity WHERE userId = ?;
+
+-- Queries for MiddlewareDatabaseService
+getRoutesHistory:
+SELECT * FROM MappedRouteEntity;
+
+getApiHistory:
+SELECT * FROM MappedApiEntity;
+
+getRouteByApiId:
+SELECT * FROM MappedRouteEntity WHERE uuid = ?;
+
+getRouteById:
+SELECT * FROM MappedRouteEntity WHERE uuid = ?;
+
+getApiById:
+SELECT * FROM MappedApiEntity WHERE uuid = ?;
+
+saveRoute:
+INSERT INTO MappedRouteEntity (uuid, path, method, originalBaseUrl, originalPath, originalMethod, originalQueries, originalHeaders, originalBody, preConfiguredQueries, preConfiguredHeaders, preConfiguredBody)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+saveApi:
+INSERT INTO MappedApiEntity (uuid, baseUrl, originalApiBaseUrl)
+VALUES (?, ?, ?);
+
+deleteRoute:
+DELETE FROM MappedRouteEntity WHERE uuid = ?;
+
+deleteApi:
+DELETE FROM MappedApiEntity WHERE uuid = ?;
+
+deleteAllRoutes:
+DELETE FROM MappedRouteEntity;
+
+deleteAllApis:
+DELETE FROM MappedApiEntity;

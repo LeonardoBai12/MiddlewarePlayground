@@ -54,5 +54,5 @@ kotlin {
 }
 
 android {
-    namespace = "io.lb.middleware.client"
+    namespace = "io.lb.middleware.impl.client"
 }

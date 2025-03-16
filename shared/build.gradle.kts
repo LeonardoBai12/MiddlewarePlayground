@@ -35,19 +35,13 @@ kotlin {
 
     sourceSets {
         androidMain.dependencies {
-            implementation(libs.ktor.android)
-            implementation(libs.sqldelight.android.driver)
         }
         commonMain.dependencies {
-            implementation(libs.ktor.core)
-            implementation(libs.ktor.serialization)
-            implementation(libs.ktor.serialization.json)
-            implementation(libs.sqldelight.runtime)
-            implementation(libs.sqldelight.coroutines.extensions)
+            implementation(project(":common:local"))
+            implementation(project(":impl:database"))
             implementation(libs.kotlin.datetime)
         }
         iosMain.dependencies {
-            implementation(libs.ktor.ios)
             implementation(libs.sqldelight.native.driver)
         }
         commonTest.dependencies {

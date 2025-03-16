@@ -5,10 +5,10 @@ plugins {
 }
 
 android {
-    namespace = "io.lb.middlewareplayground.android"
+    namespace = "io.lb.middleware.android"
     compileSdk = 35
     defaultConfig {
-        applicationId = "io.lb.middlewareplayground.android"
+        applicationId = "io.lb.middleware.android"
         minSdk = 24
         targetSdk = 35
         versionCode = 1

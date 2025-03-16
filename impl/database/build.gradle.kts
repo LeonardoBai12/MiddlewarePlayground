@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinCocoapods)
+    alias(libs.plugins.serialization)
     alias(libs.plugins.sqldelight)
     id("io.lb.android.library")
 }
@@ -22,23 +23,23 @@ kotlin {
     iosSimulatorArm64()
 
     cocoapods {
-        summary = "Some description for the database Module"
-        homepage = "Link to the database Module homepage"
+        summary = "Some description for the client Module"
+        homepage = "Link to the client Module homepage"
         version = "1.0"
         ios.deploymentTarget = "16.0"
         podfile = project.file("../../iosApp/Podfile")
         framework {
-            baseName = "database"
+            baseName = "client"
             isStatic = false
         }
     }
 
     sourceSets {
         androidMain.dependencies {
-            implementation(libs.ktor.android)
             implementation(libs.sqldelight.android.driver)
         }
         commonMain.dependencies {
+            implementation(libs.kotlinx.serialization.json)
             implementation(libs.sqldelight.runtime)
             implementation(libs.sqldelight.coroutines.extensions)
             implementation(libs.kotlin.datetime)
@@ -55,13 +56,13 @@ kotlin {
 }
 
 android {
-    namespace = "io.lb.middleware.database"
+    namespace = "io.lb.middleware.impl.client"
 }
 
 sqldelight {
     databases {
         create("MiddlewareDatabase") {
-            packageName = "io.lb.middleware.impl.database"
+            packageName = "io.lb.middleware.impl.client"
         }
     }
 }
