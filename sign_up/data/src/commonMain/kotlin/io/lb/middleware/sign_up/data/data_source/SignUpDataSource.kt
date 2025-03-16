@@ -8,7 +8,7 @@ import io.lb.middleware.common.remote.user.remote.model.UserCreateRequest
 import io.lb.middleware.common.remote.user.remote.model.UserResult
 import io.lb.middleware.common.shared.user.UserData
 
-class MiddlewareDataSource(
+class SignUpDataSource(
     private val userDatabaseService: UserDatabaseService,
     private val userClientService: UserClientService
 ) {

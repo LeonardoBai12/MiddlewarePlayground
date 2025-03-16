@@ -13,5 +13,5 @@ interface SignUpRepository {
      *
      * @return The user response.
      */
-    suspend fun getCurrentUser(): CommonFlow<UserData?>
+    suspend fun getCurrentUser(): CommonFlow<Resource<UserData?>>
 }

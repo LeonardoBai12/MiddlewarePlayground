@@ -16,7 +16,7 @@ interface MiddlewareRepository {
      *
      * @return The user response.
      */
-    suspend fun getCurrentUser(): CommonFlow<UserData?>
+    suspend fun getCurrentUser(): CommonFlow<Resource<UserData?>>
 
     /**
      * Requests a preview of the mapping.
@@ -24,7 +24,7 @@ interface MiddlewareRepository {
      * @param data The preview request data.
      * @return The preview response.
      */
-    suspend fun requestPreview(data: PreviewRequest): CommonFlow<String>
+    suspend fun requestPreview(data: PreviewRequest): CommonFlow<Resource<String>>
 
     /**
      * Creates a new route.

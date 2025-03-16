@@ -72,12 +72,7 @@ interface HistoryRepository {
     suspend fun deleteApiFromHistory(apiId: String): CommonFlow<Resource<Unit>>
 
     /**
-     * Delete all routes.
+     * Delete all.
      */
-    suspend fun deleteAllRoutesFromHistory(): CommonFlow<Resource<Unit>>
-
-    /**
-     * Delete all APIs.
-     */
-    suspend fun deleteAllApisFromHistory(): CommonFlow<Resource<Unit>>
+    suspend fun wipeData(): CommonFlow<Resource<Unit>>
 }
