@@ -23,7 +23,7 @@ class UserDatabaseServiceImpl(
         )
     }
 
-    override suspend fun getUser(): UserData? {
+    override suspend fun getCurrentUser(): UserData? {
         return queries.getUser().executeAsOneOrNull()?.let {
             UserData(
                 token = it.token,

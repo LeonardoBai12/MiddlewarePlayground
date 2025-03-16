@@ -45,5 +45,5 @@ kotlin {
 }
 
 android {
-    namespace = "io.lb.middleware.domain"
+    namespace = "io.lb.middleware.api.domain"
 }

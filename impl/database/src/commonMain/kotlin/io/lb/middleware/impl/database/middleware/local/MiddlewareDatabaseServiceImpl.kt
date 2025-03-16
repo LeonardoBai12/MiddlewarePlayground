@@ -121,6 +121,20 @@ class MiddlewareDatabaseServiceImpl(
         )
     }
 
+    override suspend fun switchRouteToFavourite(routeId: String, isFavourite: Boolean) {
+        queries.switchRouteToFavourite(
+            uuid = routeId,
+            favourite = if (isFavourite) 1 else 0
+        )
+    }
+
+    override suspend fun switchApiToFavourite(apiId: String, isFavourite: Boolean) {
+        queries.switchApiToFavourite(
+            uuid = apiId,
+            favourite = if (isFavourite) 1 else 0
+        )
+    }
+
     override suspend fun deleteRoute(routeId: String) {
         queries.deleteRoute(routeId)
     }

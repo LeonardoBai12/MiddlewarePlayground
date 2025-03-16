@@ -7,7 +7,7 @@ import io.lb.middleware.common.shared.user.UserData
  */
 interface UserDatabaseService {
     suspend fun saveUser(user: UserData)
-    suspend fun getUser(): UserData?
+    suspend fun getCurrentUser(): UserData?
     suspend fun updateUser(user: UserData)
     suspend fun deleteUser(userId: String)
 }

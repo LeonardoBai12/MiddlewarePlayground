@@ -21,14 +21,16 @@ CREATE TABLE MappedRouteEntity (
     originalBody TEXT,
     preConfiguredQueries TEXT NOT NULL,
     preConfiguredHeaders TEXT NOT NULL,
-    preConfiguredBody TEXT
+    preConfiguredBody TEXT,
+    favourite INTEGER DEFAULT 0
 );
 
 -- MappedApiEntity table
 CREATE TABLE MappedApiEntity (
     uuid TEXT NOT NULL PRIMARY KEY,
     baseUrl TEXT NOT NULL,
-    originalApiBaseUrl TEXT NOT NULL
+    originalApiBaseUrl TEXT NOT NULL,
+    favourite INTEGER DEFAULT 0
 );
 
 -- Queries for UserDatabaseService
@@ -43,6 +45,16 @@ updateUser:
 UPDATE UserEntity
 SET token = ?, userName = ?, phone = ?, email = ?, profilePictureUrl = ?
 WHERE userId = ?;
+
+switchRouteToFavourite:
+UPDATE MappedRouteEntity
+SET favourite = ?
+WHERE uuid = ?;
+
+switchApiToFavourite:
+UPDATE MappedApiEntity
+SET favourite = ?
+WHERE uuid = ?;
 
 deleteUser:
 DELETE FROM UserEntity WHERE userId = ?;

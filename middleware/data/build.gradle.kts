@@ -48,5 +48,5 @@ kotlin {
 }
 
 android {
-    namespace = "io.lb.middleware.data"
+    namespace = "io.lb.middleware.api.data"
 }

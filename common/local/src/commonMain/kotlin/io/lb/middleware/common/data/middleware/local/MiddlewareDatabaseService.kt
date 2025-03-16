@@ -56,6 +56,28 @@ interface MiddlewareDatabaseService {
     suspend fun saveApi(api: MappedApi)
 
     /**
+     * Mark a route as favourite.
+     *
+     * @param routeId The ID of the route.
+     * @param isFavourite Whether the route is favourite.
+     */
+    suspend fun switchRouteToFavourite(
+        routeId: String,
+        isFavourite: Boolean
+    )
+
+    /**
+     * Mark an API as favourite.
+     *
+     * @param apiId The ID of the API.
+     * @param isFavourite Whether the API is favourite.
+     */
+    suspend fun switchApiToFavourite(
+        apiId: String,
+        isFavourite: Boolean
+    )
+
+    /**
      * Delete a route.
      *
      * @param routeId The ID of the route to delete.
