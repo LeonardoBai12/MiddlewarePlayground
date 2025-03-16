@@ -8,6 +8,6 @@ class SignUpRepositoryImpl(
     private val dataSource: SplashDataSource
 ) : SignUpRepository {
     override suspend fun getCurrentUser(): UserData? {
-        TODO()
+        return dataSource.getCurrentUser()
     }
 }
