@@ -1,8 +1,8 @@
 package io.lb.middleware.common.remote.middleware.remote
 
-import io.lb.middleware.common.remote.middleware.remote.model.MappingRequest
-import io.lb.middleware.common.data.middleware.remote.model.PreviewRequest
 import io.lb.middleware.common.remote.middleware.remote.model.MappedRouteResult
+import io.lb.middleware.common.shared.middleware.model.MappingRequest
+import io.lb.middleware.common.shared.middleware.model.PreviewRequest
 
 /**
  * Service for making requests to the middleware server.

@@ -72,8 +72,8 @@ SELECT * FROM MappedRouteEntity WHERE uuid = ?;
 getRouteById:
 SELECT * FROM MappedRouteEntity WHERE uuid = ?;
 
-getApiById:
-SELECT * FROM MappedApiEntity WHERE uuid = ?;
+getApiByBaseUrl:
+SELECT * FROM MappedApiEntity WHERE baseUrl = ?;
 
 saveRoute:
 INSERT INTO MappedRouteEntity (uuid, path, method, originalBaseUrl, originalPath, originalMethod, originalQueries, originalHeaders, originalBody, preConfiguredQueries, preConfiguredHeaders, preConfiguredBody)

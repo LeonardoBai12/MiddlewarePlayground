@@ -1,13 +1,13 @@
 package io.lb.middleware.api.data.data_source
 
 import io.lb.middleware.common.data.middleware.local.MiddlewareDatabaseService
-import io.lb.middleware.common.data.middleware.remote.model.PreviewRequest
 import io.lb.middleware.common.data.user.local.UserDatabaseService
 import io.lb.middleware.common.remote.middleware.remote.MiddlewareClientService
 import io.lb.middleware.common.remote.middleware.remote.model.MappedRouteResult
-import io.lb.middleware.common.remote.middleware.remote.model.MappingRequest
 import io.lb.middleware.common.shared.middleware.model.MappedApi
 import io.lb.middleware.common.shared.middleware.model.MappedRoute
+import io.lb.middleware.common.shared.middleware.model.MappingRequest
+import io.lb.middleware.common.shared.middleware.model.PreviewRequest
 import io.lb.middleware.common.shared.user.UserData
 
 class MiddlewareDataSource(
@@ -40,6 +40,15 @@ class MiddlewareDataSource(
      */
     suspend fun saveApi(api: MappedApi) {
         middlewareDatabaseService.saveApi(api)
+    }
+
+    /**
+     * Gets API by ID.
+     *
+     * @param apiBaseUrl The URL of the API.
+     */
+    suspend fun getApiByBaseUrl(apiBaseUrl: String): MappedApi? {
+        return middlewareDatabaseService.getApiByBaseUrl(apiBaseUrl)
     }
 
     /**

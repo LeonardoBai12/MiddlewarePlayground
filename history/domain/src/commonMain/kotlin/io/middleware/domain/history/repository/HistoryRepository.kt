@@ -36,10 +36,10 @@ interface HistoryRepository {
     /**
      * Get the API by its ID.
      *
-     * @param apiId The ID of the API.
+     * @param baseUrl The ID of the API.
      * @return The API.
      */
-    suspend fun getApiByIdFromHistory(apiId: String): MappedApi?
+    suspend fun getApiByBaseUrlFromHistory(baseUrl: String): MappedApi?
 
     /**
      * Mark a route as favourite.

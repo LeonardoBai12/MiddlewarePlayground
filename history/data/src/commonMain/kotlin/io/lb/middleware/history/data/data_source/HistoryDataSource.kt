@@ -47,8 +47,8 @@ class HistoryDataSource(
      * @param apiId The ID of the API.
      * @return The API.
      */
-    suspend fun getApiById(apiId: String): MappedApi? {
-        return middlewareDatabaseService.getApiById(apiId)
+    suspend fun getApiByBaseUrlFromHistory(apiId: String): MappedApi? {
+        return middlewareDatabaseService.getApiByBaseUrl(apiId)
     }
 
     /**

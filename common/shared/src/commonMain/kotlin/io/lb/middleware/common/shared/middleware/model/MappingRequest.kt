@@ -11,5 +11,8 @@ data class MappingRequest(
     val originalQueries: Map<String, String> = mapOf(),
     val originalHeaders: Map<String, String> = mapOf(),
     val originalBody: String,
+    val preConfiguredQueries: Map<String, String> = mapOf(),
+    val preConfiguredHeaders: Map<String, String> = mapOf(),
+    val preConfiguredBody: String? = null,
     val mappingRules: MappingRules
 )

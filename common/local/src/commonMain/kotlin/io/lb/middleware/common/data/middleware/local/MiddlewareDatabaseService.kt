@@ -36,10 +36,10 @@ interface MiddlewareDatabaseService {
     /**
      * Get the API by its ID.
      *
-     * @param apiId The ID of the API.
+     * @param apiBaseUrl The base URL of the API.
      * @return The API.
      */
-    suspend fun getApiById(apiId: String): MappedApi?
+    suspend fun getApiByBaseUrl(apiBaseUrl: String): MappedApi?
 
     /**
      * Save a route.

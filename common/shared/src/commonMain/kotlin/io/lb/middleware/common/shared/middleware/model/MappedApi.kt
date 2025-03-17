@@ -4,4 +4,5 @@ data class MappedApi(
     val uuid: String,
     val baseUrl: String,
     val originalBaseUrl: String,
+    val isFavourite: Boolean
 )

@@ -44,7 +44,8 @@ class MiddlewareDatabaseServiceImpl(
             MappedApi(
                 uuid = it.uuid,
                 baseUrl = it.baseUrl,
-                originalBaseUrl = it.originalApiBaseUrl
+                originalBaseUrl = it.originalApiBaseUrl,
+                isFavourite = it.favourite == 1L
             )
         }
     }
@@ -89,12 +90,13 @@ class MiddlewareDatabaseServiceImpl(
         }
     }
 
-    override suspend fun getApiById(apiId: String): MappedApi? {
-        return queries.getApiById(apiId).executeAsOneOrNull()?.let {
+    override suspend fun getApiByBaseUrl(apiBaseUrl: String): MappedApi? {
+        return queries.getApiByBaseUrl(apiBaseUrl).executeAsOneOrNull()?.let {
             MappedApi(
                 uuid = it.uuid,
                 baseUrl = it.baseUrl,
-                originalBaseUrl = it.originalApiBaseUrl
+                originalBaseUrl = it.originalApiBaseUrl,
+                isFavourite = it.favourite == 1L
             )
         }
     }
