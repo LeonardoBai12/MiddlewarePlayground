@@ -1,3 +1,6 @@
 package io.lb.middleware.common.shared.middleware.error
 
-class MiddlewareException : Exception()
+class MiddlewareException(
+    message: String,
+    cause: Throwable? = null
+) : Exception(message, cause)
