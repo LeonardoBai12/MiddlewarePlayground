@@ -9,10 +9,10 @@ import io.ktor.client.request.setBody
 import io.ktor.client.request.url
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
-import io.lb.middleware.common.remote.middleware.remote.model.MappingRequest
-import io.lb.middleware.common.data.middleware.remote.model.PreviewRequest
 import io.lb.middleware.common.remote.middleware.remote.MiddlewareClientService
 import io.lb.middleware.common.remote.middleware.remote.model.MappedRouteResult
+import io.lb.middleware.common.shared.middleware.model.MappingRequest
+import io.lb.middleware.common.shared.middleware.model.PreviewRequest
 import io.lb.middleware.impl.client.NetworkConstants
 import io.lb.middleware.impl.client.middleware.remote.model.MappedRouteParameter
 import io.lb.middleware.impl.client.middleware.remote.model.MappedRouteResponse
