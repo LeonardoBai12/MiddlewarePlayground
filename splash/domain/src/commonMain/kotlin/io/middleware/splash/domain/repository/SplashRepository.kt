@@ -5,7 +5,7 @@ import io.lb.middleware.common.shared.user.UserData
 /**
  * The middleware repository.
  */
-interface SignUpRepository {
+interface SplashRepository {
     /**
      * Gets the user's data.
      *

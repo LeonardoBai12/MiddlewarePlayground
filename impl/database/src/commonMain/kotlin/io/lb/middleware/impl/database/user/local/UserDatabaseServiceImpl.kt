@@ -15,7 +15,7 @@ class UserDatabaseServiceImpl(
     override suspend fun saveUser(user: UserData) {
         queries.insertUser(
             token = user.token ?: "",
-            userId = user.userId,
+            userId = user.userId ?: "",
             userName = user.userName,
             phone = user.phone,
             email = user.email,
@@ -39,7 +39,7 @@ class UserDatabaseServiceImpl(
     override suspend fun updateUser(user: UserData) {
         queries.updateUser(
             token = user.token ?: "",
-            userId = user.userId,
+            userId = user.userId ?: "",
             userName = user.userName,
             phone = user.phone,
             email = user.email,

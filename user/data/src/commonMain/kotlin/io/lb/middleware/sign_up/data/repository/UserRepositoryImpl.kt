@@ -23,7 +23,7 @@ class UserRepositoryImpl(
             val result = dataSource.updateRemoteUser(
                 token = currentUser.token ?: "",
                 data = UserUpdateRequest(
-                    userId = data.userId,
+                    userId = data.userId ?: currentUser.userId ?: "",
                     userName = data.userName,
                     password = password,
                     phone = data.phone,
@@ -52,7 +52,7 @@ class UserRepositoryImpl(
             val result = dataSource.updateRemotePassword(
                 token = currentUser.token ?: "",
                 data = UpdatePasswordRequest(
-                    userId = currentUser.userId,
+                    userId = currentUser.userId ?: "",
                     password = password,
                     newPassword = newPassword
                 )
@@ -73,15 +73,15 @@ class UserRepositoryImpl(
             val currentUser = dataSource.getCurrentUser() ?: throw UserException("User not found")
             val result = dataSource.deleteRemoteUser(
                 token = currentUser.token ?: "",
-                userId = currentUser.userId,
+                userId = currentUser.userId ?: "",
                 password = password
             )
-            dataSource.deleteUserLocally(currentUser.userId)
+            dataSource.deleteUserLocally(currentUser.userId ?: "")
 
             if (result) {
                 dataSource.deleteAllRoutes()
                 dataSource.deleteAllApis()
-                dataSource.deleteUserLocally(currentUser.userId)
+                dataSource.deleteUserLocally(currentUser.userId ?: "")
                 emit(Resource.Success(Unit))
             } else {
                 emit(Resource.Error(UserException("Failed to delete user")))
@@ -99,7 +99,7 @@ class UserRepositoryImpl(
             if (result) {
                 dataSource.deleteAllRoutes()
                 dataSource.deleteAllApis()
-                dataSource.deleteUserLocally(currentUser.userId)
+                dataSource.deleteUserLocally(currentUser.userId ?: "")
                 emit(Resource.Success(Unit))
             } else {
                 emit(Resource.Error(UserException("Failed to logout")))

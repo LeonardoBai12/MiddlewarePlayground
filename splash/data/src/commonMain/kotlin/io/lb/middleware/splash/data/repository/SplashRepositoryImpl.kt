@@ -2,11 +2,11 @@ package io.lb.middleware.splash.data.repository
 
 import io.lb.middleware.common.shared.user.UserData
 import io.lb.middleware.splash.data.data_source.SplashDataSource
-import io.middleware.splash.domain.repository.SignUpRepository
+import io.middleware.splash.domain.repository.SplashRepository
 
-class SignUpRepositoryImpl(
+class SplashRepositoryImpl(
     private val dataSource: SplashDataSource
-) : SignUpRepository {
+) : SplashRepository {
     override suspend fun getCurrentUser(): UserData? {
         return dataSource.getCurrentUser()
     }
