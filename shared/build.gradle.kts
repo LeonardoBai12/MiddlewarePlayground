@@ -40,8 +40,22 @@ kotlin {
         commonMain.dependencies {
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlin.datetime)
+            implementation(project(":common:remote"))
             implementation(project(":common:local"))
+            implementation(project(":common:shared"))
+            implementation(project(":common:state"))
+            implementation(project(":impl:client"))
             implementation(project(":impl:database"))
+            implementation(project(":middleware:data"))
+            implementation(project(":middleware:domain"))
+            implementation(project(":history:data"))
+            implementation(project(":history:domain"))
+            implementation(project(":user:data"))
+            implementation(project(":user:domain"))
+            implementation(project(":sign_up:data"))
+            implementation(project(":sign_up:domain"))
+            implementation(project(":splash:data"))
+            implementation(project(":splash:domain"))
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

@@ -1,4 +1,11 @@
 package io.middleware.domain.history.use_cases
 
-class DeleteApiFromHistoryUseCase {
+import io.middleware.domain.history.repository.HistoryRepository
+
+class DeleteApiFromHistoryUseCase(
+    private val repository: HistoryRepository
+) {
+    suspend operator fun invoke(apiId: String) {
+        repository.deleteApiFromHistory(apiId)
+    }
 }
