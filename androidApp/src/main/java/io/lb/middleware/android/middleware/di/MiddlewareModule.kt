@@ -1,4 +1,4 @@
-package io.lb.middleware.android.di
+package io.lb.middleware.android.middleware.di
 
 import io.lb.middleware.api.data.data_source.MiddlewareDataSource
 import io.lb.middleware.api.data.repository.MiddlewareRepositoryImpl

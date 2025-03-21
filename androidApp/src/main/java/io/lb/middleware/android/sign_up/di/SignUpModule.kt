@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalUuidApi::class)
 
-package io.lb.middleware.android.di
+package io.lb.middleware.android.sign_up.di
 
 import dagger.Module
 import dagger.Provides
