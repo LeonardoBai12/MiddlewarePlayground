@@ -10,7 +10,8 @@ class UpdatePasswordUseCase(
 ) {
     suspend operator fun invoke(
         password: String,
-        repeatedPassword: String
+        repeatedPassword: String,
+        newPassword: String,
     ) : CommonFlow<Resource<Unit>> {
         if (password.isBlank()) {
             throw UserException("Password cannot be blank")
@@ -22,7 +23,7 @@ class UpdatePasswordUseCase(
 
         return repository.updatePassword(
             password = password,
-            newPassword = repeatedPassword
+            newPassword = newPassword
         )
     }
 }
