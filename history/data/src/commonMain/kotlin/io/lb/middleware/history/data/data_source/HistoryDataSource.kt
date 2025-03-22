@@ -32,26 +32,6 @@ class HistoryDataSource(
     }
 
     /**
-     * Get the API by its ID.
-     *
-     * @param routeId The ID of the API.
-     * @return The API.
-     */
-    suspend fun getRouteByIdLocally(routeId: String): MappedRoute? {
-        return middlewareDatabaseService.getRouteById(routeId)
-    }
-
-    /**
-     * Get the API by its ID.
-     *
-     * @param apiId The ID of the API.
-     * @return The API.
-     */
-    suspend fun getApiByBaseUrlFromHistory(apiId: String): MappedApi? {
-        return middlewareDatabaseService.getApiByBaseUrl(apiId)
-    }
-
-    /**
      * Delete a route.
      *
      * @param routeId The ID of the route to delete.
