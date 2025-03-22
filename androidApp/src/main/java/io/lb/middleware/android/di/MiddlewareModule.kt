@@ -1,4 +1,4 @@
-package io.lb.middleware.android.middleware.di
+package io.lb.middleware.android.di
 
 import io.lb.middleware.api.data.data_source.MiddlewareDataSource
 import io.lb.middleware.api.data.repository.MiddlewareRepositoryImpl
@@ -15,6 +15,8 @@ import dagger.hilt.android.scopes.ViewModelScoped
 import io.lb.middleware.common.data.middleware.local.MiddlewareDatabaseService
 import io.lb.middleware.common.data.user.local.UserDatabaseService
 import io.lb.middleware.common.remote.middleware.remote.MiddlewareClientService
+import io.middleware.api.domain.use_cases.RequestMappedRouteUseCase
+import io.middleware.api.domain.use_cases.TestOriginalRouteUseCase
 
 @Module
 @InstallIn(ViewModelComponent::class)
@@ -55,5 +57,17 @@ object MiddlewareModule {
     @ViewModelScoped
     fun provideRequestPreviewUseCase(repository: MiddlewareRepository): RequestPreviewUseCase {
         return RequestPreviewUseCase(repository)
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideTestOriginalRouteUseCase(repository: MiddlewareRepository): TestOriginalRouteUseCase {
+        return TestOriginalRouteUseCase(repository)
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideRequestMappedRouteUseCase(repository: MiddlewareRepository): RequestMappedRouteUseCase {
+        return RequestMappedRouteUseCase(repository)
     }
 }

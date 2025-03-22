@@ -10,8 +10,8 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 
 class SplashViewModel(
+    coroutineScope: CoroutineScope?,
     private val getCurrentUserOnInitUseCase: GetCurrentUserOnInitUseCase,
-    coroutineScope: CoroutineScope?
 ) {
     private val viewModelScope = coroutineScope ?: CoroutineScope(Dispatchers.Main)
     private val _eventFlow = MutableSharedFlow<UiEvent>()

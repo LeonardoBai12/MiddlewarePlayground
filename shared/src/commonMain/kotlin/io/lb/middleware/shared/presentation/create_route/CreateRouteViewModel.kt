@@ -3,10 +3,7 @@ package io.lb.middleware.shared.presentation.create_route
 import io.lb.middleware.common.state.Resource
 import io.lb.middleware.common.state.toCommonFlow
 import io.lb.middleware.common.state.toCommonStateFlow
-import io.lb.middleware.shared.presentation.preview.PreviewViewModel
-import io.lb.middleware.shared.presentation.route_details.RouteDetailsViewModel.UiEvent
 import io.middleware.api.domain.use_cases.CreateNewRouteUseCase
-import io.middleware.api.domain.use_cases.GetAllRoutesUseCase
 import io.middleware.api.domain.use_cases.RequestPreviewUseCase
 import io.middleware.api.domain.use_cases.TestOriginalRouteUseCase
 import kotlinx.coroutines.CoroutineScope

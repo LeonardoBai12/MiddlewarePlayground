@@ -1,4 +1,4 @@
-package io.lb.middleware.android.splash.di
+package io.lb.middleware.android.di
 
 import dagger.Module
 import dagger.Provides

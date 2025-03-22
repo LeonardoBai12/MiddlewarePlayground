@@ -1,4 +1,4 @@
-package io.lb.middleware.shared.presentation.routes
+package io.lb.middleware.shared.presentation.middleware.listing
 
 import io.lb.middleware.common.shared.middleware.model.MappedRoute
 

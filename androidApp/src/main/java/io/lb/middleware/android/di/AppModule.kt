@@ -1,4 +1,4 @@
-package io.lb.middleware.android.core.di
+package io.lb.middleware.android.di
 
 import android.app.Application
 import app.cash.sqldelight.db.SqlDriver

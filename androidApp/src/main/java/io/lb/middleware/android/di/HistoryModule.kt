@@ -1,4 +1,4 @@
-package io.lb.middleware.android.history.di
+package io.lb.middleware.android.di
 
 import dagger.Module
 import dagger.Provides
@@ -11,9 +11,7 @@ import io.lb.middleware.history.data.repository.HistoryRepositoryImpl
 import io.middleware.domain.history.repository.HistoryRepository
 import io.middleware.domain.history.use_cases.DeleteApiFromHistoryUseCase
 import io.middleware.domain.history.use_cases.DeleteRouteFromHistoryUseCase
-import io.middleware.domain.history.use_cases.GetApiByBaseUrlUseCase
 import io.middleware.domain.history.use_cases.GetApiHistoryUseCase
-import io.middleware.domain.history.use_cases.GetRouteByIdUseCase
 import io.middleware.domain.history.use_cases.GetRoutesByApiIdUseCase
 import io.middleware.domain.history.use_cases.GetRoutesHistoryUseCase
 import io.middleware.domain.history.use_cases.SwitchApiToFavouriteUseCase
@@ -49,20 +47,8 @@ object HistoryModule {
 
     @Provides
     @ViewModelScoped
-    fun provideGetApiByBaseUrlUseCase(repository: HistoryRepository): GetApiByBaseUrlUseCase {
-        return GetApiByBaseUrlUseCase(repository)
-    }
-
-    @Provides
-    @ViewModelScoped
     fun provideGetApiHistoryUseCase(repository: HistoryRepository): GetApiHistoryUseCase {
         return GetApiHistoryUseCase(repository)
-    }
-
-    @Provides
-    @ViewModelScoped
-    fun provideGetRouteByIdUseCase(repository: HistoryRepository): GetRouteByIdUseCase {
-        return GetRouteByIdUseCase(repository)
     }
 
     @Provides
