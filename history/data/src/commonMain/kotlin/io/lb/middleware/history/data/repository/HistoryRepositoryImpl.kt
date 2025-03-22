@@ -20,14 +20,6 @@ class HistoryRepositoryImpl(
         return dataSource.getRoutesByApiIdLocally(apiId)
     }
 
-    override suspend fun getRouteByIdFromHistory(routeId: String): MappedRoute? {
-        return dataSource.getRouteByIdLocally(routeId)
-    }
-
-    override suspend fun getApiByBaseUrlFromHistory(baseUrl: String): MappedApi? {
-        return dataSource.getApiByBaseUrlFromHistory(baseUrl)
-    }
-
     override suspend fun switchRouteToFavourite(routeId: String, isFavourite: Boolean) {
         dataSource.switchRouteToFavourite(routeId, isFavourite)
     }

@@ -26,22 +26,6 @@ interface HistoryRepository {
     suspend fun getRoutesByApiIdFromHistory(apiId: String): List<MappedRoute>
 
     /**
-     * Get the API by its ID.
-     *
-     * @param routeId The ID of the API.
-     * @return The API.
-     */
-    suspend fun getRouteByIdFromHistory(routeId: String): MappedRoute?
-
-    /**
-     * Get the API by its ID.
-     *
-     * @param baseUrl The ID of the API.
-     * @return The API.
-     */
-    suspend fun getApiByBaseUrlFromHistory(baseUrl: String): MappedApi?
-
-    /**
      * Mark a route as favourite.
      *
      * @param routeId The ID of the route.
