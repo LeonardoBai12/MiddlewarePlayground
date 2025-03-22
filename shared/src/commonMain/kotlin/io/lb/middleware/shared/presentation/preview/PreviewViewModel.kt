@@ -69,10 +69,12 @@ class PreviewViewModel(
             }
             is PreviewEvent.RequestPreview -> {
                 viewModelScope.launch {
+                    _state.update { it.copy(isLoading = true) }
                     runCatching {
                         requestPreview(event.response)
-                    }.getOrElse {
-                        _eventFlow.emit(UiEvent.ShowError(it.message ?: "An error occurred"))
+                    }.getOrElse { error ->
+                        _eventFlow.emit(UiEvent.ShowError(error.message ?: "An error occurred"))
+                        _state.update { it.copy(isLoading = false) }
                     }
                 }
             }
@@ -93,9 +95,11 @@ class PreviewViewModel(
                     } ?: run {
                         _eventFlow.emit(UiEvent.ShowError("An error occurred"))
                     }
+                    _state.update { it.copy(isLoading = false) }
                 }
                 is Resource.Error -> {
                     _eventFlow.emit(UiEvent.ShowError(result.throwable?.message ?: "An error occurred"))
+                    _state.update { it.copy(isLoading = false) }
                 }
             }
         }

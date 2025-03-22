@@ -8,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class RouteDetailsViewModel(
@@ -39,6 +40,7 @@ class RouteDetailsViewModel(
     private suspend fun testRoute() {
         _state.value.mappedRoute?.let {
             runCatching {
+                _state.update { it.copy(isLoading = true) }
                 requestMappedRouteUseCase.invoke(
                     path = it.path,
                     method = it.method,
@@ -48,11 +50,14 @@ class RouteDetailsViewModel(
                     preConfiguredBody = it.preConfiguredBody
                 )?.let { result ->
                     _eventFlow.emit(UiEvent.ShowResult(result))
+                    _state.update { it.copy(isLoading = false) }
                 } ?: run {
                     _eventFlow.emit(UiEvent.ShowError("Failed to test route"))
+                    _state.update { it.copy(isLoading = false) }
                 }
             }.getOrElse {
                 _eventFlow.emit(UiEvent.ShowError(it.message ?: "Failed to test route"))
+                _state.update { it.copy(isLoading = false) }
             }
         }
     }

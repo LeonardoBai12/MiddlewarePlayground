@@ -39,9 +39,7 @@ class RoutesViewModel(
     }
 
     private suspend fun RoutesViewModel.getAllRoutes() {
-        _state.update {
-            it.copy(isLoading = true)
-        }
+        _state.update { it.copy(isLoading = true) }
         getAllRoutesUseCase().collectLatest { result ->
             when (result) {
                 is Resource.Success -> {
@@ -57,9 +55,7 @@ class RoutesViewModel(
                 }
 
                 is Resource.Error -> {
-                    _state.update {
-                        it.copy(isLoading = false)
-                    }
+                    _state.update { it.copy(isLoading = false) }
                     _eventFlow.emit(
                         UiEvent.ShowError(
                             result.throwable?.message ?: "Something went wrong"

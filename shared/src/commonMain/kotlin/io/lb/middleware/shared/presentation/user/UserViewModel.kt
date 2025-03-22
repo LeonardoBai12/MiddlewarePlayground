@@ -71,9 +71,7 @@ class UserViewModel(
 
             is UserEvent.DeleteUser -> {
                 viewModelScope.launch {
-                    _state.update {
-                        it.copy(isLoading = true)
-                    }
+                    _state.update { it.copy(isLoading = true) }
                     runCatching {
                         updateUser(event)
                     }.getOrElse {
@@ -216,9 +214,7 @@ class UserViewModel(
     }
 
     private suspend fun getCurrentUser() {
-        _state.update {
-            it.copy(isLoading = true)
-        }
+        _state.update { it.copy(isLoading = true) }
         val userData = getCurrentUserUseCase.invoke()
         _state.update {
             it.copy(
