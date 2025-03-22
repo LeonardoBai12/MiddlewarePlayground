@@ -113,7 +113,7 @@ class CreateRouteViewModel(
                             _eventFlow.emit(UiEvent.ShowOriginalRouteSuccess)
                             _state.update { it.copy(isLoading = false) }
                         } ?: run {
-                            _eventFlow.emit(UiEvent.ShowError("An error occurred"))
+                            _eventFlow.emit(UiEvent.ShowError("Something went wrong"))
                             _state.update { it.copy(isLoading = false) }
                         }
                     }.getOrElse { error ->
@@ -223,7 +223,7 @@ class CreateRouteViewModel(
                             is Resource.Error -> {
                                 _eventFlow.emit(
                                     UiEvent.ShowError(
-                                        result.throwable?.message ?: "An error occurred"
+                                        result.throwable?.message ?: "Something went wrong"
                                     )
                                 )
                                 _state.update { it.copy(isLoading = false) }
@@ -248,12 +248,12 @@ class CreateRouteViewModel(
                         _eventFlow.emit(UiEvent.ShowPreview(it))
                         _state.update { it.copy(isLoading = false) }
                     } ?: run {
-                        _eventFlow.emit(UiEvent.ShowError("An error occurred"))
+                        _eventFlow.emit(UiEvent.ShowError("Something went wrong"))
                         _state.update { it.copy(isLoading = false) }
                     }
                 }
                 is Resource.Error -> {
-                    _eventFlow.emit(UiEvent.ShowError(result.throwable?.message ?: "An error occurred"))
+                    _eventFlow.emit(UiEvent.ShowError(result.throwable?.message ?: "Something went wrong"))
                     _state.update { it.copy(isLoading = false) }
                 }
             }

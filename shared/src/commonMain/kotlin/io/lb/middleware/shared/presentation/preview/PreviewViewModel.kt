@@ -73,7 +73,7 @@ class PreviewViewModel(
                     runCatching {
                         requestPreview(event.response)
                     }.getOrElse { error ->
-                        _eventFlow.emit(UiEvent.ShowError(error.message ?: "An error occurred"))
+                        _eventFlow.emit(UiEvent.ShowError(error.message ?: "Something went wrong"))
                         _state.update { it.copy(isLoading = false) }
                     }
                 }
@@ -93,12 +93,12 @@ class PreviewViewModel(
                     result.data?.let {
                         _eventFlow.emit(UiEvent.ShowResult(it))
                     } ?: run {
-                        _eventFlow.emit(UiEvent.ShowError("An error occurred"))
+                        _eventFlow.emit(UiEvent.ShowError("Something went wrong"))
                     }
                     _state.update { it.copy(isLoading = false) }
                 }
                 is Resource.Error -> {
-                    _eventFlow.emit(UiEvent.ShowError(result.throwable?.message ?: "An error occurred"))
+                    _eventFlow.emit(UiEvent.ShowError(result.throwable?.message ?: "Something went wrong"))
                     _state.update { it.copy(isLoading = false) }
                 }
             }
