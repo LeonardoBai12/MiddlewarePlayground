@@ -8,6 +8,7 @@ import io.lb.middleware.common.shared.middleware.model.MappedApi
 import io.lb.middleware.common.shared.middleware.model.MappedRoute
 import io.lb.middleware.common.shared.middleware.model.MappingRequest
 import io.lb.middleware.common.shared.middleware.model.PreviewRequest
+import io.lb.middleware.common.shared.middleware.request.MiddlewareHttpMethods
 import io.lb.middleware.common.shared.user.UserData
 
 class MiddlewareDataSource(
@@ -87,5 +88,67 @@ class MiddlewareDataSource(
      */
     suspend fun getAllRoutes(token: String): List<MappedRouteResult> {
         return middlewareClientService.getAllRoutes(token)
+    }
+
+    /**
+     * Requests the original route.
+     *
+     * @param originalBaseUrl The original base URL.
+     * @param originalPath The original path.
+     * @param originalMethod The original method.
+     * @param originalQueries The original queries.
+     * @param originalHeaders The original headers.
+     * @param originalBody The original body.
+     * @return The original route.
+     */
+    suspend fun testOriginalRoute(
+        originalBaseUrl: String,
+        originalPath: String,
+        originalMethod: MiddlewareHttpMethods,
+        originalQueries: Map<String, String> = mapOf(),
+        originalHeaders: Map<String, String> = mapOf(),
+        originalBody: String?,
+    ): String? {
+        return middlewareClientService.testOriginalRoute(
+            originalBaseUrl = originalBaseUrl,
+            originalPath = originalPath,
+            originalMethod = originalMethod,
+            originalQueries = originalQueries,
+            originalHeaders = originalHeaders,
+            originalBody = originalBody
+        )
+    }
+
+    /**
+     * Requests the mapped route.
+     *
+     * @param token The user's token.
+     * @param originalBody The original body.
+     * @param path The path.
+     * @param method The method.
+     * @param queries The queries.
+     * @param preConfiguredQueries The pre-configured queries.
+     * @param preConfiguredHeaders The pre-configured headers.
+     * @param preConfiguredBody The pre-configured body.
+     * @return The mapped route.
+     */
+    suspend fun requestMappedRoute(
+        token: String,
+        path: String,
+        method: MiddlewareHttpMethods,
+        queries: Map<String, String>,
+        preConfiguredQueries: Map<String, String> = mapOf(),
+        preConfiguredHeaders: Map<String, String> = mapOf(),
+        preConfiguredBody: String?,
+    ): String? {
+        return middlewareClientService.requestMappedRoute(
+            token = token,
+            path = path,
+            method = method,
+            queries = queries,
+            preConfiguredQueries = preConfiguredQueries,
+            preConfiguredHeaders = preConfiguredHeaders,
+            preConfiguredBody = preConfiguredBody
+        )
     }
 }

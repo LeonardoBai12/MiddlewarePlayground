@@ -1,7 +1,5 @@
 package io.lb.middleware.shared.presentation.preview
 
-import io.lb.middleware.common.shared.middleware.model.NewBodyField
-import io.lb.middleware.common.shared.middleware.model.OldBodyField
 import io.lb.middleware.common.state.Resource
 import io.lb.middleware.common.state.toCommonFlow
 import io.lb.middleware.common.state.toCommonStateFlow
@@ -69,17 +67,10 @@ class PreviewViewModel(
                     }
                 }
             }
-            is PreviewEvent.UpdateOriginalResponse -> {
-                viewModelScope.launch {
-                    _state.update {
-                        it.copy(originalResponse = event.response)
-                    }
-                }
-            }
-            PreviewEvent.RequestPreview -> {
+            is PreviewEvent.RequestPreview -> {
                 viewModelScope.launch {
                     runCatching {
-                        requestPreview()
+                        requestPreview(event.response)
                     }.getOrElse {
                         _eventFlow.emit(UiEvent.ShowError(it.message ?: "An error occurred"))
                     }
@@ -88,9 +79,9 @@ class PreviewViewModel(
         }
     }
 
-    private suspend fun requestPreview() {
+    private suspend fun requestPreview(response: String) {
         requestPreviewUseCase(
-            originalResponse = _state.value.originalResponse,
+            originalResponse = response,
             newBodyFields = _state.value.newBodyFields,
             oldBodyFields = _state.value.oldBodyFields,
             ignoreEmptyValues = _state.value.ignoreEmptyValues,

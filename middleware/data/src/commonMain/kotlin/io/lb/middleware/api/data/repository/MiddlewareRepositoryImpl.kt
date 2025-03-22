@@ -5,6 +5,7 @@ import io.lb.middleware.common.shared.middleware.model.MappedApi
 import io.lb.middleware.common.shared.middleware.model.MappedRoute
 import io.lb.middleware.common.shared.middleware.model.MappingRequest
 import io.lb.middleware.common.shared.middleware.model.PreviewRequest
+import io.lb.middleware.common.shared.middleware.request.MiddlewareHttpMethods
 import io.lb.middleware.common.shared.user.UserException
 import io.lb.middleware.common.state.Resource
 import io.lb.middleware.common.state.toCommonFlow
@@ -17,6 +18,44 @@ import kotlin.uuid.Uuid
 class MiddlewareRepositoryImpl(
     private val dataSource: MiddlewareDataSource
 ) : MiddlewareRepository {
+    override suspend fun requestMappedRoute(
+        path: String,
+        method: MiddlewareHttpMethods,
+        queries: Map<String, String>,
+        preConfiguredQueries: Map<String, String>,
+        preConfiguredHeaders: Map<String, String>,
+        preConfiguredBody: String?
+    ): String? {
+        val currentUser = dataSource.getCurrentUser() ?: throw UserException("User not found")
+        return dataSource.requestMappedRoute(
+            token = currentUser.token ?: "",
+            path = path,
+            method = method,
+            queries = queries,
+            preConfiguredQueries = preConfiguredQueries,
+            preConfiguredHeaders = preConfiguredHeaders,
+            preConfiguredBody = preConfiguredBody
+        )
+    }
+
+    override suspend fun testOriginalRoute(
+        originalBaseUrl: String,
+        originalPath: String,
+        originalMethod: MiddlewareHttpMethods,
+        originalQueries: Map<String, String>,
+        originalHeaders: Map<String, String>,
+        originalBody: String?
+    ): String? {
+        return dataSource.testOriginalRoute(
+            originalBaseUrl = originalBaseUrl,
+            originalPath = originalPath,
+            originalMethod = originalMethod,
+            originalQueries = originalQueries,
+            originalHeaders = originalHeaders,
+            originalBody = originalBody
+        )
+    }
+
     override suspend fun requestPreview(data: PreviewRequest) = flow<Resource<String>> {
         runCatching {
             val currentUser = dataSource.getCurrentUser() ?: throw UserException("User not found")

@@ -2,17 +2,26 @@ package io.lb.middleware.impl.client.middleware.remote
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
+import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.bearerAuth
+import io.ktor.client.request.delete
 import io.ktor.client.request.get
+import io.ktor.client.request.head
+import io.ktor.client.request.parameter
+import io.ktor.client.request.patch
 import io.ktor.client.request.post
+import io.ktor.client.request.put
 import io.ktor.client.request.setBody
 import io.ktor.client.request.url
+import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import io.lb.middleware.common.remote.middleware.remote.MiddlewareClientService
 import io.lb.middleware.common.remote.middleware.remote.model.MappedRouteResult
+import io.lb.middleware.common.shared.middleware.model.MappedRoute
 import io.lb.middleware.common.shared.middleware.model.MappingRequest
 import io.lb.middleware.common.shared.middleware.model.PreviewRequest
+import io.lb.middleware.common.shared.middleware.request.MiddlewareHttpMethods
 import io.lb.middleware.impl.client.NetworkConstants
 import io.lb.middleware.impl.client.middleware.remote.model.MappedRouteParameter
 import io.lb.middleware.impl.client.middleware.remote.model.MappedRouteResponse
@@ -35,6 +44,199 @@ class MiddlewareClientServiceImpl(
     private val baseUrl = NetworkConstants.MIDDLEWARE_BASE_URL
     private val json = Json {
         ignoreUnknownKeys = true
+    }
+
+    override suspend fun requestMappedRoute(
+        token: String,
+        path: String,
+        method: MiddlewareHttpMethods,
+        queries: Map<String, String>,
+        preConfiguredQueries: Map<String, String>,
+        preConfiguredHeaders: Map<String, String>,
+        preConfiguredBody: String?,
+    ): String? {
+        return runCatching {
+            when (method) {
+                MiddlewareHttpMethods.Delete -> {
+                    httpClient.delete {
+                        genericRequest(
+                            path = path,
+                            token = token,
+                            preConfiguredQueries = preConfiguredQueries + queries,
+                            preConfiguredHeaders = preConfiguredHeaders,
+                            preConfiguredBody = preConfiguredBody
+                        )
+                    }
+                }
+
+                MiddlewareHttpMethods.Get -> {
+                    httpClient.get {
+                        genericRequest(
+                            path = path,
+                            token = token,
+                            preConfiguredQueries = preConfiguredQueries + queries,
+                            preConfiguredHeaders = preConfiguredHeaders,
+                            preConfiguredBody = preConfiguredBody
+                        )
+                    }
+                }
+
+                MiddlewareHttpMethods.Head -> {
+                    httpClient.head {
+                        genericRequest(
+                            path = path,
+                            token = token,
+                            preConfiguredQueries = preConfiguredQueries + queries,
+                            preConfiguredHeaders = preConfiguredHeaders,
+                            preConfiguredBody = preConfiguredBody
+                        )
+                    }
+                }
+
+                MiddlewareHttpMethods.Patch -> {
+                    httpClient.patch {
+                        genericRequest(
+                            path = path,
+                            token = token,
+                            preConfiguredQueries = preConfiguredQueries + queries,
+                            preConfiguredHeaders = preConfiguredHeaders,
+                            preConfiguredBody = preConfiguredBody
+                        )
+                    }
+                }
+
+                MiddlewareHttpMethods.Post -> {
+                    httpClient.post {
+                        genericRequest(
+                            path = path,
+                            token = token,
+                            preConfiguredQueries = preConfiguredQueries + queries,
+                            preConfiguredHeaders = preConfiguredHeaders,
+                            preConfiguredBody = preConfiguredBody
+                        )
+                    }
+                }
+
+                MiddlewareHttpMethods.Put -> {
+                    httpClient.put {
+                        genericRequest(
+                            path = path,
+                            token = token,
+                            preConfiguredQueries = preConfiguredQueries + queries,
+                            preConfiguredHeaders = preConfiguredHeaders,
+                            preConfiguredBody = preConfiguredBody
+                        )
+                    }
+                }
+            }.bodyAsText()
+        }.getOrNull()
+    }
+
+    private fun HttpRequestBuilder.genericRequest(
+        requestBaseUrl: String = baseUrl,
+        path: String,
+        token: String? = null,
+        preConfiguredQueries: Map<String, String>,
+        preConfiguredHeaders: Map<String, String>,
+        preConfiguredBody: String?
+    ) {
+        url("$requestBaseUrl/${path}")
+        contentType(ContentType.Application.Json)
+        token?.let { bearerAuth(it) }
+        preConfiguredQueries.forEach { (key, value) ->
+            parameter(key, value)
+        }
+        preConfiguredHeaders.forEach { (key, value) ->
+            headers.append(key, value)
+        }
+        preConfiguredBody?.let {
+            setBody(json.encodeToString(it))
+        }
+    }
+
+    override suspend fun testOriginalRoute(
+        originalBaseUrl: String,
+        originalPath: String,
+        originalMethod: MiddlewareHttpMethods,
+        originalQueries: Map<String, String>,
+        originalHeaders: Map<String, String>,
+        originalBody: String?
+    ): String? {
+        return runCatching {
+            when (originalMethod) {
+                MiddlewareHttpMethods.Delete -> {
+                    httpClient.delete {
+                        genericRequest(
+                            requestBaseUrl = originalBaseUrl,
+                            path = originalPath,
+                            preConfiguredQueries = originalQueries,
+                            preConfiguredHeaders = originalHeaders,
+                            preConfiguredBody = originalBody
+                        )
+                    }
+                }
+
+                MiddlewareHttpMethods.Get -> {
+                    httpClient.get {
+                        genericRequest(
+                            requestBaseUrl = originalBaseUrl,
+                            path = originalPath,
+                            preConfiguredQueries = originalQueries,
+                            preConfiguredHeaders = originalHeaders,
+                            preConfiguredBody = originalBody
+                        )
+                    }
+                }
+
+                MiddlewareHttpMethods.Head -> {
+                    httpClient.head {
+                        genericRequest(
+                            requestBaseUrl = originalBaseUrl,
+                            path = originalPath,
+                            preConfiguredQueries = originalQueries,
+                            preConfiguredHeaders = originalHeaders,
+                            preConfiguredBody = originalBody
+                        )
+                    }
+                }
+
+                MiddlewareHttpMethods.Patch -> {
+                    httpClient.patch {
+                        genericRequest(
+                            requestBaseUrl = originalBaseUrl,
+                            path = originalPath,
+                            preConfiguredQueries = originalQueries,
+                            preConfiguredHeaders = originalHeaders,
+                            preConfiguredBody = originalBody
+                        )
+                    }
+                }
+
+                MiddlewareHttpMethods.Post -> {
+                    httpClient.post {
+                        genericRequest(
+                            requestBaseUrl = originalBaseUrl,
+                            path = originalPath,
+                            preConfiguredQueries = originalQueries,
+                            preConfiguredHeaders = originalHeaders,
+                            preConfiguredBody = originalBody
+                        )
+                    }
+                }
+
+                MiddlewareHttpMethods.Put -> {
+                    httpClient.put {
+                        genericRequest(
+                            requestBaseUrl = originalBaseUrl,
+                            path = originalPath,
+                            preConfiguredQueries = originalQueries,
+                            preConfiguredHeaders = originalHeaders,
+                            preConfiguredBody = originalBody
+                        )
+                    }
+                }
+            }.bodyAsText()
+        }.getOrNull()
     }
 
     override suspend fun requestPreview(token: String, data: PreviewRequest): String {
@@ -77,7 +279,7 @@ class MiddlewareClientServiceImpl(
                         method = data.originalMethod,
                         queries = data.originalQueries,
                         headers = data.originalHeaders,
-                        body = data.originalBody?.let {
+                        body = data.originalBody.let {
                             json.parseToJsonElement(it).jsonObject
                         }
                     ),
@@ -86,7 +288,7 @@ class MiddlewareClientServiceImpl(
                     preConfiguredHeaders = data.preConfiguredHeaders,
                     preConfiguredBody = data.preConfiguredBody?.let {
                         json.parseToJsonElement(it).jsonObject
-                    } ?: data.originalBody?.let {
+                    } ?: data.originalBody.let {
                         json.parseToJsonElement(it).jsonObject
                     },
                     mappingRules = NewBodyMappingRuleParameter(

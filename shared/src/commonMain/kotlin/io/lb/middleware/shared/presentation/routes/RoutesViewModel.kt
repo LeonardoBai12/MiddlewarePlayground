@@ -1,7 +1,5 @@
 package io.lb.middleware.shared.presentation.routes
 
-import io.lb.middleware.common.shared.middleware.model.MappedApi
-import io.lb.middleware.common.shared.middleware.model.MappedRoute
 import io.lb.middleware.common.state.Resource
 import io.lb.middleware.common.state.toCommonFlow
 import io.lb.middleware.common.state.toCommonStateFlow
@@ -41,6 +39,9 @@ class RoutesViewModel(
     }
 
     private suspend fun RoutesViewModel.getAllRoutes() {
+        _state.update {
+            it.copy(isLoading = true)
+        }
         getAllRoutesUseCase().collectLatest { result ->
             when (result) {
                 is Resource.Success -> {
@@ -49,12 +50,16 @@ class RoutesViewModel(
                             routes = result.data ?: emptyList(),
                             apis = result.data?.map { route ->
                                 route.originalBaseUrl
-                            } ?: emptyList()
+                            } ?: emptyList(),
+                            isLoading = false
                         )
                     }
                 }
 
                 is Resource.Error -> {
+                    _state.update {
+                        it.copy(isLoading = false)
+                    }
                     _eventFlow.emit(
                         UiEvent.ShowError(
                             result.throwable?.message ?: "Something went wrong"
