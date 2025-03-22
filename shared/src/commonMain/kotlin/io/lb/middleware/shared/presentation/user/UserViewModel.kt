@@ -13,6 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -44,72 +45,26 @@ class UserViewModel(
         when (event) {
             is UserEvent.GetCurrentUser -> {
                 viewModelScope.launch {
-                    _state.update {
-                        it.copy(isLoading = true)
-                    }
-                    val userData = getCurrentUserUseCase.invoke()
-                    _state.update {
-                        it.copy(
-                            userData = userData,
-                            userName = userData?.userName ?: "",
-                            phone = userData?.phone ?: "",
-                            email = userData?.email ?: "",
-                            isLoading = false
-                        )
-                    }
+                    getCurrentUser()
                 }
             }
 
             is UserEvent.UpdateUser -> {
                 viewModelScope.launch {
-                    updateUserUseCase.invoke(
-                        userName = event.userName,
-                        phone = event.phone,
-                        email = event.email,
-                        profilePictureUrl = event.profilePictureUrl,
-                        password = event.password
-                    ).collect {
-                        when (it) {
-                            is Resource.Success -> {
-                                _state.update {
-                                    it.copy(
-                                        userData = it.userData?.copy(
-                                            userName = event.userName,
-                                            phone = event.phone,
-                                            email = event.email,
-                                            profilePictureUrl = event.profilePictureUrl
-                                        )
-                                    )
-                                }
-                                _eventFlow.emit(UiEvent.ShowUpdatedMessage)
-                                _eventFlow.emit(UiEvent.DisableUserTextFields)
-                            }
-
-                            is Resource.Error -> {
-                                _eventFlow.emit(UiEvent.ShowError(it.throwable?.message ?: ""))
-                            }
-                        }
+                    runCatching {
+                        updateUser(event)
+                    }.getOrElse {
+                        _eventFlow.emit(UiEvent.ShowError(it.message ?: "Something went wrong"))
                     }
                 }
             }
 
             is UserEvent.UpdatePassword -> {
                 viewModelScope.launch {
-                    updatePasswordUseCase.invoke(
-                        event.password,
-                        event.repeatedPassword,
-                        event.newPassword
-                    ).collect {
-                        when (it) {
-                            is Resource.Success -> {
-                                _eventFlow.emit(UiEvent.ShowUpdatedMessage)
-                                _eventFlow.emit(UiEvent.DisablePasswordTextFields)
-                            }
-
-                            is Resource.Error -> {
-                                _eventFlow.emit(UiEvent.ShowError(it.throwable?.message ?: ""))
-                            }
-                        }
+                    runCatching {
+                        updatePassword(event)
+                    }.getOrElse {
+                        _eventFlow.emit(UiEvent.ShowError(it.message ?: "Something went wrong"))
                     }
                 }
             }
@@ -119,70 +74,160 @@ class UserViewModel(
                     _state.update {
                         it.copy(isLoading = true)
                     }
-                    deleteUserUseCase.invoke(event.password).collect { result ->
-                        when (result) {
-                            is Resource.Success -> {
-                                _state.update {
-                                    it.copy(
-                                        userData = null,
-                                        isLoading = false,
-                                    )
-                                }
-                                _eventFlow.emit(UiEvent.ShowDeletedMessage)
-                            }
-
-                            is Resource.Error -> {
-                                _state.update { it.copy(isLoading = false) }
-                                _eventFlow.emit(UiEvent.ShowError(result.throwable?.message ?: ""))
-                            }
-                        }
+                    runCatching {
+                        updateUser(event)
+                    }.getOrElse {
+                        _eventFlow.emit(UiEvent.ShowError(it.message ?: "Something went wrong"))
                     }
                 }
             }
 
             is UserEvent.Logout -> {
                 viewModelScope.launch {
-                    _state.update { it.copy(isLoading = true) }
-                    logoutUseCase.invoke().collect { result ->
-                        when (result) {
-                            is Resource.Success -> {
-                                _state.update {
-                                    it.copy(
-                                        userData = null,
-                                        isLoading = false,
-                                    )
-                                }
-                                _eventFlow.emit(UiEvent.ShowLoggedOutMessage)
-                            }
-
-                            is Resource.Error -> {
-                                _state.update { it.copy(isLoading = false) }
-                                _eventFlow.emit(UiEvent.ShowError(result.throwable?.message ?: ""))
-                            }
-                        }
-                    }
+                    logout()
                 }
             }
 
             UserEvent.ResetUserState -> {
                 viewModelScope.launch {
-                    _state.update {
-                        it.copy(isLoading = true)
-                    }
-                    val userData = getCurrentUserUseCase.invoke()
-                    _state.update {
-                        it.copy(
-                            userData = userData,
-                            userName = userData?.userName ?: "",
-                            phone = userData?.phone ?: "",
-                            email = userData?.email ?: "",
-                            isLoading = false
-                        )
-                    }
-                    _eventFlow.emit(UiEvent.DisableUserTextFields)
-                    _eventFlow.emit(UiEvent.DisablePasswordTextFields)
+                    resetUserState()
                 }
             }
+        }
+    }
+
+    private suspend fun resetUserState() {
+        _state.update {
+            it.copy(isLoading = true)
+        }
+        val userData = getCurrentUserUseCase.invoke()
+        _state.update {
+            it.copy(
+                userData = userData,
+                userName = userData?.userName ?: "",
+                phone = userData?.phone ?: "",
+                email = userData?.email ?: "",
+                isLoading = false
+            )
+        }
+        _eventFlow.emit(UiEvent.DisableUserTextFields)
+        _eventFlow.emit(UiEvent.DisablePasswordTextFields)
+    }
+
+    private suspend fun logout() {
+        _state.update { it.copy(isLoading = true) }
+        logoutUseCase.invoke().collectLatest { result ->
+            when (result) {
+                is Resource.Success -> {
+                    _state.update {
+                        it.copy(
+                            userData = null,
+                            isLoading = false,
+                        )
+                    }
+                    _eventFlow.emit(UiEvent.ShowLoggedOutMessage)
+                }
+
+                is Resource.Error -> {
+                    _state.update { it.copy(isLoading = false) }
+                    _eventFlow.emit(UiEvent.ShowError(result.throwable?.message ?: ""))
+                }
+            }
+        }
+    }
+
+    private suspend fun updateUser(event: UserEvent.DeleteUser) {
+        deleteUserUseCase.invoke(event.password).collectLatest { result ->
+            when (result) {
+                is Resource.Success -> {
+                    _state.update {
+                        it.copy(
+                            userData = null,
+                            isLoading = false,
+                        )
+                    }
+                    _eventFlow.emit(UiEvent.ShowDeletedMessage)
+                }
+
+                is Resource.Error -> {
+                    _state.update { it.copy(isLoading = false) }
+                    _eventFlow.emit(
+                        UiEvent.ShowError(
+                            result.throwable?.message ?: ""
+                        )
+                    )
+                }
+            }
+        }
+    }
+
+    private suspend fun updatePassword(event: UserEvent.UpdatePassword) {
+        updatePasswordUseCase.invoke(
+            event.password,
+            event.repeatedPassword,
+            event.newPassword
+        ).collectLatest {
+            when (it) {
+                is Resource.Success -> {
+                    _eventFlow.emit(UiEvent.ShowUpdatedMessage)
+                    _eventFlow.emit(UiEvent.DisablePasswordTextFields)
+                }
+
+                is Resource.Error -> {
+                    _eventFlow.emit(UiEvent.ShowError(it.throwable?.message ?: ""))
+                }
+            }
+        }
+    }
+
+    private suspend fun updateUser(event: UserEvent.UpdateUser) {
+        updateUserUseCase.invoke(
+            userName = event.userName,
+            phone = event.phone,
+            email = event.email,
+            profilePictureUrl = event.profilePictureUrl,
+            password = event.password
+        ).collectLatest { result ->
+            when (result) {
+                is Resource.Success -> {
+                    _state.update {
+                        it.copy(
+                            userData = it.userData?.copy(
+                                userName = event.userName,
+                                phone = event.phone,
+                                email = event.email,
+                                profilePictureUrl = event.profilePictureUrl
+                            )
+                        )
+                    }
+                    _eventFlow.emit(UiEvent.ShowUpdatedMessage)
+                    _eventFlow.emit(UiEvent.DisableUserTextFields)
+                }
+
+                is Resource.Error -> {
+                    _eventFlow.emit(
+                        UiEvent.ShowError(
+                            result.throwable?.message ?: ""
+                        )
+                    )
+                }
+            }
+        }
+    }
+
+    private suspend fun getCurrentUser() {
+        _state.update {
+            it.copy(isLoading = true)
+        }
+        val userData = getCurrentUserUseCase.invoke()
+        _state.update {
+            it.copy(
+                userData = userData,
+                userName = userData?.userName ?: "",
+                phone = userData?.phone ?: "",
+                email = userData?.email ?: "",
+                isLoading = false
+            )
         }
     }
 }

@@ -9,6 +9,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlin.uuid.ExperimentalUuidApi
 
@@ -32,57 +33,75 @@ class SignUpViewModel(
     fun onEvent(event: SignUpEvent) {
         when (event) {
             is SignUpEvent.RequestLogin -> {
-                viewModelScope.launch {
-                    loginUseCase.invoke(
-                        email = event.email,
-                        password = event.password
-                    ).collect { result ->
-                        when (result) {
-                            is Resource.Success -> {
-                                result.data?.let { userData ->
-                                    _eventFlow.emit(UiEvent.ShowLoginSuccess(userData))
-                                } ?: run {
-                                    _eventFlow.emit(UiEvent.ShowError("Could not login"))
-                                }
-                            }
-                            is Resource.Error -> {
-                                _eventFlow.emit(
-                                    UiEvent.ShowError(
-                                        result.throwable?.message ?: "Something went wrong"
-                                    )
-                                )
-                            }
+                    viewModelScope.launch {
+                        runCatching {
+                            login(event)
+                        }.getOrElse {
+                            _eventFlow.emit(UiEvent.ShowError(it.message ?: "Something went wrong"))
                         }
                     }
-                }
             }
             is SignUpEvent.RequestSignUp -> {
                 viewModelScope.launch {
-                    signUpUseCase.invoke(
-                        userName = event.userName,
-                        phone = event.phone,
-                        email = event.email,
-                        profilePictureUrl = event.profilePictureUrl,
-                        password = event.password,
-                        repeatedPassword = event.repeatedPassword
-                    ).collect { result ->
-                        when (result) {
-                            is Resource.Success -> {
-                                result.data?.let { userData ->
-                                    _eventFlow.emit(UiEvent.ShowSignUpSuccess(userData))
-                                } ?: run {
-                                    _eventFlow.emit(UiEvent.ShowError("Could not sign up"))
-                                }
-                            }
-                            is Resource.Error -> {
-                                _eventFlow.emit(
-                                    UiEvent.ShowError(
-                                        result.throwable?.message ?: "Something went wrong"
-                                    )
-                                )
-                            }
-                        }
+                    runCatching {
+                        signUp(event)
+                    }.getOrElse {
+                        _eventFlow.emit(UiEvent.ShowError(it.message ?: "Something went wrong"))
                     }
+                }
+            }
+        }
+    }
+
+    private suspend fun signUp(event: SignUpEvent.RequestSignUp) {
+        signUpUseCase.invoke(
+            userName = event.userName,
+            phone = event.phone,
+            email = event.email,
+            profilePictureUrl = event.profilePictureUrl,
+            password = event.password,
+            repeatedPassword = event.repeatedPassword
+        ).collectLatest { result ->
+            when (result) {
+                is Resource.Success -> {
+                    result.data?.let { userData ->
+                        _eventFlow.emit(UiEvent.ShowSignUpSuccess(userData))
+                    } ?: run {
+                        _eventFlow.emit(UiEvent.ShowError("Could not sign up"))
+                    }
+                }
+
+                is Resource.Error -> {
+                    _eventFlow.emit(
+                        UiEvent.ShowError(
+                            result.throwable?.message ?: "Something went wrong"
+                        )
+                    )
+                }
+            }
+        }
+    }
+
+    private suspend fun login(event: SignUpEvent.RequestLogin) {
+        loginUseCase.invoke(
+            email = event.email,
+            password = event.password
+        ).collectLatest { result ->
+            when (result) {
+                is Resource.Success -> {
+                    result.data?.let { userData ->
+                        _eventFlow.emit(UiEvent.ShowLoginSuccess(userData))
+                    } ?: run {
+                        _eventFlow.emit(UiEvent.ShowError("Could not login"))
+                    }
+                }
+
+                is Resource.Error -> {
+                    _eventFlow.emit(
+                        UiEvent.ShowError(
+                            result.throwable?.message ?: "Something went wrong"
+                        )
+                    )
                 }
             }
         }
