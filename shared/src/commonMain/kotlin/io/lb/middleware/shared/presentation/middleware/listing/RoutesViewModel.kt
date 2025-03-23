@@ -43,12 +43,12 @@ class RoutesViewModel(
         getAllRoutesUseCase().collectLatest { result ->
             when (result) {
                 is Resource.Success -> {
+                    val map = result.data?.groupBy { it.originalBaseUrl } ?: emptyMap()
+
                     _state.update {
                         it.copy(
                             routes = result.data ?: emptyList(),
-                            apis = result.data?.map { route ->
-                                route.originalBaseUrl
-                            } ?: emptyList(),
+                            apis = map,
                             isLoading = false
                         )
                     }

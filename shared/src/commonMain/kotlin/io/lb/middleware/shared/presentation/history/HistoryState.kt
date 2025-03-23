@@ -6,6 +6,6 @@ import io.lb.middleware.common.shared.middleware.model.MappedRoute
 data class HistoryState(
     val apiHistory: List<MappedApi> = emptyList(),
     val routesHistory: List<MappedRoute> = emptyList(),
-    val isLoading: Boolean = false,
+    val isLoading: Boolean = true,
     val error: String = "",
 )

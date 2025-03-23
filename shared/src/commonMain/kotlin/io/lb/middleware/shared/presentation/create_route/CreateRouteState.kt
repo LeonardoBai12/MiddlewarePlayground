@@ -11,5 +11,5 @@ data class CreateRouteState(
     val preConfiguredQueries: Map<String, String> = emptyMap(),
     val preConfiguredHeaders: Map<String, String> = emptyMap(),
     val ignoreEmptyValues: Boolean = true,
-    val isLoading: Boolean = false,
+    val isLoading: Boolean = true,
 )
