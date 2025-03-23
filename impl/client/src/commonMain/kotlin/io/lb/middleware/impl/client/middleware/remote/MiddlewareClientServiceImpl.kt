@@ -15,9 +15,11 @@ import io.ktor.client.request.setBody
 import io.ktor.client.request.url
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType
+import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
 import io.lb.middleware.common.remote.middleware.remote.MiddlewareClientService
 import io.lb.middleware.common.remote.middleware.remote.model.MappedRouteResult
+import io.lb.middleware.common.shared.middleware.error.MiddlewareException
 import io.lb.middleware.common.shared.middleware.model.MappedRoute
 import io.lb.middleware.common.shared.middleware.model.MappingRequest
 import io.lb.middleware.common.shared.middleware.model.PreviewRequest
@@ -258,9 +260,13 @@ class MiddlewareClientServiceImpl(
                     )
                 )
             )
-        }.body<String?>()
+        }
 
-        return result ?: ""
+        if (result.status != HttpStatusCode.OK) {
+            throw MiddlewareException(result.bodyAsText())
+        }
+
+        return result.bodyAsText()
     }
 
     override suspend fun createNewRoute(token: String, data: MappingRequest): String {
@@ -302,9 +308,13 @@ class MiddlewareClientServiceImpl(
                     )
                 )
             )
-        }.body<String?>()
+        }
 
-        return result ?: ""
+        if (result.status != HttpStatusCode.OK) {
+            throw MiddlewareException(result.bodyAsText())
+        }
+
+        return result.bodyAsText()
     }
 
     override suspend fun getAllRoutes(token: String): List<MappedRouteResult> {
@@ -312,9 +322,13 @@ class MiddlewareClientServiceImpl(
             url("$baseUrl/v1/routes")
             contentType(ContentType.Application.Json)
             bearerAuth(token)
-        }.body<List<MappedRouteResponse>?>()
+        }
 
-        return result?.map {
+        if (result.status != HttpStatusCode.OK) {
+            throw MiddlewareException(result.bodyAsText())
+        }
+
+        return result.body<List<MappedRouteResponse>?>()?.map {
             MappedRouteResult(
                 uuid = it.uuid,
                 path = it.path,

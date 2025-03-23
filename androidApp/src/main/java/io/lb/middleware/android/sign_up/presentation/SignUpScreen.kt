@@ -26,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import io.lb.middleware.android.core.presentation.components.DefaultTextButton
 import io.lb.middleware.android.sign_up.presentation.login.LoginBottomSheetContent
 import io.lb.middleware.android.sign_up.presentation.sing_up.SignUpBottomSheetContent
@@ -46,6 +47,7 @@ import kotlinx.coroutines.launch
 @ExperimentalMaterial3Api
 @Composable
 fun SignUpScreen(
+    navController: NavController,
     state: SignUpState,
     eventFlow: CommonFlow<SignUpViewModel.UiEvent>,
     onEvent: (SignUpEvent) -> Unit
@@ -60,9 +62,7 @@ fun SignUpScreen(
         mutableStateOf(true)
     }
 
-    LaunchedEffect(
-        key1 = Screens.SIGN_UP.name
-    ) {
+    LaunchedEffect(key1 = Screens.SIGN_UP) {
         eventFlow.collectLatest {
             when (it) {
                 is SignUpViewModel.UiEvent.ShowError -> {
@@ -70,9 +70,11 @@ fun SignUpScreen(
                 }
                 is SignUpViewModel.UiEvent.ShowLoginSuccess -> {
                     context.showToast("Logged in successfully!")
+                    navController.navigate(Screens.ROUTE_LISTING.name)
                 }
                 is SignUpViewModel.UiEvent.ShowSignUpSuccess -> {
                     context.showToast("Signed up successfully!")
+                    navController.navigate(Screens.ROUTE_LISTING.name)
                 }
             }
         }

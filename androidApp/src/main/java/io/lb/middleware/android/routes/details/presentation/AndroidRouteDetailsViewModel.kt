@@ -1,4 +1,4 @@
-package io.lb.middleware.android.middleware.details.presentation
+package io.lb.middleware.android.routes.details.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

@@ -24,8 +24,9 @@ import io.lb.middleware.android.core.presentation.PlaygroundTheme
 import io.lb.middleware.android.core.presentation.Screens
 import io.lb.middleware.android.create_route.presentation.AndroidCreateRouteViewModel
 import io.lb.middleware.android.history.presentation.AndroidHistoryViewModel
-import io.lb.middleware.android.middleware.details.presentation.AndroidRouteDetailsViewModel
-import io.lb.middleware.android.middleware.listing.presentation.AndroidRoutesViewModel
+import io.lb.middleware.android.routes.details.presentation.AndroidRouteDetailsViewModel
+import io.lb.middleware.android.routes.listing.presentation.AndroidRoutesViewModel
+import io.lb.middleware.android.routes.listing.presentation.RouteListingScreen
 import io.lb.middleware.android.sign_up.presentation.AndroidSignUpViewModel
 import io.lb.middleware.android.sign_up.presentation.SignUpScreen
 import io.lb.middleware.android.splash.presentation.AndroidSplashViewModel
@@ -73,6 +74,7 @@ fun PlaygroundRoot() {
             val eventFlow = viewModel.eventFlow
 
             SignUpScreen(
+                navController = navController,
                 state = state,
                 eventFlow = eventFlow,
                 onEvent = { viewModel.onEvent(it) }
@@ -83,6 +85,12 @@ fun PlaygroundRoot() {
             val state by viewModel.state.collectAsState()
             val eventFlow = viewModel.eventFlow
 
+            RouteListingScreen(
+                navController = navController,
+                state = state,
+                eventFlow = eventFlow,
+                onEvent = { viewModel.onEvent(it) }
+            )
         }
         composable(Screens.ROUTE_DETAILS.name) {
             val viewModel = hiltViewModel<AndroidRouteDetailsViewModel>()

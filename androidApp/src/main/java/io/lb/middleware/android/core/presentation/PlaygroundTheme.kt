@@ -34,6 +34,8 @@ fun PlaygroundTheme(
         )
     } else {
         lightColorScheme(
+            surface = Color(0xFF18163A),
+            onSurface = Color(0xFFF544B1),
             primary = Color(0xFFF544B1),
             onPrimary = Color(0xFF030826),
             secondary = Color(0xFFCE3000),

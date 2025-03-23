@@ -20,6 +20,7 @@ import io.lb.middleware.common.remote.user.remote.model.LoginResult
 import io.lb.middleware.common.remote.user.remote.model.UserCreateRequest
 import io.lb.middleware.common.remote.user.remote.model.UserResult
 import io.lb.middleware.common.remote.user.remote.model.UserUpdateRequest
+import io.lb.middleware.common.shared.user.UserException
 import io.lb.middleware.impl.client.NetworkConstants
 import io.lb.middleware.impl.client.user.remote.model.LoginParameter
 import io.lb.middleware.impl.client.user.remote.model.LoginResponse
@@ -48,7 +49,7 @@ class UserClientServiceImpl(
         }
 
         if (result.status != HttpStatusCode.OK) {
-            throw Exception(result.bodyAsText())
+            throw UserException(result.bodyAsText())
         }
 
         return result.body<LoginResponse?>()?.toResult()
@@ -62,7 +63,7 @@ class UserClientServiceImpl(
         }
 
         if (result.status != HttpStatusCode.OK) {
-            throw Exception(result.bodyAsText())
+            throw UserException(result.bodyAsText())
         }
 
         return result.body<UserResponse?>()?.toResult()
@@ -84,7 +85,7 @@ class UserClientServiceImpl(
         }
 
         if (result.status != HttpStatusCode.Created) {
-            throw Exception(result.bodyAsText())
+            throw UserException(result.bodyAsText())
         }
 
         return result.bodyAsText()
@@ -107,7 +108,7 @@ class UserClientServiceImpl(
         }
 
         if (result.status != HttpStatusCode.OK) {
-            throw Exception(result.bodyAsText())
+            throw UserException(result.bodyAsText())
         }
 
         return result.bodyAsText().takeIf {
