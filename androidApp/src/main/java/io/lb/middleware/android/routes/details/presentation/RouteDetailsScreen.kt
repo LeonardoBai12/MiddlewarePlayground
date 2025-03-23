@@ -221,7 +221,13 @@ fun RouteDetailsScreen(
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     DefaultTextButton(
-                        text = "Test Route",
+                        modifier = Modifier.fillMaxWidth(0.7f),
+                        enabled = state.isLoading.not(),
+                        text = if (state.isLoading) {
+                            "Testing Route"
+                        } else {
+                            "Test Route"
+                        },
                         imageVector = Icons.Default.PlayArrow,
                         containerColor = Color(PlaygroundColors.ButtonGreen),
                         contentColor = Color.White
