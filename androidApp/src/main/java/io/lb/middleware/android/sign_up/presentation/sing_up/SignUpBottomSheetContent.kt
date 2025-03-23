@@ -115,7 +115,7 @@ private fun SignInTextFields(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         DefaultTextField(
-            modifier = Modifier.padding(8.dp),
+            modifier = Modifier.padding(vertical = 8.dp),
             text = name.value,
             icon = {
                 Icon(
@@ -130,7 +130,7 @@ private fun SignInTextFields(
         )
 
         DefaultTextField(
-            modifier = Modifier.padding(8.dp),
+            modifier = Modifier.padding(vertical = 8.dp),
             text = email.value,
             icon = {
                 Icon(
@@ -145,7 +145,7 @@ private fun SignInTextFields(
         )
 
         DefaultTextField(
-            modifier = Modifier.padding(8.dp),
+            modifier = Modifier.padding(vertical = 8.dp),
             text = phone.value,
             keyboardType = KeyboardType.Phone,
             icon = {
@@ -161,7 +161,7 @@ private fun SignInTextFields(
         )
 
         DefaultTextField(
-            modifier = Modifier.padding(8.dp),
+            modifier = Modifier.padding(vertical = 8.dp),
             text = password.value,
             isPassword = true,
             icon = {
@@ -178,7 +178,7 @@ private fun SignInTextFields(
         )
 
         DefaultTextField(
-            modifier = Modifier.padding(8.dp),
+            modifier = Modifier.padding(vertical = 8.dp),
             text = repeatedPassword.value,
             isPassword = true,
             icon = {
