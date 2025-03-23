@@ -6,16 +6,19 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.lb.middleware.shared.presentation.middleware.details.RouteDetailsEvent
 import io.lb.middleware.shared.presentation.middleware.details.RouteDetailsViewModel
 import io.middleware.api.domain.use_cases.RequestMappedRouteUseCase
+import io.middleware.api.domain.use_cases.SaveRouteInHistoryUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class AndroidRouteDetailsViewModel @Inject constructor(
-    requestMappedRouteUseCase: RequestMappedRouteUseCase
+    requestMappedRouteUseCase: RequestMappedRouteUseCase,
+    saveRouteInHistoryUseCase: SaveRouteInHistoryUseCase
 ) : ViewModel() {
     private val viewModel by lazy {
         RouteDetailsViewModel(
             viewModelScope,
             requestMappedRouteUseCase,
+            saveRouteInHistoryUseCase
         )
     }
     val state = viewModel.state

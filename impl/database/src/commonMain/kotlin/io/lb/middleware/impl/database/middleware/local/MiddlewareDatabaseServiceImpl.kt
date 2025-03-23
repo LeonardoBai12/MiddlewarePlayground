@@ -102,6 +102,10 @@ class MiddlewareDatabaseServiceImpl(
     }
 
     override suspend fun saveRoute(route: MappedRoute) {
+        kotlin.runCatching { queries.getRouteById(route.uuid) }.getOrNull()?.let {
+            return
+        }
+
         queries.saveRoute(
             uuid = route.uuid,
             path = route.path,

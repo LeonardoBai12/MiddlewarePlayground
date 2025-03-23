@@ -16,15 +16,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 object PlaygroundColors {
-    val background = Color(0xFF030826)
-    val surface = Color(0xFF18163A)
-    val onSurface = Color(0xFFF544B1)
-    val primary = Color(0xFFF544B1)
-    val onPrimary = Color(0xFF030826)
-    val secondary = Color(0xFFCE3000)
-    val onSecondary = Color(0xFF030826)
-    val tertiary = Color(0xFFFFC107)
-    val onTertiary = Color(0xFF030826)
+    val DarkBlue = 0xFF030826
+    val DarkGrayBlue = 0xFF18163A
+    val PrimaryPink = 0xFFF544B1
+    val SecondaryOrange = 0xFFCE3000
+    val TertiaryYellow = 0xFFFFC107
+    val ButtonGreen = 0xFF00C853
 }
 
 @Composable
@@ -34,26 +31,26 @@ fun PlaygroundTheme(
 ) {
     val colors = if (darkTheme) {
         darkColorScheme(
-            background = PlaygroundColors.background,
-            surface = PlaygroundColors.surface,
-            onSurface = PlaygroundColors.onSurface,
-            primary = PlaygroundColors.primary,
-            onPrimary = PlaygroundColors.onPrimary,
-            secondary = PlaygroundColors.secondary,
-            onSecondary = PlaygroundColors.onSecondary,
-            tertiary = PlaygroundColors.tertiary,
-            onTertiary = PlaygroundColors.onTertiary,
+            background = Color(PlaygroundColors.DarkBlue),
+            surface = Color(PlaygroundColors.DarkGrayBlue),
+            onSurface = Color(PlaygroundColors.PrimaryPink),
+            primary = Color(PlaygroundColors.PrimaryPink),
+            onPrimary = Color(PlaygroundColors.DarkGrayBlue),
+            secondary = Color(PlaygroundColors.SecondaryOrange),
+            onSecondary = Color(PlaygroundColors.DarkGrayBlue),
+            tertiary = Color(PlaygroundColors.TertiaryYellow),
+            onTertiary = Color(PlaygroundColors.DarkGrayBlue),
         )
     } else {
         lightColorScheme(
-            surface = PlaygroundColors.surface,
-            onSurface = PlaygroundColors.onSurface,
-            primary = PlaygroundColors.primary,
-            onPrimary = PlaygroundColors.onPrimary,
-            secondary = PlaygroundColors.secondary,
-            onSecondary = PlaygroundColors.onSecondary,
-            tertiary = PlaygroundColors.tertiary,
-            onTertiary = PlaygroundColors.onTertiary,
+            surface = Color(PlaygroundColors.DarkBlue),
+            onSurface = Color(PlaygroundColors.PrimaryPink),
+            primary = Color(PlaygroundColors.PrimaryPink),
+            onPrimary = Color(PlaygroundColors.DarkGrayBlue),
+            secondary = Color(PlaygroundColors.SecondaryOrange),
+            onSecondary = Color(PlaygroundColors.DarkGrayBlue),
+            tertiary = Color(PlaygroundColors.TertiaryYellow),
+            onTertiary = Color(PlaygroundColors.DarkGrayBlue),
         )
     }
     val typography = Typography(

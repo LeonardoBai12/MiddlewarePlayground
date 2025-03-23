@@ -10,11 +10,11 @@ package io.lb.middleware.common.shared.middleware.request
  * @property Post The POST HTTP method.
  * @property Put The PUT HTTP method.
  */
-enum class MiddlewareHttpMethods {
-    Delete,
-    Get,
-    Head,
-    Patch,
-    Post,
-    Put,
+enum class MiddlewareHttpMethods(val color: Long) {
+    Get(0xFF00C853),
+    Delete(0xFFD500000),
+    Post(0xFF2979FF),
+    Patch(0xFF651FFF),
+    Head(0xFFFF6D00),
+    Put(0xFF00E5FF),
 }

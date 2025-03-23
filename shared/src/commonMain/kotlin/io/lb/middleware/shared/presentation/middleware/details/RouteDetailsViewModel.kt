@@ -3,6 +3,7 @@ package io.lb.middleware.shared.presentation.middleware.details
 import io.lb.middleware.common.state.toCommonFlow
 import io.lb.middleware.common.state.toCommonStateFlow
 import io.middleware.api.domain.use_cases.RequestMappedRouteUseCase
+import io.middleware.api.domain.use_cases.SaveRouteInHistoryUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -13,7 +14,8 @@ import kotlinx.coroutines.launch
 
 class RouteDetailsViewModel(
     coroutineScope: CoroutineScope?,
-    private val requestMappedRouteUseCase: RequestMappedRouteUseCase
+    private val requestMappedRouteUseCase: RequestMappedRouteUseCase,
+    private val saveRouteInHistoryUseCase: SaveRouteInHistoryUseCase
 ) {
     private val viewModelScope = coroutineScope ?: CoroutineScope(Dispatchers.Main)
     private val _state = MutableStateFlow(RouteDetailsState())
@@ -32,6 +34,14 @@ class RouteDetailsViewModel(
             is RouteDetailsEvent.TestRoute -> {
                 viewModelScope.launch {
                     testRoute()
+                }
+            }
+            is RouteDetailsEvent.SaveRouteInHistory -> {
+                viewModelScope.launch {
+                    _state.update {
+                        it.copy(mappedRoute = event.mappedRoute)
+                    }
+                    saveRouteInHistoryUseCase(event.mappedRoute)
                 }
             }
         }

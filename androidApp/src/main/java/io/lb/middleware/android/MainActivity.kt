@@ -16,15 +16,19 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import dagger.hilt.android.AndroidEntryPoint
 import io.lb.middleware.android.core.presentation.PlaygroundTheme
 import io.lb.middleware.android.core.presentation.Screens
 import io.lb.middleware.android.create_route.presentation.AndroidCreateRouteViewModel
 import io.lb.middleware.android.history.presentation.AndroidHistoryViewModel
+import io.lb.middleware.android.routes.details.model.AndroidMappedRoute
 import io.lb.middleware.android.routes.details.presentation.AndroidRouteDetailsViewModel
+import io.lb.middleware.android.routes.details.presentation.RouteDetailsScreen
 import io.lb.middleware.android.routes.listing.presentation.AndroidRoutesViewModel
 import io.lb.middleware.android.routes.listing.presentation.RouteListingScreen
 import io.lb.middleware.android.sign_up.presentation.AndroidSignUpViewModel
@@ -32,6 +36,8 @@ import io.lb.middleware.android.sign_up.presentation.SignUpScreen
 import io.lb.middleware.android.splash.presentation.AndroidSplashViewModel
 import io.lb.middleware.android.splash.presentation.SplashScreen
 import io.lb.middleware.android.user.presentation.AndroidUserViewModel
+import io.lb.middleware.common.shared.middleware.model.MappedRoute
+import kotlinx.serialization.json.Json
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -92,11 +98,20 @@ fun PlaygroundRoot() {
                 onEvent = { viewModel.onEvent(it) }
             )
         }
-        composable(Screens.ROUTE_DETAILS.name) {
+        composable(
+            Screens.ROUTE_DETAILS.name
+        ) {
             val viewModel = hiltViewModel<AndroidRouteDetailsViewModel>()
             val state by viewModel.state.collectAsState()
             val eventFlow = viewModel.eventFlow
-
+            val route = navController.previousBackStackEntry?.arguments?.getParcelable<AndroidMappedRoute>("route")
+            RouteDetailsScreen(
+                route = route?.toMappedRoute(),
+                navController = navController,
+                state = state,
+                eventFlow = eventFlow,
+                onEvent = { viewModel.onEvent(it) }
+            )
         }
         composable(Screens.CREATE_ROUTE.name) {
             val viewModel = hiltViewModel<AndroidCreateRouteViewModel>()

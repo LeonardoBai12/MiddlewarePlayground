@@ -17,7 +17,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowCircleRight
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.ArrowRight
 import androidx.compose.material.icons.filled.Circle
@@ -44,9 +43,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import io.lb.middleware.android.core.presentation.Screens
-import io.lb.middleware.android.core.presentation.components.DefaultAppBar
+import io.lb.middleware.android.core.presentation.components.HomeAppBar
 import io.lb.middleware.android.core.presentation.components.DefaultCard
 import io.lb.middleware.android.core.presentation.showToast
+import io.lb.middleware.android.routes.details.model.AndroidMappedRoute
 import io.lb.middleware.common.shared.middleware.model.MappedRoute
 import io.lb.middleware.common.state.CommonFlow
 import io.lb.middleware.shared.presentation.middleware.listing.RoutesEvent
@@ -93,7 +93,7 @@ fun RouteListingScreen(
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            DefaultAppBar(
+            HomeAppBar(
                 trailingIcon = {
                     IconButton(
                         onClick = {
@@ -132,7 +132,8 @@ fun RouteListingScreen(
         }
     ) { padding ->
         Column(
-            modifier = Modifier.padding(padding)
+            modifier = Modifier
+                .padding(padding)
                 .fillMaxSize(),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -173,11 +174,11 @@ fun RouteListingScreen(
                 if (selectedRadio.intValue == GROUP_BY_APIS) {
                     items(state.apis.keys.toList()) { api ->
                         val routes = state.apis[api] ?: return@items
-                        ApiCard(api, routes)
+                        ApiCard(navController, api, routes)
                     }
                 } else {
                     items(state.routes) {
-                        RouteCard(it)
+                        RouteCard(navController, it)
                     }
                 }
             }
@@ -187,6 +188,7 @@ fun RouteListingScreen(
 
 @Composable
 private fun ApiCard(
+    navController: NavHostController,
     api: String,
     routes: List<MappedRoute>
 ) {
@@ -249,6 +251,7 @@ private fun ApiCard(
                     )
                     Spacer(modifier = Modifier.padding(4.dp))
                     RouteCard(
+                        navController = navController,
                         route = it,
                         hideApiData = true
                     )
@@ -260,6 +263,7 @@ private fun ApiCard(
 
 @Composable
 private fun RouteCard(
+    navController: NavHostController,
     route: MappedRoute,
     hideApiData: Boolean = false
 ) {
@@ -270,7 +274,9 @@ private fun RouteCard(
             bottom = 8.dp
         ),
         onClick = {
-
+            val androidRoute = AndroidMappedRoute.fromMappedRoute(route)
+            navController.currentBackStackEntry?.arguments?.putParcelable("route", androidRoute)
+            navController.navigate(Screens.ROUTE_DETAILS.name)
         }
     ) {
         Column(

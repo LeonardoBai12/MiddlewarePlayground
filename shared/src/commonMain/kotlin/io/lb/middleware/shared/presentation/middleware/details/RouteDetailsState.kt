@@ -4,5 +4,5 @@ import io.lb.middleware.common.shared.middleware.model.MappedRoute
 
 data class RouteDetailsState(
     val mappedRoute: MappedRoute? = null,
-    val isLoading: Boolean = true,
+    val isLoading: Boolean = false,
 )

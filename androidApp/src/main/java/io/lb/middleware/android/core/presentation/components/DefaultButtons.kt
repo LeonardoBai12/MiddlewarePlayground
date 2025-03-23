@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -54,6 +55,7 @@ fun DefaultTextButton(
     modifier: Modifier = Modifier,
     text: String,
     enabled: Boolean = true,
+    imageVector: ImageVector? = null,
     icon: Painter? = null,
     containerColor: Color = MaterialTheme.colorScheme.primary,
     contentColor: Color = MaterialTheme.colorScheme.onPrimary,
@@ -78,7 +80,15 @@ fun DefaultTextButton(
                     modifier = Modifier.padding(vertical = 8.dp, horizontal = 12.dp),
                     painter = it,
                     contentDescription = "SignInButton",
-                    tint = Color.Unspecified
+                    tint = contentColor
+                )
+            }
+            imageVector?.let {
+                Icon(
+                    modifier = Modifier.padding(vertical = 8.dp, horizontal = 12.dp),
+                    imageVector = it,
+                    contentDescription = "SignInButton",
+                    tint = contentColor
                 )
             }
             Text(

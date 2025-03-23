@@ -38,6 +38,10 @@ class MiddlewareRepositoryImpl(
         )
     }
 
+    override suspend fun saveRouteInHistory(route: MappedRoute) {
+        dataSource.saveRoute(route)
+    }
+
     override suspend fun testOriginalRoute(
         originalBaseUrl: String,
         originalPath: String,

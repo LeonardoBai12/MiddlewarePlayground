@@ -16,6 +16,7 @@ import io.lb.middleware.common.data.middleware.local.MiddlewareDatabaseService
 import io.lb.middleware.common.data.user.local.UserDatabaseService
 import io.lb.middleware.common.remote.middleware.remote.MiddlewareClientService
 import io.middleware.api.domain.use_cases.RequestMappedRouteUseCase
+import io.middleware.api.domain.use_cases.SaveRouteInHistoryUseCase
 import io.middleware.api.domain.use_cases.TestOriginalRouteUseCase
 
 @Module
@@ -69,5 +70,11 @@ object MiddlewareModule {
     @ViewModelScoped
     fun provideRequestMappedRouteUseCase(repository: MiddlewareRepository): RequestMappedRouteUseCase {
         return RequestMappedRouteUseCase(repository)
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideSaveRouteInHistoryUseCase(repository: MiddlewareRepository): SaveRouteInHistoryUseCase {
+        return SaveRouteInHistoryUseCase(repository)
     }
 }

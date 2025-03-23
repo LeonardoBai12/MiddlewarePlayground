@@ -32,6 +32,13 @@ interface MiddlewareRepository {
     ): String?
 
     /**
+     * Saves a route in history.
+     *
+     * @param route The route to save.
+     */
+    suspend fun saveRouteInHistory(route: MappedRoute)
+
+    /**
      * Requests the original route.
      *
      * @param originalBaseUrl The original base URL.

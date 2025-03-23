@@ -72,7 +72,7 @@ class MiddlewareClientServiceImpl(
                 }
 
                 MiddlewareHttpMethods.Get -> {
-                    httpClient.get {
+                    val result = httpClient.get {
                         genericRequest(
                             path = path,
                             token = token,
@@ -81,6 +81,8 @@ class MiddlewareClientServiceImpl(
                             preConfiguredBody = preConfiguredBody
                         )
                     }
+                    print(result.bodyAsText())
+                    result
                 }
 
                 MiddlewareHttpMethods.Head -> {
@@ -142,7 +144,7 @@ class MiddlewareClientServiceImpl(
         preConfiguredHeaders: Map<String, String>,
         preConfiguredBody: String?
     ) {
-        url("$requestBaseUrl/${path}")
+        url("$requestBaseUrl${path}")
         contentType(ContentType.Application.Json)
         token?.let { bearerAuth(it) }
         preConfiguredQueries.forEach { (key, value) ->
@@ -151,7 +153,9 @@ class MiddlewareClientServiceImpl(
         preConfiguredHeaders.forEach { (key, value) ->
             headers.append(key, value)
         }
-        preConfiguredBody?.let {
+        preConfiguredBody?.takeIf {
+            it.isNotBlank() && it != "null" && it != "{}"
+        }?.let {
             setBody(json.encodeToString(it))
         }
     }
