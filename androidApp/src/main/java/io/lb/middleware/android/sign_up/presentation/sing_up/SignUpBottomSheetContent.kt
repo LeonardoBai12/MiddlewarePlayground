@@ -24,6 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -55,6 +56,7 @@ fun SignUpBottomSheetContent(
     val repeatedPassword = remember {
         mutableStateOf("")
     }
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     Surface(
         modifier = Modifier
@@ -88,6 +90,7 @@ fun SignUpBottomSheetContent(
                 },
                 enabled = isLoading.not(),
                 onClick = {
+                    keyboardController?.hide()
                     onSignInWithEmailAndPassword(
                         name.value,
                         email.value,
