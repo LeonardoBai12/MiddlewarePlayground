@@ -24,6 +24,7 @@ class AndroidCreateRouteViewModel @Inject constructor(
             testOriginalRouteUseCase,
         )
     }
+    val state = viewModel.state
     val eventFlow = viewModel.eventFlow
 
     fun onEvent(event: CreateRouteEvent) {

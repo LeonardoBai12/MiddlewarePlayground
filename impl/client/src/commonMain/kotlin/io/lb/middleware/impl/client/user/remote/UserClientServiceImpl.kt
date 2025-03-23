@@ -6,8 +6,10 @@ import io.ktor.client.request.bearerAuth
 import io.ktor.client.request.delete
 import io.ktor.client.request.get
 import io.ktor.client.request.post
+import io.ktor.client.request.put
 import io.ktor.client.request.setBody
 import io.ktor.client.request.url
+import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
@@ -43,22 +45,30 @@ class UserClientServiceImpl(
                     password = data.password
                 )
             )
-        }.body<LoginResponse?>()
+        }
 
-        return result?.toResult()
+        if (result.status != HttpStatusCode.OK) {
+            throw Exception(result.bodyAsText())
+        }
+
+        return result.body<LoginResponse?>()?.toResult()
     }
 
     override suspend fun getUserById(token: String, userId: String): UserResult? {
-        val result = httpClient.post {
+        val result = httpClient.get {
             url("$baseUrl/api/user?userId=$userId")
             contentType(ContentType.Application.Json)
             bearerAuth(token)
-        }.body<UserResponse?>()
+        }
 
-        return result?.toResult()
+        if (result.status != HttpStatusCode.OK) {
+            throw Exception(result.bodyAsText())
+        }
+
+        return result.body<UserResponse?>()?.toResult()
     }
 
-    override suspend fun signUp(data: UserCreateRequest): String? {
+    override suspend fun signUp(data: UserCreateRequest): String {
         val result = httpClient.post {
             url("$baseUrl/api/signUp")
             contentType(ContentType.Application.Json)
@@ -71,13 +81,17 @@ class UserClientServiceImpl(
                     profilePictureUrl = data.profilePictureUrl
                 )
             )
-        }.body<String?>()
+        }
 
-        return result
+        if (result.status != HttpStatusCode.Created) {
+            throw Exception(result.bodyAsText())
+        }
+
+        return result.bodyAsText()
     }
 
     override suspend fun updateUser(token: String, data: UserUpdateRequest): UserResult? {
-        val result = httpClient.post {
+        val result = httpClient.put {
             url("$baseUrl/api/updateUser?userId=${data.userId}")
             contentType(ContentType.Application.Json)
             bearerAuth(token)
@@ -90,9 +104,13 @@ class UserClientServiceImpl(
                     profilePictureUrl = data.profilePictureUrl
                 )
             )
-        }.body<String?>()
+        }
 
-        return result?.takeIf {
+        if (result.status != HttpStatusCode.OK) {
+            throw Exception(result.bodyAsText())
+        }
+
+        return result.bodyAsText().takeIf {
             it.isNotEmpty()
         }?.let {
             UserResult(
@@ -106,7 +124,7 @@ class UserClientServiceImpl(
     }
 
     override suspend fun updatePassword(token: String, data: UpdatePasswordRequest): Boolean {
-        val result = httpClient.post {
+        val result = httpClient.put {
             url("$baseUrl/api/updatePassword?userId=${data.userId}")
             contentType(ContentType.Application.Json)
             bearerAuth(token)
@@ -116,9 +134,9 @@ class UserClientServiceImpl(
                     newPassword = data.newPassword
                 )
             )
-        }.body<String?>()
+        }
 
-        return result == data.userId
+        return result.bodyAsText() == data.userId
     }
 
     override suspend fun deleteUser(token: String, userId: String, password: String): Boolean {

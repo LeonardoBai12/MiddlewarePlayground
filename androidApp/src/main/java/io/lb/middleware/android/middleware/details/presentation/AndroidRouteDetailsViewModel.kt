@@ -18,6 +18,7 @@ class AndroidRouteDetailsViewModel @Inject constructor(
             requestMappedRouteUseCase,
         )
     }
+    val state = viewModel.state
     val eventFlow = viewModel.eventFlow
 
     fun onEvent(event: RouteDetailsEvent) {

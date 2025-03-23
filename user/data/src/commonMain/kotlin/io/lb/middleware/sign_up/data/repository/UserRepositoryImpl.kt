@@ -94,16 +94,11 @@ class UserRepositoryImpl(
     override suspend fun logout() = flow<Resource<Unit>> {
         runCatching {
             val currentUser = dataSource.getCurrentUser() ?: throw UserException("User not found")
-            val result = dataSource.logout(currentUser.token ?: "")
-
-            if (result) {
-                dataSource.deleteAllRoutes()
-                dataSource.deleteAllApis()
-                dataSource.deleteUserLocally(currentUser.userId ?: "")
-                emit(Resource.Success(Unit))
-            } else {
-                emit(Resource.Error(UserException("Failed to logout")))
-            }
+            dataSource.logout(currentUser.token ?: "")
+            dataSource.deleteAllRoutes()
+            dataSource.deleteAllApis()
+            dataSource.deleteUserLocally(currentUser.userId ?: "")
+            emit(Resource.Success(Unit))
         }.getOrElse {
             emit(Resource.Error(it))
         }

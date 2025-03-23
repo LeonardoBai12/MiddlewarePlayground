@@ -18,7 +18,7 @@ class LoginUseCase(
             throw SignUpException("Email cannot be blank")
         }
 
-        if (email.isValidEmail()) {
+        if (email.isValidEmail().not()) {
             throw SignUpException("Invalid email")
         }
 

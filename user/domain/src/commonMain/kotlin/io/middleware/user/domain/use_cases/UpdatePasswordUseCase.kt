@@ -1,6 +1,7 @@
 package io.middleware.user.domain.use_cases
 
 import io.lb.middleware.common.shared.user.UserException
+import io.lb.middleware.common.shared.util.isStrongPassword
 import io.lb.middleware.common.state.CommonFlow
 import io.lb.middleware.common.state.Resource
 import io.middleware.user.domain.repository.UserRepository
@@ -19,6 +20,10 @@ class UpdatePasswordUseCase(
 
         if (password != repeatedPassword) {
             throw UserException("Passwords do not match")
+        }
+
+        if (newPassword.isStrongPassword().not()) {
+            throw UserException("Password is not strong enough")
         }
 
         return repository.updatePassword(

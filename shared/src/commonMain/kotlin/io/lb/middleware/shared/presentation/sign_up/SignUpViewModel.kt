@@ -3,13 +3,16 @@ package io.lb.middleware.shared.presentation.sign_up
 import io.lb.middleware.common.shared.user.UserData
 import io.lb.middleware.common.state.Resource
 import io.lb.middleware.common.state.toCommonFlow
+import io.lb.middleware.common.state.toCommonStateFlow
 import io.middleware.sign_up.domain.use_cases.LoginUseCase
 import io.middleware.sign_up.domain.use_cases.SignUpUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlin.uuid.ExperimentalUuidApi
 
@@ -20,6 +23,8 @@ class SignUpViewModel(
     private val loginUseCase: LoginUseCase
 ) {
     private val viewModelScope = coroutineScope ?: CoroutineScope(Dispatchers.Main)
+    private val _state = MutableStateFlow(SignUpState())
+    val state = _state.toCommonStateFlow()
 
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow().toCommonFlow()
@@ -35,18 +40,22 @@ class SignUpViewModel(
             is SignUpEvent.RequestLogin -> {
                     viewModelScope.launch {
                         runCatching {
+                            _state.update { it.copy(isLoading = true) }
                             login(event)
-                        }.getOrElse {
-                            _eventFlow.emit(UiEvent.ShowError(it.message ?: "Something went wrong"))
+                        }.getOrElse { error ->
+                            _eventFlow.emit(UiEvent.ShowError(error.message ?: "Something went wrong"))
+                            _state.update { it.copy(isLoading = false) }
                         }
                     }
             }
             is SignUpEvent.RequestSignUp -> {
                 viewModelScope.launch {
                     runCatching {
+                        _state.update { it.copy(isLoading = true) }
                         signUp(event)
-                    }.getOrElse {
-                        _eventFlow.emit(UiEvent.ShowError(it.message ?: "Something went wrong"))
+                    }.getOrElse { error ->
+                        _eventFlow.emit(UiEvent.ShowError(error.message ?: "Something went wrong"))
+                        _state.update { it.copy(isLoading = false) }
                     }
                 }
             }
@@ -69,6 +78,7 @@ class SignUpViewModel(
                     } ?: run {
                         _eventFlow.emit(UiEvent.ShowError("Could not sign up"))
                     }
+                    _state.update { it.copy(isLoading = false) }
                 }
 
                 is Resource.Error -> {
@@ -77,6 +87,7 @@ class SignUpViewModel(
                             result.throwable?.message ?: "Something went wrong"
                         )
                     )
+                    _state.update { it.copy(isLoading = false) }
                 }
             }
         }
@@ -94,6 +105,7 @@ class SignUpViewModel(
                     } ?: run {
                         _eventFlow.emit(UiEvent.ShowError("Could not login"))
                     }
+                    _state.update { it.copy(isLoading = false) }
                 }
 
                 is Resource.Error -> {
@@ -102,6 +114,7 @@ class SignUpViewModel(
                             result.throwable?.message ?: "Something went wrong"
                         )
                     )
+                    _state.update { it.copy(isLoading = false) }
                 }
             }
         }

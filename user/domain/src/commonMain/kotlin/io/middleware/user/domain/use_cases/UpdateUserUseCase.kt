@@ -3,6 +3,7 @@ package io.middleware.user.domain.use_cases
 import io.lb.middleware.common.shared.user.UserData
 import io.lb.middleware.common.shared.user.UserException
 import io.lb.middleware.common.shared.util.isValidEmail
+import io.lb.middleware.common.shared.util.isValidPhone
 import io.lb.middleware.common.state.CommonFlow
 import io.lb.middleware.common.state.Resource
 import io.middleware.user.domain.repository.UserRepository
@@ -29,8 +30,12 @@ class UpdateUserUseCase(
             throw UserException("Email is required.")
         }
 
-        if (email.isValidEmail()) {
+        if (email.isValidEmail().not()) {
             throw UserException("Invalid email.")
+        }
+
+        if (phone.isValidPhone()) {
+            throw UserException("Invalid phone")
         }
 
         if (password.isBlank()) {

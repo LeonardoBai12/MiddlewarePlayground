@@ -1,4 +1,4 @@
-package io.lb.middleware.android
+package io.lb.middleware.android.core.presentation
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -16,21 +16,30 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun MyApplicationTheme(
+fun PlaygroundTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
     val colors = if (darkTheme) {
         darkColorScheme(
-            primary = Color(0xFFBB86FC),
-            secondary = Color(0xFF03DAC5),
-            tertiary = Color(0xFF3700B3)
+            background = Color(0xFF030826),
+            surface = Color(0xFF18163A),
+            onSurface = Color(0xFFF544B1),
+            primary = Color(0xFFF544B1),
+            onPrimary = Color(0xFF030826),
+            secondary = Color(0xFFCE3000),
+            onSecondary = Color(0xFF030826),
+            tertiary = Color(0xFFFFC107),
+            onTertiary = Color(0xFF030826),
         )
     } else {
         lightColorScheme(
-            primary = Color(0xFF6200EE),
-            secondary = Color(0xFF03DAC5),
-            tertiary = Color(0xFF3700B3)
+            primary = Color(0xFFF544B1),
+            onPrimary = Color(0xFF030826),
+            secondary = Color(0xFFCE3000),
+            onSecondary = Color(0xFF030826),
+            tertiary = Color(0xFFFFC107),
+            onTertiary = Color(0xFF030826),
         )
     }
     val typography = Typography(

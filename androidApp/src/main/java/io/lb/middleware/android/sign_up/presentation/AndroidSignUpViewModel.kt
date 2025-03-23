@@ -23,6 +23,7 @@ class AndroidSignUpViewModel @Inject constructor(
             loginUseCase,
         )
     }
+    val state = viewModel.state
     val eventFlow = viewModel.eventFlow
 
     fun onEvent(event: SignUpEvent) {

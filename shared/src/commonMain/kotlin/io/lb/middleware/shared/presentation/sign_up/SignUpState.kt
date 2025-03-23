@@ -1,11 +1,5 @@
-package io.lb.middleware.shared.presentation.preview
+package io.lb.middleware.shared.presentation.sign_up
 
-import io.lb.middleware.common.shared.middleware.model.NewBodyField
-import io.lb.middleware.common.shared.middleware.model.OldBodyField
-
-data class PreviewState(
-    val newBodyFields: Map<String, NewBodyField> = emptyMap(),
-    val oldBodyFields: Map<String, OldBodyField> = emptyMap(),
-    val ignoreEmptyValues: Boolean = true,
+data class SignUpState(
     val isLoading: Boolean = false,
 )
