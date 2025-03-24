@@ -62,7 +62,7 @@ fun LoginBottomSheetContent(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            SignInTextFields(email, password)
+            SignInTextFields(email, password, isLoading)
 
             DefaultTextButton(
                 modifier = Modifier
@@ -87,7 +87,8 @@ fun LoginBottomSheetContent(
 @Composable
 private fun SignInTextFields(
     email: MutableState<String>,
-    password: MutableState<String>
+    password: MutableState<String>,
+    isLoading: Boolean
 ) {
     Column(
         verticalArrangement = Arrangement.Center,
@@ -96,6 +97,7 @@ private fun SignInTextFields(
         DefaultTextField(
             modifier = Modifier.padding(vertical = 8.dp),
             text = email.value,
+            isEnabled = isLoading.not(),
             icon = {
                 Icon(
                     Icons.Default.Email,
@@ -111,6 +113,7 @@ private fun SignInTextFields(
         DefaultTextField(
             modifier = Modifier.padding(vertical = 8.dp),
             text = password.value,
+            isEnabled = isLoading.not(),
             isPassword = true,
             icon = {
                 Icon(

@@ -120,7 +120,7 @@ fun RouteListingScreen(
                 shape = CircleShape,
                 onClick = {
                     if (state.isLoading.not()) {
-                        navController.navigate(Screens.FILL_ROUTES.name)
+                        navController.navigate(Screens.ORIGINAL_ROUTE.name)
                     }
                 }
             ) {

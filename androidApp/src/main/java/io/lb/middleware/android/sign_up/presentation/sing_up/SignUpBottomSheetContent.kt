@@ -16,7 +16,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -26,10 +25,8 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import io.lb.middleware.android.R
 import io.lb.middleware.android.core.presentation.components.DefaultTextButton
 import io.lb.middleware.android.core.presentation.components.DefaultTextField
@@ -76,7 +73,8 @@ fun SignUpBottomSheetContent(
                 name = name,
                 phone = phone,
                 password = password,
-                repeatedPassword = repeatedPassword
+                repeatedPassword = repeatedPassword,
+                isLoading = isLoading
             )
 
             DefaultTextButton(
@@ -112,6 +110,7 @@ private fun SignInTextFields(
     name: MutableState<String>,
     password: MutableState<String>,
     repeatedPassword: MutableState<String>,
+    isLoading: Boolean
 ) {
     Column(
         verticalArrangement = Arrangement.Center,
@@ -120,6 +119,7 @@ private fun SignInTextFields(
         DefaultTextField(
             modifier = Modifier.padding(vertical = 8.dp),
             text = name.value,
+            isEnabled = isLoading.not(),
             icon = {
                 Icon(
                     Icons.Default.Person,
@@ -135,6 +135,7 @@ private fun SignInTextFields(
         DefaultTextField(
             modifier = Modifier.padding(vertical = 8.dp),
             text = email.value,
+            isEnabled = isLoading.not(),
             icon = {
                 Icon(
                     Icons.Default.Email,
@@ -150,6 +151,7 @@ private fun SignInTextFields(
         DefaultTextField(
             modifier = Modifier.padding(vertical = 8.dp),
             text = phone.value,
+            isEnabled = isLoading.not(),
             keyboardType = KeyboardType.Phone,
             icon = {
                 Icon(
@@ -166,6 +168,7 @@ private fun SignInTextFields(
         DefaultTextField(
             modifier = Modifier.padding(vertical = 8.dp),
             text = password.value,
+            isEnabled = isLoading.not(),
             isPassword = true,
             icon = {
                 Icon(
@@ -183,6 +186,7 @@ private fun SignInTextFields(
         DefaultTextField(
             modifier = Modifier.padding(vertical = 8.dp),
             text = repeatedPassword.value,
+            isEnabled = isLoading.not(),
             isPassword = true,
             icon = {
                 Icon(

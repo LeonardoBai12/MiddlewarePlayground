@@ -9,7 +9,7 @@ class SaveRouteInHistoryUseCase(
 ) {
     suspend operator fun invoke(mappedRoute: MappedRoute) {
         if (mappedRoute.path.isBlank()) {
-            throw MiddlewareException("Original path is empty")
+            throw MiddlewareException("Path is empty")
         }
         return repository.saveRouteInHistory(mappedRoute)
     }

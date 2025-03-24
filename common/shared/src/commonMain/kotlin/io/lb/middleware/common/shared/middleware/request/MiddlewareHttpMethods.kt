@@ -12,9 +12,9 @@ package io.lb.middleware.common.shared.middleware.request
  */
 enum class MiddlewareHttpMethods(val color: Long) {
     Get(0xFF00C853),
-    Delete(0xFFD500000),
     Post(0xFF2979FF),
     Patch(0xFF651FFF),
+    Put(0xFF00A4B6),
+    Delete(0xFFD500000),
     Head(0xFFFF6D00),
-    Put(0xFF00E5FF),
 }

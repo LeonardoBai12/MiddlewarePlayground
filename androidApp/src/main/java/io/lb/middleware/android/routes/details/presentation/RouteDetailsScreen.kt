@@ -54,6 +54,7 @@ import io.lb.middleware.android.core.presentation.PlaygroundColors
 import io.lb.middleware.android.core.presentation.Screens
 import io.lb.middleware.android.core.presentation.components.DefaultTextButton
 import io.lb.middleware.android.core.presentation.components.GenericTopAppBar
+import io.lb.middleware.android.core.presentation.components.MethodBox
 import io.lb.middleware.android.core.presentation.showToast
 import io.lb.middleware.common.shared.middleware.model.MappedRoute
 import io.lb.middleware.common.shared.middleware.request.MiddlewareHttpMethods
@@ -203,9 +204,9 @@ fun RouteDetailsScreen(
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                     ) {
-                        MethodBox("Original Methods", route?.originalMethod)
+                        MethodBox(route.originalMethod, "Original Methods")
                         Spacer(modifier = Modifier.padding(16.dp))
-                        MethodBox("Mapped Methods", route?.method)
+                        MethodBox(route.method, "Mapped Methods")
                     }
                     Spacer(modifier = Modifier.padding(12.dp))
                 }
@@ -435,36 +436,6 @@ private fun ToggleSection(
             Column {
                 content()
             }
-        }
-    }
-}
-
-@Composable
-private fun MethodBox(
-    text: String,
-    method: MiddlewareHttpMethods?
-) {
-    Column {
-        Text(
-            text = text,
-            fontSize = 16.sp,
-            color = MaterialTheme.colorScheme.primary
-        )
-        Spacer(modifier = Modifier.padding(4.dp))
-        Box(
-            modifier = Modifier
-                .clip(RoundedCornerShape(12.dp))
-                .background(Color(method?.color ?: PlaygroundColors.PrimaryPink))
-        ) {
-            Text(
-                modifier = Modifier.padding(
-                    vertical = 4.dp,
-                    horizontal = 8.dp
-                ),
-                text = method?.name ?: "",
-                fontSize = 16.sp,
-                color = Color.White
-            )
         }
     }
 }
