@@ -13,6 +13,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -27,12 +28,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import io.lb.middleware.android.R
+import io.lb.middleware.android.core.presentation.PlaygroundColors
 import io.lb.middleware.android.core.presentation.Screens
+import io.lb.middleware.android.core.presentation.components.DefaultTextButton
 import io.lb.middleware.android.core.presentation.components.DefaultTextField
 import io.lb.middleware.android.core.presentation.components.GenericTopAppBar
 import io.lb.middleware.android.core.presentation.components.MethodBox
@@ -42,6 +46,7 @@ import io.lb.middleware.common.state.CommonFlow
 import io.lb.middleware.shared.presentation.create_route.original_route.OriginalRouteEvent
 import io.lb.middleware.shared.presentation.create_route.original_route.OriginalRouteState
 import io.lb.middleware.shared.presentation.create_route.original_route.OriginalRouteViewModel
+import io.lb.middleware.shared.presentation.middleware.details.RouteDetailsEvent
 import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -128,6 +133,7 @@ fun OriginalRouteScreen(
                     .padding(vertical = 8.dp)
                     .fillMaxWidth(),
                 text = originalBaseUrl.value,
+                isEnabled = state.isLoading.not(),
                 label = "Original Base URL",
                 onValueChange = {
                     originalBaseUrl.value = it
@@ -138,6 +144,7 @@ fun OriginalRouteScreen(
                     .padding(vertical = 8.dp)
                     .fillMaxWidth(),
                 text = originalPath.value,
+                isEnabled = state.isLoading.not(),
                 label = "Original Path",
                 onValueChange = {
                     originalPath.value = it
@@ -148,12 +155,29 @@ fun OriginalRouteScreen(
                     .padding(vertical = 8.dp)
                     .fillMaxWidth(),
                 text = originalBody.value,
+                isEnabled = state.isLoading.not(),
                 label = "Original Body",
                 isSingleLined = false,
                 onValueChange = {
                     originalBody.value = it
                 }
             )
+
+            DefaultTextButton(
+                modifier = Modifier.fillMaxWidth(0.7f)
+                    .padding(8.dp),
+                enabled = state.isLoading.not(),
+                text = if (state.isLoading) {
+                    "Testing Route"
+                } else {
+                    "Test Route"
+                },
+                imageVector = Icons.Default.PlayArrow,
+                containerColor = Color(PlaygroundColors.ButtonGreen),
+                contentColor = Color.White
+            ) {
+
+            }
         }
     }
 }

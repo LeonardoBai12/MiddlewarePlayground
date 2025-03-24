@@ -9,5 +9,5 @@ data class FillRouteFieldsState(
     val preConfiguredQueries: Map<String, String> = emptyMap(),
     val preConfiguredHeaders: Map<String, String> = emptyMap(),
     val ignoreEmptyValues: Boolean = true,
-    val isLoading: Boolean = true,
+    val isLoading: Boolean = false,
 )
