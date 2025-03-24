@@ -4,7 +4,10 @@ enum class Screens {
     SPLASH,
     ROUTE_DETAILS,
     ROUTE_LISTING,
-    CREATE_ROUTE,
+    ORIGINAL_ROUTE,
+    FILL_ROUTES,
+    PREVIEW,
+    REVIEW,
     HISTORY,
     SIGN_UP,
     USER;

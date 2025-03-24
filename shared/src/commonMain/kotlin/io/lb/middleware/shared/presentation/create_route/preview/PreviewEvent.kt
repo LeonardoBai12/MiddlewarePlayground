@@ -1,4 +1,4 @@
-package io.lb.middleware.shared.presentation.preview
+package io.lb.middleware.shared.presentation.create_route.preview
 
 import io.lb.middleware.common.shared.middleware.model.NewBodyField
 import io.lb.middleware.common.shared.middleware.model.OldBodyField

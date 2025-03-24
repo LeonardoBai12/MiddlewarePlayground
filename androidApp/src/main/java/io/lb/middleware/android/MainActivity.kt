@@ -16,15 +16,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import dagger.hilt.android.AndroidEntryPoint
 import io.lb.middleware.android.core.presentation.PlaygroundTheme
 import io.lb.middleware.android.core.presentation.Screens
-import io.lb.middleware.android.create_route.presentation.AndroidCreateRouteViewModel
+import io.lb.middleware.android.create_route.presentation.review.AndroidReviewViewModel
 import io.lb.middleware.android.history.presentation.AndroidHistoryViewModel
 import io.lb.middleware.android.routes.details.model.AndroidMappedRoute
 import io.lb.middleware.android.routes.details.presentation.AndroidRouteDetailsViewModel
@@ -36,8 +34,6 @@ import io.lb.middleware.android.sign_up.presentation.SignUpScreen
 import io.lb.middleware.android.splash.presentation.AndroidSplashViewModel
 import io.lb.middleware.android.splash.presentation.SplashScreen
 import io.lb.middleware.android.user.presentation.AndroidUserViewModel
-import io.lb.middleware.common.shared.middleware.model.MappedRoute
-import kotlinx.serialization.json.Json
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -113,8 +109,26 @@ fun PlaygroundRoot() {
                 onEvent = { viewModel.onEvent(it) }
             )
         }
-        composable(Screens.CREATE_ROUTE.name) {
-            val viewModel = hiltViewModel<AndroidCreateRouteViewModel>()
+        composable(Screens.FILL_ROUTES.name) {
+            val viewModel = hiltViewModel<AndroidReviewViewModel>()
+            val state by viewModel.state.collectAsState()
+            val eventFlow = viewModel.eventFlow
+
+        }
+        composable(Screens.PREVIEW.name) {
+            val viewModel = hiltViewModel<AndroidReviewViewModel>()
+            val state by viewModel.state.collectAsState()
+            val eventFlow = viewModel.eventFlow
+
+        }
+        composable(Screens.ORIGINAL_ROUTE.name) {
+            val viewModel = hiltViewModel<AndroidReviewViewModel>()
+            val state by viewModel.state.collectAsState()
+            val eventFlow = viewModel.eventFlow
+
+        }
+        composable(Screens.REVIEW.name) {
+            val viewModel = hiltViewModel<AndroidReviewViewModel>()
             val state by viewModel.state.collectAsState()
             val eventFlow = viewModel.eventFlow
 

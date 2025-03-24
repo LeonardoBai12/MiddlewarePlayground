@@ -1,4 +1,4 @@
-package io.lb.middleware.shared.presentation.preview
+package io.lb.middleware.shared.presentation.create_route.preview
 
 import io.lb.middleware.common.state.Resource
 import io.lb.middleware.common.state.toCommonFlow
@@ -98,7 +98,11 @@ class PreviewViewModel(
                     _state.update { it.copy(isLoading = false) }
                 }
                 is Resource.Error -> {
-                    _eventFlow.emit(UiEvent.ShowError(result.throwable?.message ?: "Something went wrong"))
+                    _eventFlow.emit(
+                        UiEvent.ShowError(
+                            result.throwable?.message ?: "Something went wrong"
+                        )
+                    )
                     _state.update { it.copy(isLoading = false) }
                 }
             }

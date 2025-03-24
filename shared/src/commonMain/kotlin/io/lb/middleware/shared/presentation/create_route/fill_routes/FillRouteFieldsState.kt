@@ -1,13 +1,11 @@
-package io.lb.middleware.shared.presentation.create_route
+package io.lb.middleware.shared.presentation.create_route.fill_routes
 
 import io.lb.middleware.common.shared.middleware.model.NewBodyField
 import io.lb.middleware.common.shared.middleware.model.OldBodyField
 
-data class CreateRouteState(
+data class FillRouteFieldsState(
     val newBodyFields: Map<String, NewBodyField> = emptyMap(),
     val oldBodyFields: Map<String, OldBodyField> = emptyMap(),
-    val originalQueries: Map<String, String> = emptyMap(),
-    val originalHeaders: Map<String, String> = emptyMap(),
     val preConfiguredQueries: Map<String, String> = emptyMap(),
     val preConfiguredHeaders: Map<String, String> = emptyMap(),
     val ignoreEmptyValues: Boolean = true,

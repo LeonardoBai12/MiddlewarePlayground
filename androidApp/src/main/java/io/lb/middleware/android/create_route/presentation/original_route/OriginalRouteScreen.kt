@@ -1,4 +1,4 @@
-package io.lb.middleware.android.create_route.presentation
+package io.lb.middleware.android.create_route.presentation.original_route
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -19,18 +19,18 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import io.lb.middleware.android.core.presentation.Screens
 import io.lb.middleware.common.state.CommonFlow
-import io.lb.middleware.shared.presentation.create_route.CreateRouteEvent
-import io.lb.middleware.shared.presentation.create_route.CreateRouteState
-import io.lb.middleware.shared.presentation.create_route.CreateRouteViewModel
+import io.lb.middleware.shared.presentation.create_route.original_route.OriginalRouteEvent
+import io.lb.middleware.shared.presentation.create_route.original_route.OriginalRouteState
+import io.lb.middleware.shared.presentation.create_route.original_route.OriginalRouteViewModel
 
 @Composable
-fun RouteDetailsScreen(
+fun OriginalRouteScreen(
     navController: NavHostController,
-    state: CreateRouteState,
-    eventFlow: CommonFlow<CreateRouteViewModel.UiEvent>,
-    onEvent: (CreateRouteEvent) -> Unit
+    state: OriginalRouteState,
+    eventFlow: CommonFlow<OriginalRouteViewModel.UiEvent>,
+    onEvent: (OriginalRouteEvent) -> Unit
 ) {
-    LaunchedEffect(key1 = Screens.CREATE_ROUTE) {
+    LaunchedEffect(key1 = Screens.ORIGINAL_ROUTE) {
 
     }
 
