@@ -96,26 +96,6 @@ fun OriginalRouteScreen(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            DefaultTextField(
-                modifier = Modifier
-                    .padding(vertical = 8.dp)
-                    .fillMaxWidth(),
-                text = originalBaseUrl.value,
-                label = "Original Base URL",
-                onValueChange = {
-                    originalBaseUrl.value = it
-                }
-            )
-            DefaultTextField(
-                modifier = Modifier
-                    .padding(vertical = 8.dp)
-                    .fillMaxWidth(),
-                text = originalPath.value,
-                label = "Original Path",
-                onValueChange = {
-                    originalPath.value = it
-                }
-            )
             Box(
                 modifier = Modifier.fillMaxWidth()
             ) {
@@ -143,6 +123,26 @@ fun OriginalRouteScreen(
                     }
                 }
             }
+            DefaultTextField(
+                modifier = Modifier
+                    .padding(vertical = 8.dp)
+                    .fillMaxWidth(),
+                text = originalBaseUrl.value,
+                label = "Original Base URL",
+                onValueChange = {
+                    originalBaseUrl.value = it
+                }
+            )
+            DefaultTextField(
+                modifier = Modifier
+                    .padding(vertical = 8.dp)
+                    .fillMaxWidth(),
+                text = originalPath.value,
+                label = "Original Path",
+                onValueChange = {
+                    originalPath.value = it
+                }
+            )
             DefaultTextField(
                 modifier = Modifier
                     .padding(vertical = 8.dp)
