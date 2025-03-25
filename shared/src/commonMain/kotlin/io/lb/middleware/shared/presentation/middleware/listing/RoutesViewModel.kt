@@ -3,7 +3,7 @@ package io.lb.middleware.shared.presentation.middleware.listing
 import io.lb.middleware.common.state.Resource
 import io.lb.middleware.common.state.toCommonFlow
 import io.lb.middleware.common.state.toCommonStateFlow
-import io.middleware.api.domain.use_cases.GetAllRoutesUseCase
+import io.middleware.api.domain.usecases.GetAllRoutesUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow

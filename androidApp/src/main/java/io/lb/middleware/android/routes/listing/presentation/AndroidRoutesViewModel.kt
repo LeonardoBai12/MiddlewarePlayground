@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.lb.middleware.shared.presentation.middleware.listing.RoutesEvent
 import io.lb.middleware.shared.presentation.middleware.listing.RoutesViewModel
-import io.middleware.api.domain.use_cases.GetAllRoutesUseCase
+import io.middleware.api.domain.usecases.GetAllRoutesUseCase
 import javax.inject.Inject
 
 @HiltViewModel

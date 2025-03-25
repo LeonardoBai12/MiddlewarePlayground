@@ -3,9 +3,9 @@ package io.lb.middleware.shared.di
 import io.lb.middleware.api.data.data_source.MiddlewareDataSource
 import io.lb.middleware.api.data.repository.MiddlewareRepositoryImpl
 import io.middleware.api.domain.repository.MiddlewareRepository
-import io.middleware.api.domain.use_cases.CreateNewRouteUseCase
-import io.middleware.api.domain.use_cases.GetAllRoutesUseCase
-import io.middleware.api.domain.use_cases.RequestPreviewUseCase
+import io.middleware.api.domain.usecases.CreateNewRouteUseCase
+import io.middleware.api.domain.usecases.GetAllRoutesUseCase
+import io.middleware.api.domain.usecases.RequestPreviewUseCase
 
 object MiddlewareModule {
     private val dataSource by lazy {

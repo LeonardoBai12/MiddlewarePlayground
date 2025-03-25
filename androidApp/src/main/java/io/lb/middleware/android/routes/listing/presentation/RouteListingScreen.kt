@@ -115,7 +115,11 @@ fun RouteListingScreen(
         },
         floatingActionButton = {
             FloatingActionButton(
-                containerColor = MaterialTheme.colorScheme.primary,
+                containerColor = if (state.isLoading) {
+                    MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)
+                } else {
+                    MaterialTheme.colorScheme.primary
+                },
                 contentColor = MaterialTheme.colorScheme.onPrimary,
                 shape = CircleShape,
                 onClick = {

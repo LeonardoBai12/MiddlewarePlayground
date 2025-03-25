@@ -14,3 +14,8 @@ fun String.isStrongPassword(): Boolean {
     val passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$"
     return this.matches(passwordRegex.toRegex())
 }
+
+fun String.isValidUrl(): Boolean {
+    val urlRegex = "^(http|https)://[^\\s/$.?#].[^\\s]*$"
+    return this.matches(urlRegex.toRegex())
+}

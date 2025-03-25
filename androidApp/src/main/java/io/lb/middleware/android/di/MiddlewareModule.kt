@@ -3,9 +3,9 @@ package io.lb.middleware.android.di
 import io.lb.middleware.api.data.data_source.MiddlewareDataSource
 import io.lb.middleware.api.data.repository.MiddlewareRepositoryImpl
 import io.middleware.api.domain.repository.MiddlewareRepository
-import io.middleware.api.domain.use_cases.CreateNewRouteUseCase
-import io.middleware.api.domain.use_cases.GetAllRoutesUseCase
-import io.middleware.api.domain.use_cases.RequestPreviewUseCase
+import io.middleware.api.domain.usecases.CreateNewRouteUseCase
+import io.middleware.api.domain.usecases.GetAllRoutesUseCase
+import io.middleware.api.domain.usecases.RequestPreviewUseCase
 
 import dagger.Module
 import dagger.Provides
@@ -15,9 +15,9 @@ import dagger.hilt.android.scopes.ViewModelScoped
 import io.lb.middleware.common.data.middleware.local.MiddlewareDatabaseService
 import io.lb.middleware.common.data.user.local.UserDatabaseService
 import io.lb.middleware.common.remote.middleware.remote.MiddlewareClientService
-import io.middleware.api.domain.use_cases.RequestMappedRouteUseCase
-import io.middleware.api.domain.use_cases.SaveRouteInHistoryUseCase
-import io.middleware.api.domain.use_cases.TestOriginalRouteUseCase
+import io.middleware.api.domain.usecases.RequestMappedRouteUseCase
+import io.middleware.api.domain.usecases.SaveRouteInHistoryUseCase
+import io.middleware.api.domain.usecases.TestOriginalRouteUseCase
 
 @Module
 @InstallIn(ViewModelComponent::class)

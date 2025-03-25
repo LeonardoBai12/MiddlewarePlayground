@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.lb.middleware.shared.presentation.middleware.details.RouteDetailsEvent
 import io.lb.middleware.shared.presentation.middleware.details.RouteDetailsViewModel
-import io.middleware.api.domain.use_cases.RequestMappedRouteUseCase
-import io.middleware.api.domain.use_cases.SaveRouteInHistoryUseCase
+import io.middleware.api.domain.usecases.RequestMappedRouteUseCase
+import io.middleware.api.domain.usecases.SaveRouteInHistoryUseCase
 import javax.inject.Inject
 
 @HiltViewModel

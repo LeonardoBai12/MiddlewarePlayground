@@ -51,6 +51,32 @@ fun DefaultIconButton(
 }
 
 @Composable
+fun DefaultIconButton(
+    modifier: Modifier = Modifier,
+    iconModifier: Modifier = Modifier.fillMaxSize(),
+    shape: Shape = RoundedCornerShape(24.dp),
+    imageVector: ImageVector,
+    contentDescription: String,
+    onClick: () -> Unit
+) {
+    IconButton(
+        modifier = modifier
+            .background(
+                color = MaterialTheme.colorScheme.primary,
+                shape = shape
+            ),
+        onClick = onClick,
+    ) {
+        Icon(
+            modifier = iconModifier,
+            imageVector = imageVector,
+            contentDescription = contentDescription,
+            tint = MaterialTheme.colorScheme.onPrimary
+        )
+    }
+}
+
+@Composable
 fun DefaultTextButton(
     modifier: Modifier = Modifier,
     text: String,

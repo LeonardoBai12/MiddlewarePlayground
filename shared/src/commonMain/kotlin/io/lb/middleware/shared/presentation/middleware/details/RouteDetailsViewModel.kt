@@ -2,8 +2,8 @@ package io.lb.middleware.shared.presentation.middleware.details
 
 import io.lb.middleware.common.state.toCommonFlow
 import io.lb.middleware.common.state.toCommonStateFlow
-import io.middleware.api.domain.use_cases.RequestMappedRouteUseCase
-import io.middleware.api.domain.use_cases.SaveRouteInHistoryUseCase
+import io.middleware.api.domain.usecases.RequestMappedRouteUseCase
+import io.middleware.api.domain.usecases.SaveRouteInHistoryUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow

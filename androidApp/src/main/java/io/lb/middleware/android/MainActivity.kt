@@ -22,11 +22,11 @@ import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import io.lb.middleware.android.core.presentation.PlaygroundTheme
 import io.lb.middleware.android.core.presentation.Screens
-import io.lb.middleware.android.create_route.presentation.fill_routes.AndroidFillRouteFieldsViewModel
-import io.lb.middleware.android.create_route.presentation.original_route.AndroidOriginalRouteViewModel
-import io.lb.middleware.android.create_route.presentation.original_route.OriginalRouteScreen
-import io.lb.middleware.android.create_route.presentation.preview.AndroidPreviewViewModel
-import io.lb.middleware.android.create_route.presentation.review.AndroidReviewViewModel
+import io.lb.middleware.android.createroute.presentation.fill_routes.AndroidFillRouteFieldsViewModel
+import io.lb.middleware.android.createroute.presentation.originalroute.AndroidOriginalRouteViewModel
+import io.lb.middleware.android.createroute.presentation.originalroute.OriginalRouteScreen
+import io.lb.middleware.android.createroute.presentation.preview.AndroidPreviewViewModel
+import io.lb.middleware.android.createroute.presentation.review.AndroidReviewViewModel
 import io.lb.middleware.android.history.presentation.AndroidHistoryViewModel
 import io.lb.middleware.android.routes.details.model.AndroidMappedRoute
 import io.lb.middleware.android.routes.details.presentation.AndroidRouteDetailsViewModel
