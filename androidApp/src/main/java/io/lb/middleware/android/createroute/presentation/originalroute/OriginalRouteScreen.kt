@@ -1,32 +1,40 @@
 package io.lb.middleware.android.createroute.presentation.originalroute
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -54,6 +62,13 @@ fun OriginalRouteScreen(
     onEvent: (OriginalRouteEvent) -> Unit
 ) {
     val context = LocalContext.current
+    val clipboardManager = LocalClipboardManager.current
+    val result = remember {
+        mutableStateOf("")
+    }
+    val code = remember {
+        mutableIntStateOf(0)
+    }
     val originalBaseUrl = remember {
         mutableStateOf("")
     }
@@ -76,8 +91,17 @@ fun OriginalRouteScreen(
                 is OriginalRouteViewModel.UiEvent.ShowError -> {
                     context.showToast(it.message)
                 }
-                OriginalRouteViewModel.UiEvent.ShowOriginalRouteSuccess -> {
+                is OriginalRouteViewModel.UiEvent.ShowOriginalRouteSuccess -> {
                     context.showToast("Called original route successfully!")
+                }
+
+                is OriginalRouteViewModel.UiEvent.ShowResult -> {
+                    code.intValue = it.code
+                    result.value = "Code: ${it.code}\nBody:\n${it.result}"
+                }
+
+                OriginalRouteViewModel.UiEvent.NavigateToNextStep -> {
+
                 }
             }
         }
@@ -86,7 +110,7 @@ fun OriginalRouteScreen(
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            GenericTopAppBar(navController)
+            GenericTopAppBar(navController, "Step 1: Original Route")
         },
     ) { padding ->
         LazyColumn(
@@ -253,11 +277,13 @@ fun OriginalRouteScreen(
             }
 
             item {
-                Column {
-                    Spacer(modifier = Modifier.height(16.dp))
+                Column(
+                    modifier = Modifier.padding(top = 16.dp),
+                    verticalArrangement = Arrangement.Top,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
                     DefaultTextButton(
-                        modifier = Modifier.fillMaxWidth(0.7f)
-                            .padding(8.dp),
+                        modifier = Modifier.fillMaxWidth(0.7f),
                         enabled = state.isLoading.not(),
                         text = if (state.isLoading) {
                             "Testing Route"
@@ -268,7 +294,60 @@ fun OriginalRouteScreen(
                         containerColor = Color(PlaygroundColors.ButtonGreen),
                         contentColor = Color.White
                     ) {
+                        result.value = ""
+                        onEvent(
+                            OriginalRouteEvent.TestOriginalRoute(
+                                originalBaseUrl = originalBaseUrl.value,
+                                originalPath = originalPath.value,
+                                originalMethod = originalMethod.value,
+                                originalBody = originalBody.value
+                            )
+                        )
 
+                    }
+                    Spacer(modifier = Modifier.padding(12.dp))
+
+                    if (state.isLoading) {
+                        CircularProgressIndicator()
+                    }
+
+                    AnimatedVisibility(
+                        result.value.isNotEmpty()
+                    ) {
+                        Column {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Text(
+                                    text = "Result",
+                                    fontSize = 16.sp,
+                                    color = MaterialTheme.colorScheme.primary
+                                )
+                                IconButton(
+                                    onClick = {
+                                        clipboardManager.setText(
+                                            buildAnnotatedString {
+                                                append(result.value)
+                                            }
+                                        )
+                                        context.showToast("Copied to clipboard")
+                                    }
+                                ) {
+                                    Icon(
+                                        modifier = Modifier,
+                                        imageVector = Icons.Filled.ContentCopy,
+                                        contentDescription = "Copy path"
+                                    )
+                                }
+                            }
+                            Text(
+                                text = result.value,
+                                fontSize = 16.sp,
+                            )
+                            Spacer(modifier = Modifier.padding(12.dp))
+                        }
                     }
                 }
             }

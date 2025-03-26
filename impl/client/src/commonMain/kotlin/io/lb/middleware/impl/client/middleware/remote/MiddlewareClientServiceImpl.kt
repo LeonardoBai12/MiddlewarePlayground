@@ -167,82 +167,83 @@ class MiddlewareClientServiceImpl(
         originalQueries: Map<String, String>,
         originalHeaders: Map<String, String>,
         originalBody: String?
-    ): String? {
-        return runCatching {
-            when (originalMethod) {
-                MiddlewareHttpMethods.Delete -> {
-                    httpClient.delete {
-                        genericRequest(
-                            requestBaseUrl = originalBaseUrl,
-                            path = originalPath,
-                            preConfiguredQueries = originalQueries,
-                            preConfiguredHeaders = originalHeaders,
-                            preConfiguredBody = originalBody
-                        )
-                    }
+    ): Pair<Int, String?> {
+        val result = when (originalMethod) {
+            MiddlewareHttpMethods.Delete -> {
+                httpClient.delete {
+                    genericRequest(
+                        requestBaseUrl = originalBaseUrl,
+                        path = originalPath,
+                        preConfiguredQueries = originalQueries,
+                        preConfiguredHeaders = originalHeaders,
+                        preConfiguredBody = originalBody
+                    )
                 }
+            }
 
-                MiddlewareHttpMethods.Get -> {
-                    httpClient.get {
-                        genericRequest(
-                            requestBaseUrl = originalBaseUrl,
-                            path = originalPath,
-                            preConfiguredQueries = originalQueries,
-                            preConfiguredHeaders = originalHeaders,
-                            preConfiguredBody = originalBody
-                        )
-                    }
+            MiddlewareHttpMethods.Get -> {
+                httpClient.get {
+                    genericRequest(
+                        requestBaseUrl = originalBaseUrl,
+                        path = originalPath,
+                        preConfiguredQueries = originalQueries,
+                        preConfiguredHeaders = originalHeaders,
+                        preConfiguredBody = originalBody
+                    )
                 }
+            }
 
-                MiddlewareHttpMethods.Head -> {
-                    httpClient.head {
-                        genericRequest(
-                            requestBaseUrl = originalBaseUrl,
-                            path = originalPath,
-                            preConfiguredQueries = originalQueries,
-                            preConfiguredHeaders = originalHeaders,
-                            preConfiguredBody = originalBody
-                        )
-                    }
+            MiddlewareHttpMethods.Head -> {
+                httpClient.head {
+                    genericRequest(
+                        requestBaseUrl = originalBaseUrl,
+                        path = originalPath,
+                        preConfiguredQueries = originalQueries,
+                        preConfiguredHeaders = originalHeaders,
+                        preConfiguredBody = originalBody
+                    )
                 }
+            }
 
-                MiddlewareHttpMethods.Patch -> {
-                    httpClient.patch {
-                        genericRequest(
-                            requestBaseUrl = originalBaseUrl,
-                            path = originalPath,
-                            preConfiguredQueries = originalQueries,
-                            preConfiguredHeaders = originalHeaders,
-                            preConfiguredBody = originalBody
-                        )
-                    }
+            MiddlewareHttpMethods.Patch -> {
+                httpClient.patch {
+                    genericRequest(
+                        requestBaseUrl = originalBaseUrl,
+                        path = originalPath,
+                        preConfiguredQueries = originalQueries,
+                        preConfiguredHeaders = originalHeaders,
+                        preConfiguredBody = originalBody
+                    )
                 }
+            }
 
-                MiddlewareHttpMethods.Post -> {
-                    httpClient.post {
-                        genericRequest(
-                            requestBaseUrl = originalBaseUrl,
-                            path = originalPath,
-                            preConfiguredQueries = originalQueries,
-                            preConfiguredHeaders = originalHeaders,
-                            preConfiguredBody = originalBody
-                        )
-                    }
+            MiddlewareHttpMethods.Post -> {
+                httpClient.post {
+                    genericRequest(
+                        requestBaseUrl = originalBaseUrl,
+                        path = originalPath,
+                        preConfiguredQueries = originalQueries,
+                        preConfiguredHeaders = originalHeaders,
+                        preConfiguredBody = originalBody
+                    )
                 }
+            }
 
-                MiddlewareHttpMethods.Put -> {
-                    httpClient.put {
-                        genericRequest(
-                            requestBaseUrl = originalBaseUrl,
-                            path = originalPath,
-                            preConfiguredQueries = originalQueries,
-                            preConfiguredHeaders = originalHeaders,
-                            preConfiguredBody = originalBody
-                        )
-                    }
+            MiddlewareHttpMethods.Put -> {
+                httpClient.put {
+                    genericRequest(
+                        requestBaseUrl = originalBaseUrl,
+                        path = originalPath,
+                        preConfiguredQueries = originalQueries,
+                        preConfiguredHeaders = originalHeaders,
+                        preConfiguredBody = originalBody
+                    )
                 }
-            }.bodyAsText()
-        }.getOrNull()
+            }
+        }
+        val statusCode = result.status.value
+        val body = kotlin.runCatching { result.bodyAsText() }.getOrNull()
+        return Pair(statusCode, body)
     }
 
     override suspend fun requestPreview(token: String, data: PreviewRequest): String {

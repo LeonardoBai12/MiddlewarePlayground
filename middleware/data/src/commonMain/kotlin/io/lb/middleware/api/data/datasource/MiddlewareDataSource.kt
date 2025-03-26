@@ -1,4 +1,4 @@
-package io.lb.middleware.api.data.data_source
+package io.lb.middleware.api.data.datasource
 
 import io.lb.middleware.common.data.middleware.local.MiddlewareDatabaseService
 import io.lb.middleware.common.data.user.local.UserDatabaseService
@@ -108,7 +108,7 @@ class MiddlewareDataSource(
         originalQueries: Map<String, String> = mapOf(),
         originalHeaders: Map<String, String> = mapOf(),
         originalBody: String?,
-    ): String? {
+    ): Pair<Int, String?> {
         return middlewareClientService.testOriginalRoute(
             originalBaseUrl = originalBaseUrl,
             originalPath = originalPath,

@@ -15,15 +15,15 @@ class TestOriginalRouteUseCase(
         originalQueries: Map<String, String>,
         originalHeaders: Map<String, String>,
         originalBody: String?,
-    ): String? {
-        if (originalPath.isBlank()) {
-            throw MiddlewareException("Original path is empty")
-        }
+    ): Pair<Int, String?> {
         if (originalBaseUrl.isBlank()) {
             throw MiddlewareException("Original base url is empty")
         }
         if (originalBaseUrl.isValidUrl().not()) {
             throw MiddlewareException("Original base url is not a valid url")
+        }
+        if (originalPath.isBlank()) {
+            throw MiddlewareException("Original path is empty")
         }
         return repository.testOriginalRoute(
             originalBaseUrl = originalBaseUrl,

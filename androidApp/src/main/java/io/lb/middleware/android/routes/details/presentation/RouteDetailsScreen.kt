@@ -47,6 +47,7 @@ import io.lb.middleware.android.core.presentation.components.GenericTopAppBar
 import io.lb.middleware.android.core.presentation.components.MethodBox
 import io.lb.middleware.android.core.presentation.showToast
 import io.lb.middleware.common.shared.middleware.model.MappedRoute
+import io.lb.middleware.common.shared.util.beautifyJson
 import io.lb.middleware.common.state.CommonFlow
 import io.lb.middleware.shared.presentation.middleware.details.RouteDetailsEvent
 import io.lb.middleware.shared.presentation.middleware.details.RouteDetailsState
@@ -387,14 +388,6 @@ fun RouteDetails(route: MappedRoute?) {
             )
         }
     }
-}
-
-private fun beautifyJson(jsonString: String): String {
-    val json = Json {
-        prettyPrint = true
-    }
-    val jsonObject = json.parseToJsonElement(jsonString).jsonObject
-    return json.encodeToString(JsonObject.serializer(), jsonObject)
 }
 
 @Composable

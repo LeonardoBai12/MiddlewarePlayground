@@ -1,6 +1,6 @@
 package io.lb.middleware.api.data.repository
 
-import io.lb.middleware.api.data.data_source.MiddlewareDataSource
+import io.lb.middleware.api.data.datasource.MiddlewareDataSource
 import io.lb.middleware.common.shared.middleware.model.MappedApi
 import io.lb.middleware.common.shared.middleware.model.MappedRoute
 import io.lb.middleware.common.shared.middleware.model.MappingRequest
@@ -49,7 +49,7 @@ class MiddlewareRepositoryImpl(
         originalQueries: Map<String, String>,
         originalHeaders: Map<String, String>,
         originalBody: String?
-    ): String? {
+    ): Pair<Int, String?> {
         return dataSource.testOriginalRoute(
             originalBaseUrl = originalBaseUrl,
             originalPath = originalPath,

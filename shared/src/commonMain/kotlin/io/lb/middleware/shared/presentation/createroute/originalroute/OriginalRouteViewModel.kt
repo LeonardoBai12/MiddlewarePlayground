@@ -1,5 +1,6 @@
 package io.lb.middleware.shared.presentation.createroute.originalroute
 
+import io.lb.middleware.common.shared.util.beautifyJson
 import io.lb.middleware.common.state.toCommonFlow
 import io.lb.middleware.common.state.toCommonStateFlow
 import io.middleware.api.domain.usecases.TestOriginalRouteUseCase
@@ -25,6 +26,8 @@ class OriginalRouteViewModel(
     sealed class UiEvent {
         data class ShowError(val message: String) : UiEvent()
         data object ShowOriginalRouteSuccess : UiEvent()
+        data class ShowResult(val code: Int, val result: String) : UiEvent()
+        data object NavigateToNextStep : UiEvent()
     }
 
     fun onEvent(event: OriginalRouteEvent) {
@@ -41,7 +44,14 @@ class OriginalRouteViewModel(
                             originalHeaders = _state.value.originalHeaders,
                             originalBody = event.originalBody,
                         )
-                        result?.let {
+                        val isSuccess = result.first in 200..299
+                        result.second?.let {
+                            if (isSuccess) {
+                                val json = beautifyJson(it)
+                                _eventFlow.emit(UiEvent.ShowResult(result.first, json))
+                            } else {
+                                _eventFlow.emit(UiEvent.ShowError(it))
+                            }
                             _eventFlow.emit(UiEvent.ShowOriginalRouteSuccess)
                             _state.update { it.copy(isLoading = false) }
                         } ?: run {
@@ -89,6 +99,10 @@ class OriginalRouteViewModel(
                         it.copy(originalHeaders = headers)
                     }
                 }
+            }
+
+            OriginalRouteEvent.MoveForward -> {
+
             }
         }
     }

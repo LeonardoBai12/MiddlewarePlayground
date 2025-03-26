@@ -50,7 +50,7 @@ interface MiddlewareClientService {
         originalQueries: Map<String, String> = mapOf(),
         originalHeaders: Map<String, String> = mapOf(),
         originalBody: String?,
-    ): String?
+    ): Pair<Int, String?>
 
     /**
      * Requests a preview of the mapping.

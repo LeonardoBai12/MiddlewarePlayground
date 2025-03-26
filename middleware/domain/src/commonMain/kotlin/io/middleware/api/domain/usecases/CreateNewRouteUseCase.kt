@@ -30,17 +30,17 @@ class CreateNewRouteUseCase(
         oldBodyFields: Map<String, OldBodyField>,
         ignoreEmptyValues: Boolean
     ): CommonFlow<Resource<String>> {
-        if (path.isBlank()) {
-            throw MiddlewareException("Path is empty")
-        }
-        if (originalPath.isBlank()) {
-            throw MiddlewareException("Original path is empty")
-        }
         if (originalBaseUrl.isBlank()) {
             throw MiddlewareException("Original base url is empty")
         }
         if (originalBaseUrl.isValidUrl().not()) {
             throw MiddlewareException("Original base url is not a valid url")
+        }
+        if (path.isBlank()) {
+            throw MiddlewareException("Path is empty")
+        }
+        if (originalPath.isBlank()) {
+            throw MiddlewareException("Original path is empty")
         }
         if (newBodyFields.isEmpty()) {
             throw MiddlewareException("Mapping rules are empty")

@@ -24,9 +24,17 @@ import io.lb.middleware.android.R
 
 @ExperimentalMaterial3Api
 @Composable
-fun GenericTopAppBar(navController: NavHostController) {
+fun GenericTopAppBar(navController: NavHostController, title: String? = null) {
     TopAppBar(
-        title = { },
+        title = {
+            title?.let {
+                Text(
+                    text = it,
+                    fontSize = 22.sp,
+                    textAlign = TextAlign.Start
+                )
+            }
+        },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.background,
             navigationIconContentColor = MaterialTheme.colorScheme.onSurface,

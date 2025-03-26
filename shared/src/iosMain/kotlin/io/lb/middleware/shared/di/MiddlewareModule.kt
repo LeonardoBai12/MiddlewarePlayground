@@ -1,6 +1,6 @@
 package io.lb.middleware.shared.di
 
-import io.lb.middleware.api.data.data_source.MiddlewareDataSource
+import io.lb.middleware.api.data.datasource.MiddlewareDataSource
 import io.lb.middleware.api.data.repository.MiddlewareRepositoryImpl
 import io.middleware.api.domain.repository.MiddlewareRepository
 import io.middleware.api.domain.usecases.CreateNewRouteUseCase
