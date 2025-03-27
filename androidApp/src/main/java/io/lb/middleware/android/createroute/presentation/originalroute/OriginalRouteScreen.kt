@@ -45,6 +45,7 @@ import io.lb.middleware.android.core.presentation.components.DefaultTextField
 import io.lb.middleware.android.core.presentation.components.GenericTopAppBar
 import io.lb.middleware.android.core.presentation.components.MapElement
 import io.lb.middleware.android.core.presentation.components.MethodBox
+import io.lb.middleware.android.core.presentation.components.TestColumn
 import io.lb.middleware.android.core.presentation.showToast
 import io.lb.middleware.common.shared.middleware.request.MiddlewareHttpMethods
 import io.lb.middleware.common.state.CommonFlow
@@ -62,7 +63,6 @@ fun OriginalRouteScreen(
     onEvent: (OriginalRouteEvent) -> Unit
 ) {
     val context = LocalContext.current
-    val clipboardManager = LocalClipboardManager.current
     val result = remember {
         mutableStateOf("")
     }
@@ -277,78 +277,19 @@ fun OriginalRouteScreen(
             }
 
             item {
-                Column(
-                    modifier = Modifier.padding(top = 16.dp),
-                    verticalArrangement = Arrangement.Top,
-                    horizontalAlignment = Alignment.CenterHorizontally,
+                TestColumn(
+                    isLoading = state.isLoading,
+                    result = result.value,
                 ) {
-                    DefaultTextButton(
-                        modifier = Modifier.fillMaxWidth(0.7f),
-                        enabled = state.isLoading.not(),
-                        text = if (state.isLoading) {
-                            "Testing Route"
-                        } else {
-                            "Test Route"
-                        },
-                        imageVector = Icons.Default.PlayArrow,
-                        containerColor = Color(PlaygroundColors.ButtonGreen),
-                        contentColor = Color.White
-                    ) {
-                        result.value = ""
-                        onEvent(
-                            OriginalRouteEvent.TestOriginalRoute(
-                                originalBaseUrl = originalBaseUrl.value,
-                                originalPath = originalPath.value,
-                                originalMethod = originalMethod.value,
-                                originalBody = originalBody.value
-                            )
+                    result.value = ""
+                    onEvent(
+                        OriginalRouteEvent.TestOriginalRoute(
+                            originalBaseUrl = originalBaseUrl.value,
+                            originalPath = originalPath.value,
+                            originalMethod = originalMethod.value,
+                            originalBody = originalBody.value
                         )
-
-                    }
-                    Spacer(modifier = Modifier.padding(12.dp))
-
-                    if (state.isLoading) {
-                        CircularProgressIndicator()
-                    }
-
-                    AnimatedVisibility(
-                        result.value.isNotEmpty()
-                    ) {
-                        Column {
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.SpaceBetween
-                            ) {
-                                Text(
-                                    text = "Result",
-                                    fontSize = 16.sp,
-                                    color = MaterialTheme.colorScheme.primary
-                                )
-                                IconButton(
-                                    onClick = {
-                                        clipboardManager.setText(
-                                            buildAnnotatedString {
-                                                append(result.value)
-                                            }
-                                        )
-                                        context.showToast("Copied to clipboard")
-                                    }
-                                ) {
-                                    Icon(
-                                        modifier = Modifier,
-                                        imageVector = Icons.Filled.ContentCopy,
-                                        contentDescription = "Copy path"
-                                    )
-                                }
-                            }
-                            Text(
-                                text = result.value,
-                                fontSize = 16.sp,
-                            )
-                            Spacer(modifier = Modifier.padding(12.dp))
-                        }
-                    }
+                    )
                 }
             }
         }
