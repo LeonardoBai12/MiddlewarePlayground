@@ -1,4 +1,4 @@
-package io.lb.middleware.android.createroute.presentation.fill_routes
+package io.lb.middleware.android.createroute.presentation.fillroutes
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -44,6 +44,10 @@ fun FillRouteFieldsScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text("Create Route Screen")
+            // receber todos os old fields
+            // dar opcao de colcoar uma nova chave, deixa uma pré estabelecida
+            // ou ignorar
+            // ir para proxima
         }
     }
 }

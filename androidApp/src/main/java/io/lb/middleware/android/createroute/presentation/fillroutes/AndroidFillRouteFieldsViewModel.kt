@@ -1,4 +1,4 @@
-package io.lb.middleware.android.createroute.presentation.fill_routes
+package io.lb.middleware.android.createroute.presentation.fillroutes
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

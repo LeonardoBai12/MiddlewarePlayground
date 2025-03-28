@@ -1,24 +1,22 @@
 package io.lb.middleware.android.createroute.presentation.originalroute
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ContentCopy
-import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -31,22 +29,19 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import io.lb.middleware.android.core.presentation.PlaygroundColors
 import io.lb.middleware.android.core.presentation.Screens
-import io.lb.middleware.android.core.presentation.components.DefaultTextButton
 import io.lb.middleware.android.core.presentation.components.DefaultTextField
 import io.lb.middleware.android.core.presentation.components.GenericTopAppBar
 import io.lb.middleware.android.core.presentation.components.MapElement
 import io.lb.middleware.android.core.presentation.components.MethodBox
 import io.lb.middleware.android.core.presentation.components.TestColumn
 import io.lb.middleware.android.core.presentation.showToast
+import io.lb.middleware.android.core.util.generateOldBodyFieldsFromJson
+import io.lb.middleware.android.createroute.presentation.fillroutes.FillRoutesFieldsArgs
 import io.lb.middleware.common.shared.middleware.request.MiddlewareHttpMethods
 import io.lb.middleware.common.state.CommonFlow
 import io.lb.middleware.shared.presentation.createroute.originalroute.OriginalRouteEvent
@@ -70,10 +65,10 @@ fun OriginalRouteScreen(
         mutableIntStateOf(0)
     }
     val originalBaseUrl = remember {
-        mutableStateOf("")
+        mutableStateOf("https://www.themealdb.com/api/json/v1/1/")
     }
     val originalPath = remember {
-        mutableStateOf("")
+        mutableStateOf("categories.php")
     }
     val originalMethodExpanded = remember {
         mutableStateOf(false)
@@ -97,11 +92,19 @@ fun OriginalRouteScreen(
 
                 is OriginalRouteViewModel.UiEvent.ShowResult -> {
                     code.intValue = it.code
-                    result.value = "Code: ${it.code}\nBody:\n${it.result}"
+                    result.value = it.result
                 }
 
                 OriginalRouteViewModel.UiEvent.NavigateToNextStep -> {
-
+                    val oldFields = generateOldBodyFieldsFromJson(result.value)
+                    val args = FillRoutesFieldsArgs(
+                        originalBaseUrl = originalBaseUrl.value,
+                        originalPath = originalPath.value,
+                        originalMethod = originalMethod.value,
+                        originalBody = originalBody.value,
+                        originalQueries = state.originalQueries,
+                        oldBodyFields = oldFields
+                    )
                 }
             }
         }
@@ -112,6 +115,36 @@ fun OriginalRouteScreen(
         topBar = {
             GenericTopAppBar(navController, "Step 1: Original Route")
         },
+        floatingActionButton = {
+            FloatingActionButton(
+                containerColor = if (state.isLoading) {
+                    MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)
+                } else {
+                    MaterialTheme.colorScheme.primary
+                },
+                contentColor = MaterialTheme.colorScheme.onPrimary,
+                shape = CircleShape,
+                onClick = {
+                    if (state.isLoading.not()) {
+                        onEvent(
+                            OriginalRouteEvent.MoveForward(
+                                result = result.value,
+                                code = code.intValue,
+                                originalBaseUrl = originalBaseUrl.value,
+                                originalPath = originalPath.value,
+                                originalMethod = originalMethod.value,
+                                originalBody = originalBody.value
+                            )
+                        )
+                    }
+                }
+            ) {
+                Icon(
+                    imageVector = Icons.Default.ArrowForward,
+                    contentDescription = "Next Step"
+                )
+            }
+        }
     ) { padding ->
         LazyColumn(
             modifier = Modifier
@@ -279,7 +312,11 @@ fun OriginalRouteScreen(
             item {
                 TestColumn(
                     isLoading = state.isLoading,
-                    result = result.value,
+                    result = if (result.value.isNotBlank()) {
+                        "Code: ${code.intValue}\nBody:\n${result.value}"
+                    } else {
+                        ""
+                    },
                 ) {
                     result.value = ""
                     onEvent(

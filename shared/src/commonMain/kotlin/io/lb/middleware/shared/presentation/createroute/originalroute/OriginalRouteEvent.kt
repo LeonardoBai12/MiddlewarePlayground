@@ -13,5 +13,12 @@ sealed class OriginalRouteEvent {
         val originalMethod: MiddlewareHttpMethods,
         val originalBody: String?,
     ) : OriginalRouteEvent()
-    data object MoveForward : OriginalRouteEvent()
+    data class MoveForward(
+        val result: String,
+        val code: Int,
+        val originalBaseUrl: String,
+        val originalPath: String,
+        val originalMethod: MiddlewareHttpMethods,
+        val originalBody: String?,
+    ) : OriginalRouteEvent()
 }

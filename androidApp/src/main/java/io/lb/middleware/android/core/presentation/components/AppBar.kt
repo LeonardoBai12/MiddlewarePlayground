@@ -31,7 +31,8 @@ fun GenericTopAppBar(navController: NavHostController, title: String? = null) {
                 Text(
                     text = it,
                     fontSize = 22.sp,
-                    textAlign = TextAlign.Start
+                    textAlign = TextAlign.Start,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
             }
         },
