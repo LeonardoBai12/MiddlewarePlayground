@@ -11,14 +11,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -41,7 +39,8 @@ import io.lb.middleware.android.core.presentation.components.MethodBox
 import io.lb.middleware.android.core.presentation.components.TestColumn
 import io.lb.middleware.android.core.presentation.showToast
 import io.lb.middleware.android.core.util.generateOldBodyFieldsFromJson
-import io.lb.middleware.android.createroute.presentation.fillroutes.FillRoutesFieldsArgs
+import io.lb.middleware.android.createroute.presentation.fillpreconfigs.FillPreConfigsArgs
+import io.lb.middleware.android.createroute.presentation.model.AndroidOldBodyField
 import io.lb.middleware.common.shared.middleware.request.MiddlewareHttpMethods
 import io.lb.middleware.common.state.CommonFlow
 import io.lb.middleware.shared.presentation.createroute.originalroute.OriginalRouteEvent
@@ -97,14 +96,18 @@ fun OriginalRouteScreen(
 
                 OriginalRouteViewModel.UiEvent.NavigateToNextStep -> {
                     val oldFields = generateOldBodyFieldsFromJson(result.value)
-                    val args = FillRoutesFieldsArgs(
+                    val args = FillPreConfigsArgs(
                         originalBaseUrl = originalBaseUrl.value,
                         originalPath = originalPath.value,
                         originalMethod = originalMethod.value,
                         originalBody = originalBody.value,
                         originalQueries = state.originalQueries,
-                        oldBodyFields = oldFields
+                        oldBodyFields = oldFields.mapValues { old ->
+                            AndroidOldBodyField.fromOldBodyField(old.value)
+                        }
                     )
+                    navController.currentBackStackEntry?.arguments?.putParcelable("args", args)
+                    navController.navigate(Screens.FILL_ROUTES.name)
                 }
             }
         }

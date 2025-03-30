@@ -1,7 +1,8 @@
-package io.lb.middleware.shared.presentation.createroute.fill_routes
+package io.lb.middleware.shared.presentation.createroute.fillroutes
 
 import io.lb.middleware.common.state.toCommonFlow
 import io.lb.middleware.common.state.toCommonStateFlow
+import io.lb.middleware.shared.presentation.createroute.fillpreconfigs.FillPreConfigsState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -59,42 +60,6 @@ class FillRouteFieldsViewModel(
                     bodyFields.remove(event.key)
                     _state.update {
                         it.copy(oldBodyFields = bodyFields)
-                    }
-                }
-            }
-            is FillRouteFieldsEvent.UpsertPreConfiguredHeader -> {
-                viewModelScope.launch {
-                    val headers = _state.value.preConfiguredHeaders.toMutableMap()
-                    headers[event.key] = event.value
-                    _state.update {
-                        it.copy(preConfiguredHeaders = headers)
-                    }
-                }
-            }
-            is FillRouteFieldsEvent.RemovePreConfiguredHeader -> {
-                viewModelScope.launch {
-                    val headers = _state.value.preConfiguredHeaders.toMutableMap()
-                    headers.remove(event.key)
-                    _state.update {
-                        it.copy(preConfiguredHeaders = headers)
-                    }
-                }
-            }
-            is FillRouteFieldsEvent.UpsertPreConfiguredQuery -> {
-                viewModelScope.launch {
-                    val queries = _state.value.preConfiguredQueries.toMutableMap()
-                    queries[event.key] = event.value
-                    _state.update {
-                        it.copy(preConfiguredQueries = queries)
-                    }
-                }
-            }
-            is FillRouteFieldsEvent.RemovePreConfiguredQuery -> {
-                viewModelScope.launch {
-                    val queries = _state.value.preConfiguredQueries.toMutableMap()
-                    queries.remove(event.key)
-                    _state.update {
-                        it.copy(preConfiguredQueries = queries)
                     }
                 }
             }

@@ -1,4 +1,4 @@
-package io.lb.middleware.android.createroute.presentation.fillroutes
+package io.lb.middleware.android.createroute.presentation.fillpreconfigs
 
 import android.os.Parcelable
 import io.lb.middleware.android.createroute.presentation.model.AndroidOldBodyField
@@ -6,7 +6,7 @@ import io.lb.middleware.common.shared.middleware.request.MiddlewareHttpMethods
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class FillRoutesFieldsArgs(
+data class FillPreConfigsArgs(
     val originalBaseUrl: String,
     val originalPath: String,
     val originalMethod: MiddlewareHttpMethods,

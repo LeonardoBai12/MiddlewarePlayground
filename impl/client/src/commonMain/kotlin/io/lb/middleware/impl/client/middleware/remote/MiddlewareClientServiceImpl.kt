@@ -81,7 +81,6 @@ class MiddlewareClientServiceImpl(
                             preConfiguredBody = preConfiguredBody
                         )
                     }
-                    print(result.bodyAsText())
                     result
                 }
 
