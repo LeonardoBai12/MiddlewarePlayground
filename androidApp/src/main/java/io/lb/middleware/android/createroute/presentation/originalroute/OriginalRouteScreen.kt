@@ -39,7 +39,7 @@ import io.lb.middleware.android.core.presentation.components.MethodBox
 import io.lb.middleware.android.core.presentation.components.TestColumn
 import io.lb.middleware.android.core.presentation.showToast
 import io.lb.middleware.android.core.util.generateOldBodyFieldsFromJson
-import io.lb.middleware.android.createroute.presentation.fillpreconfigs.FillPreConfigsArgs
+import io.lb.middleware.android.createroute.presentation.fillroutes.FillRoutesFieldsArgs
 import io.lb.middleware.android.createroute.presentation.model.AndroidOldBodyField
 import io.lb.middleware.common.shared.middleware.request.MiddlewareHttpMethods
 import io.lb.middleware.common.state.CommonFlow
@@ -96,7 +96,7 @@ fun OriginalRouteScreen(
 
                 OriginalRouteViewModel.UiEvent.NavigateToNextStep -> {
                     val oldFields = generateOldBodyFieldsFromJson(result.value)
-                    val args = FillPreConfigsArgs(
+                    val args = FillRoutesFieldsArgs(
                         originalBaseUrl = originalBaseUrl.value,
                         originalPath = originalPath.value,
                         originalMethod = originalMethod.value,

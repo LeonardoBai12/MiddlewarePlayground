@@ -17,8 +17,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.ArrowRight
 import androidx.compose.material.icons.filled.ContentCopy
-import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -32,7 +30,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.buildAnnotatedString
@@ -40,9 +37,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import io.lb.middleware.android.core.presentation.PlaygroundColors
 import io.lb.middleware.android.core.presentation.Screens
-import io.lb.middleware.android.core.presentation.components.DefaultTextButton
 import io.lb.middleware.android.core.presentation.components.GenericTopAppBar
 import io.lb.middleware.android.core.presentation.components.MethodBox
 import io.lb.middleware.android.core.presentation.components.TestColumn
@@ -50,14 +45,10 @@ import io.lb.middleware.android.core.presentation.showToast
 import io.lb.middleware.common.shared.middleware.model.MappedRoute
 import io.lb.middleware.common.shared.util.beautifyJson
 import io.lb.middleware.common.state.CommonFlow
-import io.lb.middleware.shared.presentation.createroute.originalroute.OriginalRouteEvent
 import io.lb.middleware.shared.presentation.middleware.details.RouteDetailsEvent
 import io.lb.middleware.shared.presentation.middleware.details.RouteDetailsState
 import io.lb.middleware.shared.presentation.middleware.details.RouteDetailsViewModel
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.jsonObject
 
 @Composable
 fun RouteDetailsScreen(

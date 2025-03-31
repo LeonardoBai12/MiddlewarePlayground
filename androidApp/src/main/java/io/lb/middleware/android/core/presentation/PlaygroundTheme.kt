@@ -21,7 +21,7 @@ object PlaygroundColors {
     val PrimaryPink = 0xFFF544B1
     val PrimaryDarkPink = 0xFFCB0686
     val WhitePink = 0xFFF6ECFC
-    val SecondaryOrange = 0xFFCE3000
+    val SecondaryPurple = 0xFF4F00CE
     val TertiaryYellow = 0xFFFFC107
     val ButtonGreen = 0xFF00C853
 }
@@ -38,8 +38,8 @@ fun PlaygroundTheme(
             onSurface = Color(PlaygroundColors.PrimaryPink),
             primary = Color(PlaygroundColors.PrimaryPink),
             onPrimary = Color(PlaygroundColors.DarkGrayBlue),
-            secondary = Color(PlaygroundColors.SecondaryOrange),
-            onSecondary = Color(PlaygroundColors.DarkGrayBlue),
+            secondary = Color(PlaygroundColors.SecondaryPurple),
+            onSecondary = Color(PlaygroundColors.PrimaryPink),
             tertiary = Color(PlaygroundColors.TertiaryYellow),
             onTertiary = Color(PlaygroundColors.DarkGrayBlue),
         )
@@ -49,8 +49,8 @@ fun PlaygroundTheme(
             onSurface = Color(PlaygroundColors.PrimaryDarkPink),
             primary = Color(PlaygroundColors.PrimaryDarkPink),
             onPrimary = Color.White,
-            secondary = Color(PlaygroundColors.SecondaryOrange),
-            onSecondary = Color(PlaygroundColors.DarkGrayBlue),
+            secondary = Color(PlaygroundColors.SecondaryPurple),
+            onSecondary = Color(PlaygroundColors.PrimaryPink),
             tertiary = Color(PlaygroundColors.TertiaryYellow),
             onTertiary = Color(PlaygroundColors.DarkGrayBlue),
         )

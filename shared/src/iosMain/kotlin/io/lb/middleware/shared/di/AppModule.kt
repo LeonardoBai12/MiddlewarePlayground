@@ -1,7 +1,5 @@
 package io.lb.middleware.shared.di
 
-import app.cash.sqldelight.db.SqlDriver
-import io.ktor.client.HttpClient
 import io.lb.middleware.common.data.middleware.local.MiddlewareDatabaseService
 import io.lb.middleware.common.data.user.local.UserDatabaseService
 import io.lb.middleware.common.remote.middleware.remote.MiddlewareClientService

@@ -23,8 +23,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.lb.middleware.android.core.presentation.PlaygroundTheme
 import io.lb.middleware.android.core.presentation.Screens
 import io.lb.middleware.android.createroute.presentation.fillpreconfigs.AndroidFillPreConfigsViewModel
-import io.lb.middleware.android.createroute.presentation.fillpreconfigs.FillRouteFieldsScreen
-import io.lb.middleware.android.createroute.presentation.fillpreconfigs.FillPreConfigsArgs
+import io.lb.middleware.android.createroute.presentation.fillroutes.AndroidFillRouteFieldsViewModel
+import io.lb.middleware.android.createroute.presentation.fillroutes.FillRouteFieldsScreen
+import io.lb.middleware.android.createroute.presentation.fillroutes.FillRoutesFieldsArgs
 import io.lb.middleware.android.createroute.presentation.originalroute.AndroidOriginalRouteViewModel
 import io.lb.middleware.android.createroute.presentation.originalroute.OriginalRouteScreen
 import io.lb.middleware.android.createroute.presentation.preview.AndroidPreviewViewModel
@@ -116,12 +117,12 @@ fun PlaygroundRoot() {
             )
         }
         composable(Screens.FILL_ROUTES.name) {
-            val viewModel = hiltViewModel<AndroidFillPreConfigsViewModel>()
+            val viewModel = hiltViewModel<AndroidFillRouteFieldsViewModel>()
             val state by viewModel.state.collectAsState()
             val eventFlow = viewModel.eventFlow
             val args = navController.previousBackStackEntry
                 ?.arguments
-                ?.getParcelable<FillPreConfigsArgs>("args")
+                ?.getParcelable<FillRoutesFieldsArgs>("args")
 
             FillRouteFieldsScreen(
                 navController = navController,

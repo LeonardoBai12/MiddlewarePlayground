@@ -6,5 +6,4 @@ import io.lb.middleware.common.shared.middleware.model.OldBodyField
 data class FillRouteFieldsState(
     val newBodyFields: Map<String, NewBodyField> = emptyMap(),
     val oldBodyFields: Map<String, OldBodyField> = emptyMap(),
-    val isLoading: Boolean = false,
 )
