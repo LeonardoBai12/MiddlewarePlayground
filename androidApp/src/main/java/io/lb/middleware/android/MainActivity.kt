@@ -23,11 +23,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.lb.middleware.android.core.presentation.PlaygroundTheme
 import io.lb.middleware.android.core.presentation.Screens
 import io.lb.middleware.android.createroute.presentation.fillpreconfigs.AndroidFillPreConfigsViewModel
-import io.lb.middleware.android.createroute.presentation.fillpreconfigs.FillPreConfigsArgs
 import io.lb.middleware.android.createroute.presentation.fillpreconfigs.FillPreConfigsScreen
 import io.lb.middleware.android.createroute.presentation.fillroutes.AndroidFillRouteFieldsViewModel
 import io.lb.middleware.android.createroute.presentation.fillroutes.FillRouteFieldsScreen
-import io.lb.middleware.android.createroute.presentation.fillroutes.FillRoutesFieldsArgs
+import io.lb.middleware.android.createroute.presentation.model.CreateRouteArgs
 import io.lb.middleware.android.createroute.presentation.originalroute.AndroidOriginalRouteViewModel
 import io.lb.middleware.android.createroute.presentation.originalroute.OriginalRouteScreen
 import io.lb.middleware.android.createroute.presentation.preview.AndroidPreviewViewModel
@@ -124,7 +123,7 @@ fun PlaygroundRoot() {
             val eventFlow = viewModel.eventFlow
             val args = navController.previousBackStackEntry
                 ?.arguments
-                ?.getParcelable<FillRoutesFieldsArgs>("FillRoutesFieldsArgs")
+                ?.getParcelable<CreateRouteArgs>("CreateRouteArgs")
 
             FillRouteFieldsScreen(
                 navController = navController,
@@ -140,7 +139,7 @@ fun PlaygroundRoot() {
             val eventFlow = viewModel.eventFlow
             val args = navController.previousBackStackEntry
                 ?.arguments
-                ?.getParcelable<FillPreConfigsArgs>("FillPreConfigsArgs")
+                ?.getParcelable<CreateRouteArgs>("CreateRouteArgs")
 
             FillPreConfigsScreen(
                 navController = navController,

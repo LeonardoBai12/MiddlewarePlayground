@@ -35,8 +35,8 @@ import io.lb.middleware.android.core.presentation.components.MethodBox
 import io.lb.middleware.android.core.presentation.components.TestColumn
 import io.lb.middleware.android.core.presentation.showToast
 import io.lb.middleware.android.core.util.generateOldBodyFieldsFromJson
-import io.lb.middleware.android.createroute.presentation.fillroutes.FillRoutesFieldsArgs
 import io.lb.middleware.android.createroute.presentation.model.AndroidOldBodyField
+import io.lb.middleware.android.createroute.presentation.model.CreateRouteArgs
 import io.lb.middleware.common.shared.middleware.request.MiddlewareHttpMethods
 import io.lb.middleware.common.state.CommonFlow
 import io.lb.middleware.shared.presentation.createroute.originalroute.OriginalRouteEvent
@@ -92,17 +92,18 @@ fun OriginalRouteScreen(
 
                 OriginalRouteViewModel.UiEvent.NavigateToNextStep -> {
                     val oldFields = generateOldBodyFieldsFromJson(result.value)
-                    val args = FillRoutesFieldsArgs(
+                    val args = CreateRouteArgs(
                         originalBaseUrl = originalBaseUrl.value,
                         originalPath = originalPath.value,
                         originalMethod = originalMethod.value,
                         originalBody = originalBody.value,
                         originalQueries = state.originalQueries,
+                        originalHeaders = state.originalHeaders,
                         oldBodyFields = oldFields.mapValues { old ->
                             AndroidOldBodyField.fromOldBodyField(old.value)
                         }
                     )
-                    navController.currentBackStackEntry?.arguments?.putParcelable("FillRoutesFieldsArgs", args)
+                    navController.currentBackStackEntry?.arguments?.putParcelable("CreateRouteArgs", args)
                     navController.navigate(Screens.FILL_ROUTE_FIELDS.name)
                 }
             }

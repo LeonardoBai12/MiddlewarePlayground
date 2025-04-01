@@ -46,9 +46,9 @@ import io.lb.middleware.android.core.presentation.components.DefaultTextButton
 import io.lb.middleware.android.core.presentation.components.DefaultTextField
 import io.lb.middleware.android.core.presentation.components.GenericTopAppBar
 import io.lb.middleware.android.core.presentation.showToast
-import io.lb.middleware.android.createroute.presentation.fillpreconfigs.FillPreConfigsArgs
 import io.lb.middleware.android.createroute.presentation.model.AndroidNewBodyField
 import io.lb.middleware.android.createroute.presentation.model.AndroidOldBodyField
+import io.lb.middleware.android.createroute.presentation.model.CreateRouteArgs
 import io.lb.middleware.common.shared.middleware.model.NewBodyField
 import io.lb.middleware.common.shared.middleware.model.OldBodyField
 import io.lb.middleware.common.shared.middleware.request.MiddlewareHttpMethods
@@ -62,7 +62,7 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 fun FillRouteFieldsScreen(
     navController: NavHostController,
-    args: FillRoutesFieldsArgs?,
+    args: CreateRouteArgs?,
     state: FillRouteFieldsState,
     eventFlow: CommonFlow<FillRouteFieldsViewModel.UiEvent>,
     onEvent: (FillRouteFieldsEvent) -> Unit
@@ -122,18 +122,19 @@ fun FillRouteFieldsScreen(
                         originalFields = args?.oldBodyFields ?: emptyMap(),
                         newMappings = state.oldBodyFields
                     )
-                    val newArgs = FillPreConfigsArgs(
+                    val newArgs = CreateRouteArgs(
                         originalBaseUrl = args?.originalBaseUrl ?: "",
                         originalPath = args?.originalPath ?: "",
                         originalMethod = args?.originalMethod ?: MiddlewareHttpMethods.Get,
                         originalBody = args?.originalBody ?: "",
                         originalQueries = args?.originalQueries ?: emptyMap(),
+                        originalHeaders = args?.originalHeaders ?: emptyMap(),
                         oldBodyFields = oldBodyFields,
-                        newBodyField = state.newBodyFields.mapValues { (_, newBodyField) ->
+                        newBodyFields = state.newBodyFields.mapValues { (_, newBodyField) ->
                             AndroidNewBodyField.fromNewBodyField(newBodyField)
                         }
                     )
-                    navController.currentBackStackEntry?.arguments?.putParcelable("FillPreConfigsArgs", newArgs)
+                    navController.currentBackStackEntry?.arguments?.putParcelable("CreateRouteArgs", newArgs)
                     navController.navigate(Screens.FILL_PRE_CONFIGS.name)
                 }
             )
