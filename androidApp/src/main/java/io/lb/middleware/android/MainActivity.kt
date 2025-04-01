@@ -23,6 +23,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.lb.middleware.android.core.presentation.PlaygroundTheme
 import io.lb.middleware.android.core.presentation.Screens
 import io.lb.middleware.android.createroute.presentation.fillpreconfigs.AndroidFillPreConfigsViewModel
+import io.lb.middleware.android.createroute.presentation.fillpreconfigs.FillPreConfigsArgs
+import io.lb.middleware.android.createroute.presentation.fillpreconfigs.FillPreConfigsScreen
 import io.lb.middleware.android.createroute.presentation.fillroutes.AndroidFillRouteFieldsViewModel
 import io.lb.middleware.android.createroute.presentation.fillroutes.FillRouteFieldsScreen
 import io.lb.middleware.android.createroute.presentation.fillroutes.FillRoutesFieldsArgs
@@ -116,15 +118,31 @@ fun PlaygroundRoot() {
                 onEvent = { viewModel.onEvent(it) }
             )
         }
-        composable(Screens.FILL_ROUTES.name) {
+        composable(Screens.FILL_ROUTE_FIELDS.name) {
             val viewModel = hiltViewModel<AndroidFillRouteFieldsViewModel>()
             val state by viewModel.state.collectAsState()
             val eventFlow = viewModel.eventFlow
             val args = navController.previousBackStackEntry
                 ?.arguments
-                ?.getParcelable<FillRoutesFieldsArgs>("args")
+                ?.getParcelable<FillRoutesFieldsArgs>("FillRoutesFieldsArgs")
 
             FillRouteFieldsScreen(
+                navController = navController,
+                args = args,
+                state = state,
+                eventFlow = eventFlow,
+                onEvent = { viewModel.onEvent(it) }
+            )
+        }
+        composable(Screens.FILL_PRE_CONFIGS.name) {
+            val viewModel = hiltViewModel<AndroidFillPreConfigsViewModel>()
+            val state by viewModel.state.collectAsState()
+            val eventFlow = viewModel.eventFlow
+            val args = navController.previousBackStackEntry
+                ?.arguments
+                ?.getParcelable<FillPreConfigsArgs>("FillPreConfigsArgs")
+
+            FillPreConfigsScreen(
                 navController = navController,
                 args = args,
                 state = state,

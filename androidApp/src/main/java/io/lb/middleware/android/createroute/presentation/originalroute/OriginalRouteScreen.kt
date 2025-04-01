@@ -9,14 +9,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -32,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import io.lb.middleware.android.core.presentation.Screens
+import io.lb.middleware.android.core.presentation.components.DefaultTextButton
 import io.lb.middleware.android.core.presentation.components.DefaultTextField
 import io.lb.middleware.android.core.presentation.components.GenericTopAppBar
 import io.lb.middleware.android.core.presentation.components.MapElement
@@ -106,8 +102,8 @@ fun OriginalRouteScreen(
                             AndroidOldBodyField.fromOldBodyField(old.value)
                         }
                     )
-                    navController.currentBackStackEntry?.arguments?.putParcelable("args", args)
-                    navController.navigate(Screens.FILL_ROUTES.name)
+                    navController.currentBackStackEntry?.arguments?.putParcelable("FillRoutesFieldsArgs", args)
+                    navController.navigate(Screens.FILL_ROUTE_FIELDS.name)
                 }
             }
         }
@@ -118,17 +114,27 @@ fun OriginalRouteScreen(
         topBar = {
             GenericTopAppBar(navController, "Step 1: Original Route")
         },
-        floatingActionButton = {
-            FloatingActionButton(
-                containerColor = if (state.isLoading) {
-                    MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)
-                } else {
-                    MaterialTheme.colorScheme.primary
-                },
-                contentColor = MaterialTheme.colorScheme.onPrimary,
-                shape = CircleShape,
-                onClick = {
-                    if (state.isLoading.not()) {
+    ) { padding ->
+        LazyColumn(
+            modifier = Modifier
+                .padding(padding)
+                .fillMaxSize()
+                .padding(horizontal = 16.dp),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            item {
+                DefaultTextButton(
+                    modifier = Modifier.fillMaxWidth()
+                        .padding(
+                            vertical = 8.dp,
+                            horizontal = 32.dp
+                        ),
+                    text = "Move Forward",
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    contentColor = MaterialTheme.colorScheme.onSurface,
+                    enabled = state.isLoading.not(),
+                    onClick = {
                         onEvent(
                             OriginalRouteEvent.MoveForward(
                                 result = result.value,
@@ -140,23 +146,9 @@ fun OriginalRouteScreen(
                             )
                         )
                     }
-                }
-            ) {
-                Icon(
-                    imageVector = Icons.Default.ArrowForward,
-                    contentDescription = "Next Step"
                 )
             }
-        }
-    ) { padding ->
-        LazyColumn(
-            modifier = Modifier
-                .padding(padding)
-                .fillMaxSize()
-                .padding(horizontal = 16.dp),
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
+
             item {
                 Box(
                     modifier = Modifier.fillMaxWidth()

@@ -12,12 +12,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.ArrowDropUp
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -25,7 +23,6 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -36,7 +33,6 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -50,8 +46,12 @@ import io.lb.middleware.android.core.presentation.components.DefaultTextButton
 import io.lb.middleware.android.core.presentation.components.DefaultTextField
 import io.lb.middleware.android.core.presentation.components.GenericTopAppBar
 import io.lb.middleware.android.core.presentation.showToast
+import io.lb.middleware.android.createroute.presentation.fillpreconfigs.FillPreConfigsArgs
+import io.lb.middleware.android.createroute.presentation.model.AndroidNewBodyField
+import io.lb.middleware.android.createroute.presentation.model.AndroidOldBodyField
 import io.lb.middleware.common.shared.middleware.model.NewBodyField
 import io.lb.middleware.common.shared.middleware.model.OldBodyField
+import io.lb.middleware.common.shared.middleware.request.MiddlewareHttpMethods
 import io.lb.middleware.common.state.CommonFlow
 import io.lb.middleware.shared.presentation.createroute.fillroutes.FillRouteFieldsEvent
 import io.lb.middleware.shared.presentation.createroute.fillroutes.FillRouteFieldsState
@@ -70,21 +70,18 @@ fun FillRouteFieldsScreen(
     val context = LocalContext.current
     val oldBodyFieldsKeys = args?.oldBodyFields?.values?.flatMap { it.keys }?.distinct() ?: emptyList()
 
-    // State for single field mapping
     val newSingleFieldName = remember { mutableStateOf("") }
     val selectedSingleField = remember { mutableStateOf("") }
 
-    // State for field grouping
     val newGroupName = remember { mutableStateOf("") }
     val selectedFieldsForGroup = remember { mutableStateListOf<String>() }
 
-    // State for field concatenation
     val newConcatenationName = remember { mutableStateOf("") }
     val selectedPairsForConcatenation = remember { mutableStateListOf<Pair<String, String>>() }
     val firstConcatField = remember { mutableStateOf("") }
     val secondConcatField = remember { mutableStateOf("") }
 
-    LaunchedEffect(key1 = Screens.FILL_ROUTES) {
+    LaunchedEffect(key1 = Screens.FILL_ROUTE_FIELDS) {
         eventFlow.collectLatest {
             when (it) {
                 is FillRouteFieldsViewModel.UiEvent.ShowError -> {
@@ -99,20 +96,6 @@ fun FillRouteFieldsScreen(
         topBar = {
             GenericTopAppBar(navController, "Step 2: Map Response Fields")
         },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = {
-                    val a = state.newBodyFields
-                    val b = state.oldBodyFields
-                    println("New Body Fields: $a")
-                    println("Old Body Fields: $b")
-                    println()
-                },
-                containerColor = MaterialTheme.colorScheme.primary
-            ) {
-                Icon(Icons.Default.ArrowForward, "Next")
-            }
-        }
     ) { padding ->
         Column(
             modifier = Modifier
@@ -120,6 +103,41 @@ fun FillRouteFieldsScreen(
                 .padding(16.dp)
                 .verticalScroll(rememberScrollState())
         ) {
+            DefaultTextButton(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(
+                        bottom = 8.dp,
+                        start = 32.dp,
+                        end = 32.dp
+                    ),
+                text = "Move Forward",
+                containerColor = MaterialTheme.colorScheme.surface,
+                contentColor = MaterialTheme.colorScheme.onSurface,
+                onClick = {
+                    if (state.newBodyFields.isEmpty()) {
+                        context.showToast("Please add at least one mapping")
+                        return@DefaultTextButton
+                    }
+                    val oldBodyFields = combineOldBodyFields(
+                        originalFields = args?.oldBodyFields ?: emptyMap(),
+                        newMappings = state.oldBodyFields
+                    )
+                    val newArgs = FillPreConfigsArgs(
+                        originalBaseUrl = args?.originalBaseUrl ?: "",
+                        originalPath = args?.originalPath ?: "",
+                        originalMethod = args?.originalMethod ?: MiddlewareHttpMethods.Get,
+                        originalBody = args?.originalBody ?: "",
+                        originalQueries = args?.originalQueries ?: emptyMap(),
+                        oldBodyFields = oldBodyFields,
+                        newBodyField = state.newBodyFields.mapValues { (_, newBodyField) ->
+                            AndroidNewBodyField.fromNewBodyField(newBodyField)
+                        }
+                    )
+                    navController.currentBackStackEntry?.arguments?.putParcelable("FillPreConfigsArgs", newArgs)
+                    navController.navigate(Screens.FILL_PRE_CONFIGS.name)
+                }
+            )
+
             // 1. Single Field Mapping
             SingleFieldMappingSection(
                 newFieldName = newSingleFieldName,
@@ -410,7 +428,7 @@ private fun FieldConcatenationSection(
             )
         }
 
-        Spacer(modifier = Modifier.width(4.dp))
+        Spacer(modifier = Modifier.height(4.dp))
 
         // Add pair button
         DefaultTextButton(
@@ -558,7 +576,6 @@ private fun FieldGroupingSection(
                                     selectedFields.add(field)
                                 }
                             }
-                            .padding(vertical = 8.dp)
                     ) {
                         Checkbox(
                             checked = selectedFields.contains(field),
@@ -602,5 +619,27 @@ private fun inferFieldType(fieldName: String): String {
         fieldName.startsWith("bool") -> "Boolean"
         fieldName.startsWith("dbl") -> "Double"
         else -> "String"
+    }
+}
+
+fun combineOldBodyFields(
+    originalFields: Map<String, AndroidOldBodyField>,
+    newMappings: Map<String, OldBodyField>
+): Map<String, AndroidOldBodyField> {
+    return newMappings.mapValues { (fieldName, newField) ->
+        val originalField = originalFields.values.firstOrNull { original ->
+            original.keys.any { originalKey ->
+                newField.keys.any { newKey ->
+                    newKey.contains(originalKey) || originalKey.contains(newKey)
+                }
+            }
+        } ?: originalFields[fieldName]
+
+        originalField?.copy(keys = newField.keys)
+            ?: AndroidOldBodyField(
+                keys = newField.keys,
+                type = newField.type,
+                parents = newField.parents
+            )
     }
 }

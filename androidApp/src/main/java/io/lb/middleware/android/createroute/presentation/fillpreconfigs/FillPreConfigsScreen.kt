@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
@@ -12,7 +13,6 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableIntStateOf
@@ -36,15 +36,13 @@ import kotlinx.coroutines.flow.collectLatest
 fun FillPreConfigsScreen(
     navController: NavHostController,
     state: FillPreConfigsState,
+    args: FillPreConfigsArgs?,
     eventFlow: CommonFlow<FillPreConfigsViewModel.UiEvent>,
     onEvent: (FillPreConfigsEvent) -> Unit
 ) {
     val context = LocalContext.current
-    val currentBodyFieldIndex = remember {
-        mutableIntStateOf(0)
-    }
 
-    LaunchedEffect(key1 = Screens.FILL_ROUTES) {
+    LaunchedEffect(key1 = Screens.FILL_PRE_CONFIGS) {
         eventFlow.collectLatest {
             when (it) {
                 is FillPreConfigsViewModel.UiEvent.ShowError -> {
@@ -57,7 +55,7 @@ fun FillPreConfigsScreen(
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            GenericTopAppBar(navController, "Step 2: Fill New Route Fields")
+            GenericTopAppBar(navController, "Step 3: Fill Pre Configs (Optional)")
         },
         floatingActionButton = {
             FloatingActionButton(
@@ -81,7 +79,7 @@ fun FillPreConfigsScreen(
             }
         }
     ) { padding ->
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .padding(padding)
                 .padding(12.dp)
@@ -89,19 +87,9 @@ fun FillPreConfigsScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            // receber todos os old fields
-            // dar opcao de colcoar uma nova chave, deixa uma pré estabelecida
-            // ou ignorar
-            // ir para proxima
+            item {
 
-
-            //concatenar
-
-            // adicionar mais campos
-
-            // DropDownMenu dos campos antigos
-
-
+            }
         }
     }
 }
