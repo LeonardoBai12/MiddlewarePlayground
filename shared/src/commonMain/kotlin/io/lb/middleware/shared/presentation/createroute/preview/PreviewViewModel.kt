@@ -1,5 +1,7 @@
 package io.lb.middleware.shared.presentation.createroute.preview
 
+import io.lb.middleware.common.shared.middleware.model.NewBodyField
+import io.lb.middleware.common.shared.middleware.model.OldBodyField
 import io.lb.middleware.common.state.Resource
 import io.lb.middleware.common.state.toCommonFlow
 import io.lb.middleware.common.state.toCommonStateFlow
@@ -31,47 +33,16 @@ class PreviewViewModel(
 
     fun onEvent(event: PreviewEvent) {
         when (event) {
-            is PreviewEvent.UpsertNewBodyField -> {
-                viewModelScope.launch {
-                    val bodyFields = _state.value.newBodyFields.toMutableMap()
-                    bodyFields[event.key] = event.field
-                    _state.update {
-                        it.copy(newBodyFields = bodyFields)
-                    }
-                }
-            }
-            is PreviewEvent.UpsertOldBodyField -> {
-                viewModelScope.launch {
-                    val bodyFields = _state.value.oldBodyFields.toMutableMap()
-                    bodyFields[event.key] = event.field
-                    _state.update {
-                        it.copy(oldBodyFields = bodyFields)
-                    }
-                }
-            }
-            is PreviewEvent.RemoveNewBodyField -> {
-                viewModelScope.launch {
-                    val bodyFields = _state.value.newBodyFields.toMutableMap()
-                    bodyFields.remove(event.key)
-                    _state.update {
-                        it.copy(newBodyFields = bodyFields)
-                    }
-                }
-            }
-            is PreviewEvent.RemoveOldBodyField -> {
-                viewModelScope.launch {
-                    val bodyFields = _state.value.oldBodyFields.toMutableMap()
-                    bodyFields.remove(event.key)
-                    _state.update {
-                        it.copy(oldBodyFields = bodyFields)
-                    }
-                }
-            }
             is PreviewEvent.RequestPreview -> {
                 viewModelScope.launch {
                     _state.update { it.copy(isLoading = true) }
                     runCatching {
-                        requestPreview(event.response)
+                        requestPreview(
+                            event.response,
+                            event.newBodyFields,
+                            event.oldBodyFields,
+                            event.ignoreEmptyValues
+                        )
                     }.getOrElse { error ->
                         _eventFlow.emit(UiEvent.ShowError(error.message ?: "Something went wrong"))
                         _state.update { it.copy(isLoading = false) }
@@ -81,12 +52,17 @@ class PreviewViewModel(
         }
     }
 
-    private suspend fun requestPreview(response: String) {
+    private suspend fun requestPreview(
+        response: String,
+        newBodyFields: Map<String, NewBodyField>,
+        oldBodyFields: Map<String, OldBodyField>,
+        ignoreEmptyValues: Boolean
+    ) {
         requestPreviewUseCase(
             originalResponse = response,
-            newBodyFields = _state.value.newBodyFields,
-            oldBodyFields = _state.value.oldBodyFields,
-            ignoreEmptyValues = _state.value.ignoreEmptyValues,
+            newBodyFields = newBodyFields,
+            oldBodyFields = oldBodyFields,
+            ignoreEmptyValues = ignoreEmptyValues,
         ).collectLatest { result ->
             when (result) {
                 is Resource.Success -> {

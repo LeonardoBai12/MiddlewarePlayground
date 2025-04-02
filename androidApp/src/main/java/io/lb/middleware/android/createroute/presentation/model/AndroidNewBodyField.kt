@@ -9,6 +9,13 @@ data class AndroidNewBodyField(
     val key: String,
     val type: String
 ) : Parcelable {
+    fun toNewBodyField(): NewBodyField {
+        return NewBodyField(
+            key = key,
+            type = type
+        )
+    }
+
     companion object {
         fun fromNewBodyField(newBodyField: NewBodyField): AndroidNewBodyField {
             return AndroidNewBodyField(

@@ -51,7 +51,6 @@ import io.lb.middleware.android.createroute.presentation.model.AndroidOldBodyFie
 import io.lb.middleware.android.createroute.presentation.model.CreateRouteArgs
 import io.lb.middleware.common.shared.middleware.model.NewBodyField
 import io.lb.middleware.common.shared.middleware.model.OldBodyField
-import io.lb.middleware.common.shared.middleware.request.MiddlewareHttpMethods
 import io.lb.middleware.common.state.CommonFlow
 import io.lb.middleware.shared.presentation.createroute.fillroutes.FillRouteFieldsEvent
 import io.lb.middleware.shared.presentation.createroute.fillroutes.FillRouteFieldsState
@@ -122,13 +121,7 @@ fun FillRouteFieldsScreen(
                         originalFields = args?.oldBodyFields ?: emptyMap(),
                         newMappings = state.oldBodyFields
                     )
-                    val newArgs = CreateRouteArgs(
-                        originalBaseUrl = args?.originalBaseUrl ?: "",
-                        originalPath = args?.originalPath ?: "",
-                        originalMethod = args?.originalMethod ?: MiddlewareHttpMethods.Get,
-                        originalBody = args?.originalBody ?: "",
-                        originalQueries = args?.originalQueries ?: emptyMap(),
-                        originalHeaders = args?.originalHeaders ?: emptyMap(),
+                    val newArgs = args?.copy(
                         oldBodyFields = oldBodyFields,
                         newBodyFields = state.newBodyFields.mapValues { (_, newBodyField) ->
                             AndroidNewBodyField.fromNewBodyField(newBodyField)

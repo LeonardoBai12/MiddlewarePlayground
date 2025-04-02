@@ -26,7 +26,7 @@ class ReviewViewModel(
 
     sealed class UiEvent {
         data class ShowError(val message: String) : UiEvent()
-        data object ShowCreatedRouteMessage : UiEvent()
+        data class ShowCreatedRouteMessage(val result: String) : UiEvent()
     }
 
     fun onEvent(event: ReviewEvent) {
@@ -52,7 +52,7 @@ class ReviewViewModel(
                     ).collectLatest { result ->
                         when (result) {
                             is Resource.Success -> {
-                                _eventFlow.emit(UiEvent.ShowCreatedRouteMessage)
+                                _eventFlow.emit(UiEvent.ShowCreatedRouteMessage(result.data ?: ""))
                                 _state.update { it.copy(isLoading = false) }
                             }
 

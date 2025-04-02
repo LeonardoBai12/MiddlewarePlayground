@@ -40,6 +40,7 @@ import androidx.navigation.NavHostController
 import io.lb.middleware.android.core.presentation.Screens
 import io.lb.middleware.android.core.presentation.components.GenericTopAppBar
 import io.lb.middleware.android.core.presentation.components.MethodBox
+import io.lb.middleware.android.core.presentation.components.RouteDetails
 import io.lb.middleware.android.core.presentation.components.TestColumn
 import io.lb.middleware.android.core.presentation.showToast
 import io.lb.middleware.common.shared.middleware.model.MappedRoute
@@ -202,8 +203,16 @@ fun RouteDetailsScreen(
                     Spacer(modifier = Modifier.padding(12.dp))
                 }
             }
+
             item {
-                RouteDetails(route)
+                RouteDetails(
+                    originalQueries = route.originalQueries,
+                    originalHeaders = route.originalHeaders,
+                    originalBody = route.originalBody,
+                    preConfiguredQueries = route.preConfiguredQueries,
+                    preConfiguredHeaders = route.preConfiguredHeaders,
+                    preConfiguredBody = route.preConfiguredBody,
+                )
             }
 
             item {
@@ -214,152 +223,6 @@ fun RouteDetailsScreen(
                     result.value = ""
                     onEvent(RouteDetailsEvent.TestRoute)
                 }
-            }
-        }
-    }
-}
-
-@Composable
-fun RouteDetails(route: MappedRoute?) {
-    val showOriginalHeaders = remember { mutableStateOf(false) }
-    val showOriginalQueries = remember { mutableStateOf(false) }
-    val showOriginalBody = remember { mutableStateOf(false) }
-    val showPreConfiguredHeaders = remember { mutableStateOf(false) }
-    val showPreConfiguredQueries = remember { mutableStateOf(false) }
-    val showPreConfiguredBody = remember { mutableStateOf(false) }
-
-    Column(
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.Start,
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        route?.originalHeaders?.takeIf { it.isNotEmpty() }?.let { headers ->
-            ToggleSection(
-                title = "Original Headers",
-                showSection = showOriginalHeaders,
-                content = {
-                    headers.forEach { (key, value) ->
-                        Text(
-                            text = "$key: $value",
-                            fontSize = 16.sp,
-                        )
-                    }
-                }
-            )
-        }
-
-        route?.originalQueries?.takeIf { it.isNotEmpty() }?.let { queries ->
-            ToggleSection(
-                title = "Original Queries",
-                showSection = showOriginalQueries,
-                content = {
-                    queries.forEach { (key, value) ->
-                        Text(
-                            text = "$key: $value",
-                            fontSize = 16.sp,
-                        )
-                    }
-                }
-            )
-        }
-
-        route?.originalBody?.takeIf {
-            it.isNotEmpty() && it != "{}" && it != "null"
-        }?.let { body ->
-            ToggleSection(
-                title = "Original Body",
-                showSection = showOriginalBody,
-                content = {
-                    Text(
-                        text = beautifyJson(body),
-                        fontSize = 16.sp,
-                    )
-                }
-            )
-        }
-
-        route?.preConfiguredHeaders?.takeIf { it.isNotEmpty() }?.let { headers ->
-            ToggleSection(
-                title = "Pre-configured Headers",
-                showSection = showPreConfiguredHeaders,
-                content = {
-                    headers.forEach { (key, value) ->
-                        Text(
-                            text = "$key: $value",
-                            fontSize = 16.sp,
-                        )
-                    }
-                }
-            )
-        }
-
-        route?.preConfiguredQueries?.takeIf { it.isNotEmpty() }?.let { queries ->
-            ToggleSection(
-                title = "Pre-configured Queries",
-                showSection = showPreConfiguredQueries,
-                content = {
-                    queries.forEach { (key, value) ->
-                        Text(
-                            text = "$key: $value",
-                            fontSize = 16.sp,
-                        )
-                    }
-                }
-            )
-        }
-
-        route?.preConfiguredBody?.takeIf {
-            it.isNotEmpty() && it != "{}" && it != "null"
-        }?.let { body ->
-            ToggleSection(
-                title = "Pre-configured Body",
-                showSection = showPreConfiguredBody,
-                content = {
-                    Text(
-                        text = beautifyJson(body),
-                        fontSize = 16.sp,
-                    )
-                }
-            )
-        }
-    }
-}
-
-@Composable
-private fun ToggleSection(
-    title: String,
-    showSection: MutableState<Boolean>,
-    content: @Composable () -> Unit
-) {
-    Column(modifier = Modifier.fillMaxWidth()) {
-        Row(
-            modifier = Modifier.fillMaxWidth()
-                .clickable { showSection.value = !showSection.value },
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(
-                text = title,
-                fontSize = 16.sp,
-                color = MaterialTheme.colorScheme.primary
-            )
-            IconButton(
-                onClick = { showSection.value = !showSection.value }
-            ) {
-                Icon(
-                    imageVector = if (showSection.value) {
-                        Icons.Default.ArrowDropDown
-                    } else {
-                        Icons.Default.ArrowRight
-                    },
-                    contentDescription = "Toggle $title"
-                )
-            }
-        }
-
-        AnimatedVisibility(visible = showSection.value) {
-            Column {
-                content()
             }
         }
     }

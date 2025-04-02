@@ -252,7 +252,7 @@ class MiddlewareClientServiceImpl(
             bearerAuth(token)
             setBody(
                 PreviewParameter(
-                    originalResponse = data.originalResponse,
+                    originalResponse = Json.parseToJsonElement(data.originalResponse),
                     mappingRules = NewBodyMappingRuleParameter(
                         newBodyFields = data.mappingRules.newBodyFields.mapValues {
                             NewBodyFieldParameter.fromNewBodyField(it.value)

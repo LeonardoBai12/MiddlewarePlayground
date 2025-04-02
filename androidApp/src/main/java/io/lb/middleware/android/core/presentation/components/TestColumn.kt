@@ -31,6 +31,8 @@ import io.lb.middleware.android.core.presentation.showToast
 fun TestColumn(
     isLoading: Boolean,
     result: String,
+    idleText: String? = null,
+    progressText: String? = null,
     onClick: () -> Unit,
 ) {
     val context = LocalContext.current
@@ -45,9 +47,9 @@ fun TestColumn(
             modifier = Modifier.fillMaxWidth(0.7f),
             enabled = isLoading.not(),
             text = if (isLoading) {
-                "Testing Route"
+                progressText ?: "Testing Route"
             } else {
-                "Test Route"
+                idleText ?: "Test Route"
             },
             imageVector = Icons.Default.PlayArrow,
             containerColor = Color(PlaygroundColors.ButtonGreen),

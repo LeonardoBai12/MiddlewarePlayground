@@ -10,6 +10,14 @@ data class AndroidOldBodyField(
     val type: String,
     val parents: List<String> = emptyList()
 ) : Parcelable {
+    fun toOldBodyField(): OldBodyField {
+        return OldBodyField(
+            keys = keys,
+            type = type,
+            parents = parents
+        )
+    }
+
     companion object {
         fun fromOldBodyField(oldBodyField: OldBodyField): AndroidOldBodyField {
             return AndroidOldBodyField(

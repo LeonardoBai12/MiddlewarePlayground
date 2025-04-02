@@ -16,10 +16,8 @@ sealed class ReviewEvent {
         val oldBodyFields: Map<String, OldBodyField> = emptyMap(),
         val preConfiguredQueries: Map<String, String> = emptyMap(),
         val preConfiguredHeaders: Map<String, String> = emptyMap(),
-        val mappedBaseUrl: String,
         val mappedPath: String,
         val mappedMethod: MiddlewareHttpMethods,
-        val mappedBody: String?,
         val preConfiguredBody: String?,
         val ignoreEmptyValues: Boolean
     ) : ReviewEvent()

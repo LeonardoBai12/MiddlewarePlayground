@@ -22,6 +22,7 @@ import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import io.lb.middleware.android.core.presentation.PlaygroundTheme
 import io.lb.middleware.android.core.presentation.Screens
+import io.lb.middleware.android.createroute.presentation.review.ReviewScreen
 import io.lb.middleware.android.createroute.presentation.fillpreconfigs.AndroidFillPreConfigsViewModel
 import io.lb.middleware.android.createroute.presentation.fillpreconfigs.FillPreConfigsScreen
 import io.lb.middleware.android.createroute.presentation.fillroutes.AndroidFillRouteFieldsViewModel
@@ -30,6 +31,7 @@ import io.lb.middleware.android.createroute.presentation.model.CreateRouteArgs
 import io.lb.middleware.android.createroute.presentation.originalroute.AndroidOriginalRouteViewModel
 import io.lb.middleware.android.createroute.presentation.originalroute.OriginalRouteScreen
 import io.lb.middleware.android.createroute.presentation.preview.AndroidPreviewViewModel
+import io.lb.middleware.android.createroute.presentation.preview.PreviewScreen
 import io.lb.middleware.android.createroute.presentation.review.AndroidReviewViewModel
 import io.lb.middleware.android.history.presentation.AndroidHistoryViewModel
 import io.lb.middleware.android.routes.details.model.AndroidMappedRoute
@@ -153,7 +155,17 @@ fun PlaygroundRoot() {
             val viewModel = hiltViewModel<AndroidPreviewViewModel>()
             val state by viewModel.state.collectAsState()
             val eventFlow = viewModel.eventFlow
+            val args = navController.previousBackStackEntry
+                ?.arguments
+                ?.getParcelable<CreateRouteArgs>("CreateRouteArgs")
 
+            PreviewScreen(
+                navController = navController,
+                args = args,
+                state = state,
+                eventFlow = eventFlow,
+                onEvent = { viewModel.onEvent(it) }
+            )
         }
         composable(Screens.ORIGINAL_ROUTE.name) {
             val viewModel = hiltViewModel<AndroidOriginalRouteViewModel>()
@@ -171,7 +183,17 @@ fun PlaygroundRoot() {
             val viewModel = hiltViewModel<AndroidReviewViewModel>()
             val state by viewModel.state.collectAsState()
             val eventFlow = viewModel.eventFlow
+            val args = navController.previousBackStackEntry
+                ?.arguments
+                ?.getParcelable<CreateRouteArgs>("CreateRouteArgs")
 
+            ReviewScreen(
+                navController = navController,
+                args = args,
+                state = state,
+                eventFlow = eventFlow,
+                onEvent = { viewModel.onEvent(it) }
+            )
         }
         composable(Screens.HISTORY.name) {
             val viewModel = hiltViewModel<AndroidHistoryViewModel>()

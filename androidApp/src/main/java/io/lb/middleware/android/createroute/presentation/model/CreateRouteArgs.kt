@@ -6,6 +6,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class CreateRouteArgs(
+    val originalResponse: String,
     val originalBaseUrl: String,
     val originalPath: String,
     val originalMethod: MiddlewareHttpMethods = MiddlewareHttpMethods.Get,
@@ -16,6 +17,7 @@ data class CreateRouteArgs(
     val newBodyFields: Map<String, AndroidNewBodyField> = mapOf(),
     val mappedPath: String = originalPath,
     val mappedMethod: MiddlewareHttpMethods = originalMethod,
+    val ignoreEmptyFields: Boolean = true,
     val preConfiguredBody: String = "",
     val preConfiguredQueries: Map<String, String> = mapOf(),
     val preConfiguredHeaders: Map<String, String> = mapOf(),

@@ -60,10 +60,10 @@ fun OriginalRouteScreen(
         mutableIntStateOf(0)
     }
     val originalBaseUrl = remember {
-        mutableStateOf("https://www.themealdb.com/api/json/v1/1/")
+        mutableStateOf("https://")
     }
     val originalPath = remember {
-        mutableStateOf("categories.php")
+        mutableStateOf("")
     }
     val originalMethodExpanded = remember {
         mutableStateOf(false)
@@ -93,6 +93,7 @@ fun OriginalRouteScreen(
                 OriginalRouteViewModel.UiEvent.NavigateToNextStep -> {
                     val oldFields = generateOldBodyFieldsFromJson(result.value)
                     val args = CreateRouteArgs(
+                        originalResponse = result.value,
                         originalBaseUrl = originalBaseUrl.value,
                         originalPath = originalPath.value,
                         originalMethod = originalMethod.value,
