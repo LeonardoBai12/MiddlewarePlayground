@@ -93,7 +93,7 @@ fun FillRouteFieldsScreen(
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            GenericTopAppBar(navController, "Step 2: Map Response Fields")
+            GenericTopAppBar(navController, "Step 2/5: Map Response Fields")
         },
     ) { padding ->
         Column(

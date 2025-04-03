@@ -90,7 +90,7 @@ fun FillPreConfigsScreen(
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            GenericTopAppBar(navController, "Step 3: Fill Pre Configs")
+            GenericTopAppBar(navController, "Step 3/5: Fill Pre Configs")
         },
     ) { padding ->
         LazyColumn(

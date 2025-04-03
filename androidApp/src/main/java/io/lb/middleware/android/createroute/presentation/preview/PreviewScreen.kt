@@ -63,7 +63,7 @@ fun PreviewScreen(
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            GenericTopAppBar(navController, "Step 4: Preview")
+            GenericTopAppBar(navController, "Step 4/5: Preview")
         },
     ) { padding ->
         LazyColumn(

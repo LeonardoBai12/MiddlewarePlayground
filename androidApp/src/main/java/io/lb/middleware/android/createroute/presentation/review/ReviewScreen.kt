@@ -74,7 +74,7 @@ fun ReviewScreen(
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            GenericTopAppBar(navController)
+            GenericTopAppBar(navController, "Step 5/5: Review & Create Route")
         },
     ) { padding ->
         LazyColumn(

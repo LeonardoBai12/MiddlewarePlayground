@@ -114,7 +114,7 @@ fun OriginalRouteScreen(
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            GenericTopAppBar(navController, "Step 1: Original Route")
+            GenericTopAppBar(navController, "Step 1/5: Original Route")
         },
     ) { padding ->
         LazyColumn(
