@@ -86,6 +86,10 @@ fun PreviewScreen(
                     contentColor = MaterialTheme.colorScheme.onSurface,
                     enabled = state.isLoading.not(),
                     onClick = {
+                        if (result.value.isBlank()) {
+                            context.showToast("Please test the route before proceeding.")
+                            return@DefaultTextButton
+                        }
                         navController.currentBackStackEntry?.arguments?.putParcelable("CreateRouteArgs", args)
                         navController.navigate(Screens.REVIEW.name)
                     }

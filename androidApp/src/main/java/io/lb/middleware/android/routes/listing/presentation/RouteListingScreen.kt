@@ -279,7 +279,7 @@ private fun RouteCard(
         ),
         onClick = {
             val androidRoute = AndroidMappedRoute.fromMappedRoute(route)
-            navController.currentBackStackEntry?.arguments?.putParcelable("route", androidRoute)
+            navController.currentBackStackEntry?.arguments?.putParcelable("CreateRouteArgs", androidRoute)
             navController.navigate(Screens.ROUTE_DETAILS.name)
         }
     ) {

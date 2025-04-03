@@ -110,7 +110,8 @@ fun PlaygroundRoot() {
             val viewModel = hiltViewModel<AndroidRouteDetailsViewModel>()
             val state by viewModel.state.collectAsState()
             val eventFlow = viewModel.eventFlow
-            val route = navController.previousBackStackEntry?.arguments?.getParcelable<AndroidMappedRoute>("route")
+            val route = navController.previousBackStackEntry?.arguments
+                ?.getParcelable<AndroidMappedRoute>("CreateRouteArgs")
             RouteDetailsScreen(
                 route = route?.toMappedRoute(),
                 navController = navController,
