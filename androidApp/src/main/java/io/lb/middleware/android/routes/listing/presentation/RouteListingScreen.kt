@@ -161,6 +161,15 @@ fun RouteListingScreen(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+            DefaultSearchBar(
+                search = searchText,
+                modifier = Modifier
+                    .padding(horizontal = 24.dp)
+                    .fillMaxWidth(),
+                hint = "Search routes",
+                isEnabled = state.isLoading.not()
+            )
+
             Row(
                 modifier = Modifier.padding(8.dp),
                 verticalAlignment = Alignment.CenterVertically,
@@ -183,73 +192,71 @@ fun RouteListingScreen(
                     )
                 }
             }
+            if (state.isLoading) {
+                CircularProgressIndicator(
+                    modifier = Modifier.padding(top = 16.dp)
+                )
+                return@Scaffold
+            }
             Box(
                 modifier = Modifier
-                    .padding(8.dp)
                     .fillMaxSize(),
-                contentAlignment = Alignment.Center
+                contentAlignment = Alignment.TopCenter
             ) {
-                if (state.isLoading) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.padding(top = 16.dp)
-                    )
-                } else {
-                    LazyColumn(
-                        modifier = Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.Top,
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                    ) {
-                        item {
-                            Spacer(Modifier.height(64.dp))
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Top,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    if (selectedRadio.intValue == GROUP_BY_APIS) {
+                        items(
+                            state.apis.keys.toList().filter {
+                                val value = state.apis[it]
+                                if (searchText.value.isNotEmpty()) {
+                                    value?.any {
+                                        it.originalBaseUrl.contains(
+                                            searchText.value,
+                                            ignoreCase = true
+                                        ) ||
+                                                it.originalPath.contains(
+                                                    searchText.value,
+                                                    ignoreCase = true
+                                                ) ||
+                                                it.path.contains(
+                                                    searchText.value,
+                                                    ignoreCase = true
+                                                )
+                                    } ?: false
+                                } else {
+                                    true
+                                }
+                            }
+                        ) { api ->
+                            val routes = state.apis[api] ?: return@items
+                            ApiCard(navController, api, routes)
                         }
-                        if (selectedRadio.intValue == GROUP_BY_APIS) {
-                            items(
-                                state.apis.keys.toList().filter {
-                                    val value = state.apis[it]
-                                    if (searchText.value.isNotEmpty()) {
-                                        value?.any {
-                                            it.originalBaseUrl.contains(searchText.value, ignoreCase = true) ||
-                                                    it.originalPath.contains(searchText.value, ignoreCase = true) ||
-                                                    it.path.contains(searchText.value, ignoreCase = true)
-                                        } ?: false
-                                    } else {
-                                        true
-                                    }
+                    } else {
+                        items(
+                            state.routes.filter {
+                                if (searchText.value.isNotEmpty()) {
+                                    it.originalBaseUrl.contains(
+                                        searchText.value,
+                                        ignoreCase = true
+                                    ) ||
+                                            it.originalPath.contains(
+                                                searchText.value,
+                                                ignoreCase = true
+                                            ) ||
+                                            it.path.contains(searchText.value, ignoreCase = true)
+                                } else {
+                                    true
                                 }
-                            ) { api ->
-                                val routes = state.apis[api] ?: return@items
-                                ApiCard(navController, api, routes)
                             }
-                        } else {
-                            items(
-                                state.routes.filter {
-                                    if (searchText.value.isNotEmpty()) {
-                                        it.originalBaseUrl.contains(searchText.value, ignoreCase = true) ||
-                                                it.originalPath.contains(searchText.value, ignoreCase = true) ||
-                                                it.path.contains(searchText.value, ignoreCase = true)
-                                    } else {
-                                        true
-                                    }
-                                }
-                            ) {
-                                RouteCard(navController, it)
-                            }
+                        ) {
+                            RouteCard(navController, it)
                         }
                     }
                 }
-
-                DefaultSearchBar(
-                    search = searchText,
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp)
-                        .fillMaxWidth()
-                        .align(Alignment.TopCenter),
-                    hint = "Search routes",
-                    onSearch = {
-
-                    },
-                    isEnabled = state.isLoading.not()
-                )
             }
         }
     }

@@ -57,9 +57,9 @@ fun DefaultSearchBar(
             },
             shape = CircleShape,
             colors = TextFieldDefaults.colors(
-                unfocusedContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.8f),
-                focusedContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.8f),
-                disabledContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.4f),
+                unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+                focusedContainerColor = MaterialTheme.colorScheme.surface,
+                disabledContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.6f),
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
                 cursorColor = MaterialTheme.colorScheme.onSurface
