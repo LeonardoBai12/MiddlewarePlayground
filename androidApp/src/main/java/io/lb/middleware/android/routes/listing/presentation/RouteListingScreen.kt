@@ -1,15 +1,17 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 
 package io.lb.middleware.android.routes.listing.presentation
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -38,6 +40,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
@@ -47,6 +50,7 @@ import androidx.navigation.NavHostController
 import io.lb.middleware.android.core.presentation.Screens
 import io.lb.middleware.android.core.presentation.components.HomeAppBar
 import io.lb.middleware.android.core.presentation.components.DefaultCard
+import io.lb.middleware.android.core.presentation.components.DefaultSearchBar
 import io.lb.middleware.android.core.presentation.showToast
 import io.lb.middleware.android.routes.details.model.AndroidMappedRoute
 import io.lb.middleware.common.shared.middleware.model.MappedRoute
@@ -76,6 +80,9 @@ fun RouteListingScreen(
     )
     val selectedRadio = remember {
         mutableIntStateOf(0)
+    }
+    val searchText = remember {
+        mutableStateOf("")
     }
 
     LaunchedEffect(Unit) {
@@ -176,27 +183,73 @@ fun RouteListingScreen(
                     )
                 }
             }
-            if (state.isLoading) {
-                CircularProgressIndicator(
-                    modifier = Modifier.padding(top = 16.dp)
-                )
-                return@Scaffold
-            }
-            LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Top,
-                horizontalAlignment = Alignment.CenterHorizontally,
+            Box(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .fillMaxSize(),
+                contentAlignment = Alignment.Center
             ) {
-                if (selectedRadio.intValue == GROUP_BY_APIS) {
-                    items(state.apis.keys.toList()) { api ->
-                        val routes = state.apis[api] ?: return@items
-                        ApiCard(navController, api, routes)
-                    }
+                if (state.isLoading) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.padding(top = 16.dp)
+                    )
                 } else {
-                    items(state.routes) {
-                        RouteCard(navController, it)
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Top,
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
+                        item {
+                            Spacer(Modifier.height(64.dp))
+                        }
+                        if (selectedRadio.intValue == GROUP_BY_APIS) {
+                            items(
+                                state.apis.keys.toList().filter {
+                                    val value = state.apis[it]
+                                    if (searchText.value.isNotEmpty()) {
+                                        value?.any {
+                                            it.originalBaseUrl.contains(searchText.value, ignoreCase = true) ||
+                                                    it.originalPath.contains(searchText.value, ignoreCase = true) ||
+                                                    it.path.contains(searchText.value, ignoreCase = true)
+                                        } ?: false
+                                    } else {
+                                        true
+                                    }
+                                }
+                            ) { api ->
+                                val routes = state.apis[api] ?: return@items
+                                ApiCard(navController, api, routes)
+                            }
+                        } else {
+                            items(
+                                state.routes.filter {
+                                    if (searchText.value.isNotEmpty()) {
+                                        it.originalBaseUrl.contains(searchText.value, ignoreCase = true) ||
+                                                it.originalPath.contains(searchText.value, ignoreCase = true) ||
+                                                it.path.contains(searchText.value, ignoreCase = true)
+                                    } else {
+                                        true
+                                    }
+                                }
+                            ) {
+                                RouteCard(navController, it)
+                            }
+                        }
                     }
                 }
+
+                DefaultSearchBar(
+                    search = searchText,
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .fillMaxWidth()
+                        .align(Alignment.TopCenter),
+                    hint = "Search routes",
+                    onSearch = {
+
+                    },
+                    isEnabled = state.isLoading.not()
+                )
             }
         }
     }

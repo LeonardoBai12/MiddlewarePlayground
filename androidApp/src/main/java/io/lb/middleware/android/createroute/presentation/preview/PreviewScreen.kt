@@ -1,9 +1,12 @@
 package io.lb.middleware.android.createroute.presentation.preview
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -66,55 +69,64 @@ fun PreviewScreen(
             GenericTopAppBar(navController, "Step 4/5: Preview")
         },
     ) { padding ->
-        LazyColumn(
+        Box(
             modifier = Modifier
                 .padding(padding)
                 .padding(12.dp)
                 .fillMaxSize(),
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            item {
-                DefaultTextButton(
-                    modifier = Modifier.fillMaxWidth()
-                        .padding(
-                            vertical = 8.dp,
-                            horizontal = 32.dp
-                        ),
-                    text = "Move Forward",
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    contentColor = MaterialTheme.colorScheme.onSurface,
-                    enabled = state.isLoading.not(),
-                    onClick = {
-                        if (result.value.isBlank()) {
-                            context.showToast("Please test the route before proceeding.")
-                            return@DefaultTextButton
-                        }
-                        navController.currentBackStackEntry?.arguments?.putParcelable("CreateRouteArgs", args)
-                        navController.navigate(Screens.REVIEW.name)
-                    }
-                )
-            }
-            item {
-                TestColumn(
-                    isLoading = state.isLoading,
-                    result = result.value,
-                ) {
-                    result.value = ""
-                    onEvent(
-                        PreviewEvent.RequestPreview(
-                            response = args?.originalResponse ?: "",
-                            newBodyFields = args?.newBodyFields?.mapValues {
-                                it.value.toNewBodyField()
-                            } ?: emptyMap(),
-                            oldBodyFields = args?.oldBodyFields?.mapValues {
-                                it.value.toOldBodyField()
-                            } ?: emptyMap(),
-                            ignoreEmptyValues = args?.ignoreEmptyFields ?: true
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                item {
+                    Spacer(modifier = Modifier.height(64.dp))
+                }
+                item {
+                    TestColumn(
+                        isLoading = state.isLoading,
+                        result = result.value,
+                    ) {
+                        result.value = ""
+                        onEvent(
+                            PreviewEvent.RequestPreview(
+                                response = args?.originalResponse ?: "",
+                                newBodyFields = args?.newBodyFields?.mapValues {
+                                    it.value.toNewBodyField()
+                                } ?: emptyMap(),
+                                oldBodyFields = args?.oldBodyFields?.mapValues {
+                                    it.value.toOldBodyField()
+                                } ?: emptyMap(),
+                                ignoreEmptyValues = args?.ignoreEmptyFields ?: true
+                            )
                         )
-                    )
+                    }
                 }
             }
+            DefaultTextButton(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(
+                        vertical = 8.dp,
+                        horizontal = 32.dp
+                    ),
+                text = "Move Forward",
+                containerColor = MaterialTheme.colorScheme.surface
+                    .copy(alpha = 0.8f),
+                contentColor = MaterialTheme.colorScheme.onSurface,
+                enabled = state.isLoading.not(),
+                onClick = {
+                    if (result.value.isBlank()) {
+                        context.showToast("Please test the route before proceeding.")
+                        return@DefaultTextButton
+                    }
+                    navController.currentBackStackEntry?.arguments?.putParcelable(
+                        "CreateRouteArgs",
+                        args
+                    )
+                    navController.navigate(Screens.REVIEW.name)
+                }
+            )
         }
     }
 }

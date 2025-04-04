@@ -96,12 +96,116 @@ fun FillRouteFieldsScreen(
             GenericTopAppBar(navController, "Step 2/5: Map Response Fields")
         },
     ) { padding ->
-        Column(
+        Box(
             modifier = Modifier
                 .padding(padding)
                 .padding(16.dp)
-                .verticalScroll(rememberScrollState())
         ) {
+            Column(
+                modifier = Modifier.verticalScroll(rememberScrollState())
+            ) {
+                Spacer(modifier = Modifier.height(64.dp))
+
+                // 1. Single Field Mapping
+                SingleFieldMappingSection(
+                    newFieldName = newSingleFieldName,
+                    selectedField = selectedSingleField,
+                    availableFields = oldBodyFieldsKeys.filter { field ->
+                        !state.oldBodyFields.values.any { it.keys.contains(field) }
+                    },
+                    onAddMapping = { newName, field ->
+                        // New body just stores the new name
+                        onEvent(
+                            FillRouteFieldsEvent.UpsertNewBodyField(
+                                newName,
+                                NewBodyField(key = newName, type = inferFieldType(field))
+                            )
+                        )
+                        // Old body stores the source field
+                        onEvent(
+                            FillRouteFieldsEvent.UpsertOldBodyField(
+                                newName,
+                                OldBodyField(
+                                    keys = listOf(field),
+                                    type = inferFieldType(field),
+                                    parents = emptyList()
+                                )
+                            )
+                        )
+                    }
+                )
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                // 2. Field Grouping
+                FieldGroupingSection(
+                    newGroupName = newGroupName,
+                    selectedFields = selectedFieldsForGroup,
+                    availableFields = oldBodyFieldsKeys.filter { field ->
+                        !state.oldBodyFields.values.any { it.keys.contains(field) }
+                    },
+                    onAddGroup = { newName, fields ->
+                        // New body just stores the new name
+                        onEvent(
+                            FillRouteFieldsEvent.UpsertNewBodyField(
+                                newName,
+                                NewBodyField(key = newName, type = "String")
+                            )
+                        )
+                        // Old body stores all source fields
+                        onEvent(
+                            FillRouteFieldsEvent.UpsertOldBodyField(
+                                newName,
+                                OldBodyField(keys = fields, type = "String", parents = emptyList())
+                            )
+                        )
+                    }
+                )
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                // 3. Field Concatenation
+                FieldConcatenationSection(
+                    newConcatenationName = newConcatenationName,
+                    firstField = firstConcatField,
+                    secondField = secondConcatField,
+                    selectedPairs = selectedPairsForConcatenation,
+                    availableFields = oldBodyFieldsKeys.filter { field ->
+                        !state.oldBodyFields.values.any { it.keys.any { k -> k.contains(field) } }
+                    },
+                    onAddConcatenation = { newName, pairs ->
+                        // New body just stores the new name
+                        onEvent(
+                            FillRouteFieldsEvent.UpsertNewBodyField(
+                                newName,
+                                NewBodyField(key = newName, type = "String")
+                            )
+                        )
+                        // Old body stores concatenation rules as "field1,field2" pairs
+                        onEvent(
+                            FillRouteFieldsEvent.UpsertOldBodyField(
+                                newName,
+                                OldBodyField(
+                                    keys = pairs.map { (first, second) -> "$first,$second" },
+                                    type = "String",
+                                    parents = emptyList()
+                                )
+                            )
+                        )
+                    }
+                )
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                // 4. Existing Mappings
+                ExistingMappingsSection(
+                    state = state,
+                    onRemoveMapping = { fieldName ->
+                        onEvent(FillRouteFieldsEvent.RemoveNewBodyField(fieldName))
+                        onEvent(FillRouteFieldsEvent.RemoveOldBodyField(fieldName))
+                    }
+                )
+            }
             DefaultTextButton(
                 modifier = Modifier.fillMaxWidth()
                     .padding(
@@ -110,7 +214,8 @@ fun FillRouteFieldsScreen(
                         end = 32.dp
                     ),
                 text = "Move Forward",
-                containerColor = MaterialTheme.colorScheme.surface,
+                containerColor = MaterialTheme.colorScheme.surface
+                    .copy(alpha = 0.8f),
                 contentColor = MaterialTheme.colorScheme.onSurface,
                 onClick = {
                     if (state.newBodyFields.isEmpty()) {
@@ -127,92 +232,11 @@ fun FillRouteFieldsScreen(
                             AndroidNewBodyField.fromNewBodyField(newBodyField)
                         }
                     )
-                    navController.currentBackStackEntry?.arguments?.putParcelable("CreateRouteArgs", newArgs)
+                    navController.currentBackStackEntry?.arguments?.putParcelable(
+                        "CreateRouteArgs",
+                        newArgs
+                    )
                     navController.navigate(Screens.FILL_PRE_CONFIGS.name)
-                }
-            )
-
-            // 1. Single Field Mapping
-            SingleFieldMappingSection(
-                newFieldName = newSingleFieldName,
-                selectedField = selectedSingleField,
-                availableFields = oldBodyFieldsKeys.filter { field ->
-                    !state.oldBodyFields.values.any { it.keys.contains(field) }
-                },
-                onAddMapping = { newName, field ->
-                    // New body just stores the new name
-                    onEvent(FillRouteFieldsEvent.UpsertNewBodyField(
-                        newName,
-                        NewBodyField(key = newName, type = inferFieldType(field))
-                    ))
-                    // Old body stores the source field
-                    onEvent(FillRouteFieldsEvent.UpsertOldBodyField(
-                        newName,
-                        OldBodyField(keys = listOf(field), type = inferFieldType(field), parents = emptyList())
-                    ))
-                }
-            )
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            // 2. Field Grouping
-            FieldGroupingSection(
-                newGroupName = newGroupName,
-                selectedFields = selectedFieldsForGroup,
-                availableFields = oldBodyFieldsKeys.filter { field ->
-                    !state.oldBodyFields.values.any { it.keys.contains(field) }
-                },
-                onAddGroup = { newName, fields ->
-                    // New body just stores the new name
-                    onEvent(FillRouteFieldsEvent.UpsertNewBodyField(
-                        newName,
-                        NewBodyField(key = newName, type = "String")
-                    ))
-                    // Old body stores all source fields
-                    onEvent(FillRouteFieldsEvent.UpsertOldBodyField(
-                        newName,
-                        OldBodyField(keys = fields, type = "String", parents = emptyList())
-                    ))
-                }
-            )
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            // 3. Field Concatenation
-            FieldConcatenationSection(
-                newConcatenationName = newConcatenationName,
-                firstField = firstConcatField,
-                secondField = secondConcatField,
-                selectedPairs = selectedPairsForConcatenation,
-                availableFields = oldBodyFieldsKeys.filter { field ->
-                    !state.oldBodyFields.values.any { it.keys.any { k -> k.contains(field) } }
-                },
-                onAddConcatenation = { newName, pairs ->
-                    // New body just stores the new name
-                    onEvent(FillRouteFieldsEvent.UpsertNewBodyField(
-                        newName,
-                        NewBodyField(key = newName, type = "String")
-                    ))
-                    // Old body stores concatenation rules as "field1,field2" pairs
-                    onEvent(FillRouteFieldsEvent.UpsertOldBodyField(
-                        newName,
-                        OldBodyField(
-                            keys = pairs.map { (first, second) -> "$first,$second" },
-                            type = "String",
-                            parents = emptyList()
-                        )
-                    ))
-                }
-            )
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            // 4. Existing Mappings
-            ExistingMappingsSection(
-                state = state,
-                onRemoveMapping = { fieldName ->
-                    onEvent(FillRouteFieldsEvent.RemoveNewBodyField(fieldName))
-                    onEvent(FillRouteFieldsEvent.RemoveOldBodyField(fieldName))
                 }
             )
         }

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -93,196 +94,205 @@ fun FillPreConfigsScreen(
             GenericTopAppBar(navController, "Step 3/5: Fill Pre Configs")
         },
     ) { padding ->
-        LazyColumn(
+        Box(
             modifier = Modifier
                 .padding(padding)
                 .padding(12.dp)
                 .fillMaxSize(),
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            item {
-                DefaultTextButton(
-                    modifier = Modifier.fillMaxWidth()
-                        .padding(
-                            vertical = 8.dp,
-                            horizontal = 32.dp
-                        ),
-                    text = "Move Forward",
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    contentColor = MaterialTheme.colorScheme.onSurface,
-                    onClick = {
-                        if (mappedPath.value.isEmpty()) {
-                            context.showToast("Please fill the mapped path")
-                            return@DefaultTextButton
-                        }
-                        val newArgs = args?.copy(
-                            mappedMethod = mappedMethod.value ?: MiddlewareHttpMethods.Get,
-                            mappedPath = mappedPath.value,
-                            preConfiguredBody = mappedBody.value,
-                            preConfiguredHeaders = state.preConfiguredHeaders,
-                            preConfiguredQueries = state.preConfiguredQueries,
-                        )
-                        navController.currentBackStackEntry?.arguments?.putParcelable("CreateRouteArgs", newArgs)
-                        navController.navigate(Screens.PREVIEW.name)
-                    }
-                )
-            }
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                item {
+                    Spacer(modifier = Modifier.height(64.dp))
+                }
 
-            item {
-                Row(
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Box {
-                        MethodBox(
-                            modifier = Modifier
-                                .fillMaxWidth(0.2f)
-                                .clickable {
-                                    mappedMethodExpanded.value = true
-                                },
-                            method = mappedMethod.value,
-                            text = "Mapped Method"
-                        )
-                        DropdownMenu(
-                            expanded = mappedMethodExpanded.value,
-                            onDismissRequest = { mappedMethodExpanded.value = false }
-                        ) {
-                            MiddlewareHttpMethods.entries.forEach {
-                                DropdownMenuItem(
-                                    text = { MethodBox(it) },
-                                    onClick = {
-                                        mappedMethod.value = it
-                                        mappedMethodExpanded.value = false
-                                    }
-                                )
+                item {
+                    Row(
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Box {
+                            MethodBox(
+                                modifier = Modifier
+                                    .fillMaxWidth(0.2f)
+                                    .clickable {
+                                        mappedMethodExpanded.value = true
+                                    },
+                                method = mappedMethod.value,
+                                text = "Mapped Method"
+                            )
+                            DropdownMenu(
+                                expanded = mappedMethodExpanded.value,
+                                onDismissRequest = { mappedMethodExpanded.value = false }
+                            ) {
+                                MiddlewareHttpMethods.entries.forEach {
+                                    DropdownMenuItem(
+                                        text = { MethodBox(it) },
+                                        onClick = {
+                                            mappedMethod.value = it
+                                            mappedMethodExpanded.value = false
+                                        }
+                                    )
+                                }
                             }
                         }
-                    }
-                    Spacer(modifier = Modifier.width(16.dp))
-                    Column {
-                        Text(
-                            text = "Ignore Empty Fields",
-                            fontSize = 16.sp,
-                            color = MaterialTheme.colorScheme.primary
-                        )
-                        Switch(
-                            checked = ignoreEmptyFields.value,
-                            onCheckedChange = {
-                                ignoreEmptyFields.value = it
-                            }
-                        )
+                        Spacer(modifier = Modifier.width(16.dp))
+                        Column {
+                            Text(
+                                text = "Ignore Empty Fields",
+                                fontSize = 16.sp,
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                            Switch(
+                                checked = ignoreEmptyFields.value,
+                                onCheckedChange = {
+                                    ignoreEmptyFields.value = it
+                                }
+                            )
+                        }
                     }
                 }
-            }
 
-            item {
-                DefaultTextField(
-                    modifier = Modifier
-                        .padding(vertical = 8.dp)
-                        .fillMaxWidth(),
-                    text = mappedPath.value,
-                    label = "Mapped Path",
-                    onValueChange = {
-                        mappedPath.value = it
+                item {
+                    DefaultTextField(
+                        modifier = Modifier
+                            .padding(vertical = 8.dp)
+                            .fillMaxWidth(),
+                        text = mappedPath.value,
+                        label = "Mapped Path",
+                        onValueChange = {
+                            mappedPath.value = it
+                        }
+                    )
+                }
+
+                item {
+                    DefaultTextField(
+                        modifier = Modifier
+                            .padding(vertical = 8.dp)
+                            .fillMaxWidth(),
+                        text = mappedBody.value,
+                        label = "Pre-Configured Body",
+                        isSingleLined = false,
+                        onValueChange = {
+                            mappedBody.value = it
+                        }
+                    )
+                }
+
+                item {
+                    Spacer(modifier = Modifier.padding(6.dp))
+                }
+
+                item {
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = "Pre-Configured Headers",
+                        fontSize = 16.sp,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
+
+                items(state.preConfiguredHeaders.keys.toList()) {
+                    MapElement(
+                        key = it,
+                        value = state.preConfiguredHeaders[it] ?: return@items,
+                        isLoading = false,
+                        isAdded = state.preConfiguredHeaders.containsKey(it),
+                        onClickAdd = { key, value ->
+                            onEvent(FillPreConfigsEvent.UpsertPreConfiguredHeader(key, value))
+                        },
+                        onClickRemove = { key ->
+                            onEvent(FillPreConfigsEvent.RemovePreConfiguredHeader(key))
+                        },
+                    )
+                }
+
+                item {
+                    MapElement(
+                        isLoading = false,
+                        isAdded = false,
+                        onClickAdd = { key, value ->
+                            onEvent(FillPreConfigsEvent.UpsertPreConfiguredHeader(key, value))
+                        },
+                        onClickRemove = { key ->
+                            onEvent(FillPreConfigsEvent.RemovePreConfiguredHeader(key))
+                        },
+                    )
+                }
+
+                item {
+                    Spacer(modifier = Modifier.padding(6.dp))
+                }
+
+                item {
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = "Pre-Configured Queries",
+                        fontSize = 16.sp,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
+
+                items(state.preConfiguredQueries.keys.toList()) {
+                    MapElement(
+                        key = it,
+                        value = state.preConfiguredQueries[it] ?: return@items,
+                        isLoading = false,
+                        isAdded = state.preConfiguredQueries.containsKey(it),
+                        onClickAdd = { key, value ->
+                            onEvent(FillPreConfigsEvent.UpsertPreConfiguredQuery(key, value))
+                        },
+                        onClickRemove = { key ->
+                            onEvent(FillPreConfigsEvent.RemovePreConfiguredQuery(key))
+                        },
+                    )
+                }
+
+                item {
+                    MapElement(
+                        isLoading = false,
+                        isAdded = false,
+                        onClickAdd = { key, value ->
+                            onEvent(FillPreConfigsEvent.UpsertPreConfiguredQuery(key, value))
+                        },
+                        onClickRemove = { key ->
+                            onEvent(FillPreConfigsEvent.RemovePreConfiguredQuery(key))
+                        },
+                    )
+                }
+            }
+            DefaultTextButton(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(
+                        vertical = 8.dp,
+                        horizontal = 32.dp
+                    ),
+                text = "Move Forward",
+                containerColor = MaterialTheme.colorScheme.surface
+                    .copy(alpha = 0.8f),
+                contentColor = MaterialTheme.colorScheme.onSurface,
+                onClick = {
+                    if (mappedPath.value.isEmpty()) {
+                        context.showToast("Please fill the mapped path")
+                        return@DefaultTextButton
                     }
-                )
-            }
-
-            item {
-                DefaultTextField(
-                    modifier = Modifier
-                        .padding(vertical = 8.dp)
-                        .fillMaxWidth(),
-                    text = mappedBody.value,
-                    label = "Pre-Configured Body",
-                    isSingleLined = false,
-                    onValueChange = {
-                        mappedBody.value = it
-                    }
-                )
-            }
-
-            item {
-                Spacer(modifier = Modifier.padding(6.dp))
-            }
-
-            item {
-                Text(
-                    modifier = Modifier.fillMaxWidth(),
-                    text = "Pre-Configured Headers",
-                    fontSize = 16.sp,
-                    color = MaterialTheme.colorScheme.primary
-                )
-            }
-
-            items(state.preConfiguredHeaders.keys.toList()) {
-                MapElement(
-                    key = it,
-                    value = state.preConfiguredHeaders[it] ?: return@items,
-                    isLoading = false,
-                    isAdded = state.preConfiguredHeaders.containsKey(it),
-                    onClickAdd = { key, value ->
-                        onEvent(FillPreConfigsEvent.UpsertPreConfiguredHeader(key, value))
-                    },
-                    onClickRemove = { key ->
-                        onEvent(FillPreConfigsEvent.RemovePreConfiguredHeader(key))
-                    },
-                )
-            }
-
-            item {
-                MapElement(
-                    isLoading = false,
-                    isAdded = false,
-                    onClickAdd = { key, value ->
-                        onEvent(FillPreConfigsEvent.UpsertPreConfiguredHeader(key, value))
-                    },
-                    onClickRemove = { key ->
-                        onEvent(FillPreConfigsEvent.RemovePreConfiguredHeader(key))
-                    },
-                )
-            }
-
-            item {
-                Spacer(modifier = Modifier.padding(6.dp))
-            }
-
-            item {
-                Text(
-                    modifier = Modifier.fillMaxWidth(),
-                    text = "Pre-Configured Queries",
-                    fontSize = 16.sp,
-                    color = MaterialTheme.colorScheme.primary
-                )
-            }
-
-            items(state.preConfiguredQueries.keys.toList()) {
-                MapElement(
-                    key = it,
-                    value = state.preConfiguredQueries[it] ?: return@items,
-                    isLoading = false,
-                    isAdded = state.preConfiguredQueries.containsKey(it),
-                    onClickAdd = { key, value ->
-                        onEvent(FillPreConfigsEvent.UpsertPreConfiguredQuery(key, value))
-                    },
-                    onClickRemove = { key ->
-                        onEvent(FillPreConfigsEvent.RemovePreConfiguredQuery(key))
-                    },
-                )
-            }
-
-            item {
-                MapElement(
-                    isLoading = false,
-                    isAdded = false,
-                    onClickAdd = { key, value ->
-                        onEvent(FillPreConfigsEvent.UpsertPreConfiguredQuery(key, value))
-                    },
-                    onClickRemove = { key ->
-                        onEvent(FillPreConfigsEvent.RemovePreConfiguredQuery(key))
-                    },
-                )
-            }
+                    val newArgs = args?.copy(
+                        mappedMethod = mappedMethod.value ?: MiddlewareHttpMethods.Get,
+                        mappedPath = mappedPath.value,
+                        preConfiguredBody = mappedBody.value,
+                        preConfiguredHeaders = state.preConfiguredHeaders,
+                        preConfiguredQueries = state.preConfiguredQueries,
+                    )
+                    navController.currentBackStackEntry?.arguments?.putParcelable(
+                        "CreateRouteArgs",
+                        newArgs
+                    )
+                    navController.navigate(Screens.PREVIEW.name)
+                }
+            )
         }
     }
 }

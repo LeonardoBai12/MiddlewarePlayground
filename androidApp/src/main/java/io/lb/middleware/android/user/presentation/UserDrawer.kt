@@ -1,4 +1,4 @@
-package io.lb.middleware.android.routes.listing.presentation
+package io.lb.middleware.android.user.presentation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

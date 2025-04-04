@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -117,30 +118,187 @@ fun OriginalRouteScreen(
             GenericTopAppBar(navController, "Step 1/5: Original Route")
         },
     ) { padding ->
-        LazyColumn(
+        Box(
             modifier = Modifier
                 .padding(padding)
                 .fillMaxSize()
                 .padding(horizontal = 16.dp),
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            item {
-                DefaultTextButton(
-                    modifier = Modifier.fillMaxWidth()
-                        .padding(
-                            vertical = 8.dp,
-                            horizontal = 32.dp
-                        ),
-                    text = "Move Forward",
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    contentColor = MaterialTheme.colorScheme.onSurface,
-                    enabled = state.isLoading.not(),
-                    onClick = {
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                item {
+                    Spacer(modifier = Modifier.height(64.dp))
+                }
+                item {
+                    Box(
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        MethodBox(
+                            modifier = Modifier
+                                .fillMaxWidth(0.2f)
+                                .clickable {
+                                    originalMethodExpanded.value = true
+                                },
+                            method = originalMethod.value,
+                            text = "Original Method"
+                        )
+                        DropdownMenu(
+                            expanded = originalMethodExpanded.value,
+                            onDismissRequest = { originalMethodExpanded.value = false }
+                        ) {
+                            MiddlewareHttpMethods.entries.forEach {
+                                DropdownMenuItem(
+                                    text = { MethodBox(it) },
+                                    onClick = {
+                                        originalMethod.value = it
+                                        originalMethodExpanded.value = false
+                                    }
+                                )
+                            }
+                        }
+                    }
+                }
+
+                item {
+                    DefaultTextField(
+                        modifier = Modifier
+                            .padding(vertical = 8.dp)
+                            .fillMaxWidth(),
+                        text = originalBaseUrl.value,
+                        isEnabled = state.isLoading.not(),
+                        label = "Original Base URL",
+                        onValueChange = {
+                            originalBaseUrl.value = it
+                        }
+                    )
+                }
+
+                item {
+                    DefaultTextField(
+                        modifier = Modifier
+                            .padding(vertical = 8.dp)
+                            .fillMaxWidth(),
+                        text = originalPath.value,
+                        isEnabled = state.isLoading.not(),
+                        label = "Original Path",
+                        onValueChange = {
+                            originalPath.value = it
+                        }
+                    )
+                }
+
+                item {
+                    DefaultTextField(
+                        modifier = Modifier
+                            .padding(vertical = 8.dp)
+                            .fillMaxWidth(),
+                        text = originalBody.value,
+                        isEnabled = state.isLoading.not(),
+                        label = "Original Body",
+                        isSingleLined = false,
+                        onValueChange = {
+                            originalBody.value = it
+                        }
+                    )
+                }
+
+                item {
+                    Spacer(modifier = Modifier.padding(6.dp))
+                }
+
+                item {
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = "Original Headers",
+                        fontSize = 16.sp,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
+
+                items(state.originalHeaders.keys.toList()) {
+                    MapElement(
+                        key = it,
+                        value = state.originalHeaders[it] ?: return@items,
+                        isLoading = state.isLoading,
+                        isAdded = state.originalHeaders.containsKey(it),
+                        onClickAdd = { key, value ->
+                            onEvent(OriginalRouteEvent.UpsertOriginalHeader(key, value))
+                        },
+                        onClickRemove = { key ->
+                            onEvent(OriginalRouteEvent.RemoveOriginalHeader(key))
+                        },
+                    )
+                }
+
+                item {
+                    MapElement(
+                        isLoading = state.isLoading,
+                        isAdded = false,
+                        onClickAdd = { key, value ->
+                            onEvent(OriginalRouteEvent.UpsertOriginalHeader(key, value))
+                        },
+                        onClickRemove = { key ->
+                            onEvent(OriginalRouteEvent.RemoveOriginalHeader(key))
+                        },
+                    )
+                }
+
+                item {
+                    Spacer(modifier = Modifier.padding(6.dp))
+                }
+
+                item {
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = "Original Queries",
+                        fontSize = 16.sp,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
+
+                items(state.originalQueries.keys.toList()) {
+                    MapElement(
+                        key = it,
+                        value = state.originalQueries[it] ?: return@items,
+                        isLoading = state.isLoading,
+                        isAdded = state.originalQueries.containsKey(it),
+                        onClickAdd = { key, value ->
+                            onEvent(OriginalRouteEvent.UpsertOriginalQuery(key, value))
+                        },
+                        onClickRemove = { key ->
+                            onEvent(OriginalRouteEvent.RemoveOriginalQuery(key))
+                        },
+                    )
+                }
+
+                item {
+                    MapElement(
+                        isLoading = state.isLoading,
+                        isAdded = false,
+                        onClickAdd = { key, value ->
+                            onEvent(OriginalRouteEvent.UpsertOriginalQuery(key, value))
+                        },
+                        onClickRemove = { key ->
+                            onEvent(OriginalRouteEvent.RemoveOriginalQuery(key))
+                        },
+                    )
+                }
+
+                item {
+                    TestColumn(
+                        isLoading = state.isLoading,
+                        result = if (result.value.isNotBlank()) {
+                            "Code: ${code.intValue}\nBody:\n${result.value}"
+                        } else {
+                            ""
+                        },
+                    ) {
+                        result.value = ""
                         onEvent(
-                            OriginalRouteEvent.MoveForward(
-                                result = result.value,
-                                code = code.intValue,
+                            OriginalRouteEvent.TestOriginalRoute(
                                 originalBaseUrl = originalBaseUrl.value,
                                 originalPath = originalPath.value,
                                 originalMethod = originalMethod.value,
@@ -148,176 +306,24 @@ fun OriginalRouteScreen(
                             )
                         )
                     }
-                )
-            }
-
-            item {
-                Box(
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    MethodBox(
-                        modifier = Modifier
-                            .fillMaxWidth(0.2f)
-                            .clickable {
-                                originalMethodExpanded.value = true
-                            },
-                        method = originalMethod.value,
-                        text = "Original Method"
-                    )
-                    DropdownMenu(
-                        expanded = originalMethodExpanded.value,
-                        onDismissRequest = { originalMethodExpanded.value = false }
-                    ) {
-                        MiddlewareHttpMethods.entries.forEach {
-                            DropdownMenuItem(
-                                text = { MethodBox(it) },
-                                onClick = {
-                                    originalMethod.value = it
-                                    originalMethodExpanded.value = false
-                                }
-                            )
-                        }
-                    }
                 }
             }
-
-            item {
-                DefaultTextField(
-                    modifier = Modifier
-                        .padding(vertical = 8.dp)
-                        .fillMaxWidth(),
-                    text = originalBaseUrl.value,
-                    isEnabled = state.isLoading.not(),
-                    label = "Original Base URL",
-                    onValueChange = {
-                        originalBaseUrl.value = it
-                    }
-                )
-            }
-
-            item {
-                DefaultTextField(
-                    modifier = Modifier
-                        .padding(vertical = 8.dp)
-                        .fillMaxWidth(),
-                    text = originalPath.value,
-                    isEnabled = state.isLoading.not(),
-                    label = "Original Path",
-                    onValueChange = {
-                        originalPath.value = it
-                    }
-                )
-            }
-
-            item {
-                DefaultTextField(
-                    modifier = Modifier
-                        .padding(vertical = 8.dp)
-                        .fillMaxWidth(),
-                    text = originalBody.value,
-                    isEnabled = state.isLoading.not(),
-                    label = "Original Body",
-                    isSingleLined = false,
-                    onValueChange = {
-                        originalBody.value = it
-                    }
-                )
-            }
-
-            item {
-                Spacer(modifier = Modifier.padding(6.dp))
-            }
-
-            item {
-                Text(
-                    modifier = Modifier.fillMaxWidth(),
-                    text = "Original Headers",
-                    fontSize = 16.sp,
-                    color = MaterialTheme.colorScheme.primary
-                )
-            }
-
-            items(state.originalHeaders.keys.toList()) {
-                MapElement(
-                    key = it,
-                    value = state.originalHeaders[it] ?: return@items,
-                    isLoading = state.isLoading,
-                    isAdded = state.originalHeaders.containsKey(it),
-                    onClickAdd = { key, value ->
-                        onEvent(OriginalRouteEvent.UpsertOriginalHeader(key, value))
-                    },
-                    onClickRemove = { key ->
-                        onEvent(OriginalRouteEvent.RemoveOriginalHeader(key))
-                    },
-                )
-            }
-
-            item {
-                MapElement(
-                    isLoading = state.isLoading,
-                    isAdded = false,
-                    onClickAdd = { key, value ->
-                        onEvent(OriginalRouteEvent.UpsertOriginalHeader(key, value))
-                    },
-                    onClickRemove = { key ->
-                        onEvent(OriginalRouteEvent.RemoveOriginalHeader(key))
-                    },
-                )
-            }
-
-            item {
-                Spacer(modifier = Modifier.padding(6.dp))
-            }
-
-            item {
-                Text(
-                    modifier = Modifier.fillMaxWidth(),
-                    text = "Original Queries",
-                    fontSize = 16.sp,
-                    color = MaterialTheme.colorScheme.primary
-                )
-            }
-
-            items(state.originalQueries.keys.toList()) {
-                MapElement(
-                    key = it,
-                    value = state.originalQueries[it] ?: return@items,
-                    isLoading = state.isLoading,
-                    isAdded = state.originalQueries.containsKey(it),
-                    onClickAdd = { key, value ->
-                        onEvent(OriginalRouteEvent.UpsertOriginalQuery(key, value))
-                    },
-                    onClickRemove = { key ->
-                        onEvent(OriginalRouteEvent.RemoveOriginalQuery(key))
-                    },
-                )
-            }
-
-            item {
-                MapElement(
-                    isLoading = state.isLoading,
-                    isAdded = false,
-                    onClickAdd = { key, value ->
-                        onEvent(OriginalRouteEvent.UpsertOriginalQuery(key, value))
-                    },
-                    onClickRemove = { key ->
-                        onEvent(OriginalRouteEvent.RemoveOriginalQuery(key))
-                    },
-                )
-            }
-
-            item {
-                TestColumn(
-                    isLoading = state.isLoading,
-                    result = if (result.value.isNotBlank()) {
-                        "Code: ${code.intValue}\nBody:\n${result.value}"
-                    } else {
-                        ""
-                    },
-                ) {
-                    result.value = ""
+            DefaultTextButton(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(
+                        vertical = 8.dp,
+                        horizontal = 32.dp
+                    ),
+                text = "Move Forward",
+                containerColor = MaterialTheme.colorScheme.surface
+                    .copy(alpha = 0.8f),
+                contentColor = MaterialTheme.colorScheme.onSurface,
+                enabled = state.isLoading.not(),
+                onClick = {
                     onEvent(
-                        OriginalRouteEvent.TestOriginalRoute(
+                        OriginalRouteEvent.MoveForward(
+                            result = result.value,
+                            code = code.intValue,
                             originalBaseUrl = originalBaseUrl.value,
                             originalPath = originalPath.value,
                             originalMethod = originalMethod.value,
@@ -325,7 +331,7 @@ fun OriginalRouteScreen(
                         )
                     )
                 }
-            }
+            )
         }
     }
 }

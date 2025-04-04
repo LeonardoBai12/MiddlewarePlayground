@@ -28,7 +28,7 @@ fun SplashScreen(
     eventFlow: CommonFlow<SplashViewModel.UiEvent>,
     onEvent: (SplashEvent) -> Unit
 ) {
-    LaunchedEffect(key1 = Screens.SPLASH) {
+    LaunchedEffect(key1 = Screens.SPLASH.name) {
         eventFlow.collectLatest {
             when (it) {
                 is SplashViewModel.UiEvent.NavigateToSignUp -> {

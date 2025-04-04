@@ -41,7 +41,7 @@ import io.lb.middleware.android.routes.details.presentation.AndroidRouteDetailsV
 import io.lb.middleware.android.routes.details.presentation.RouteDetailsScreen
 import io.lb.middleware.android.routes.listing.presentation.AndroidRoutesViewModel
 import io.lb.middleware.android.routes.listing.presentation.RouteListingScreen
-import io.lb.middleware.android.routes.listing.presentation.UserDrawer
+import io.lb.middleware.android.user.presentation.UserDrawer
 import io.lb.middleware.android.sign_up.presentation.AndroidSignUpViewModel
 import io.lb.middleware.android.sign_up.presentation.SignUpScreen
 import io.lb.middleware.android.splash.presentation.AndroidSplashViewModel
