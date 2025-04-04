@@ -31,6 +31,7 @@ import io.lb.middleware.android.core.presentation.showToast
 fun TestColumn(
     isLoading: Boolean,
     result: String,
+    isFinished: Boolean = false,
     idleText: String? = null,
     progressText: String? = null,
     onClick: () -> Unit,
@@ -45,7 +46,7 @@ fun TestColumn(
     ) {
         DefaultTextButton(
             modifier = Modifier.fillMaxWidth(0.7f),
-            enabled = isLoading.not(),
+            enabled = isLoading.not() && isFinished.not(),
             text = if (isLoading) {
                 progressText ?: "Testing Route"
             } else {
@@ -59,7 +60,7 @@ fun TestColumn(
         }
         Spacer(modifier = Modifier.padding(12.dp))
 
-        if (isLoading) {
+        if (isLoading && isFinished.not()) {
             CircularProgressIndicator()
         }
 

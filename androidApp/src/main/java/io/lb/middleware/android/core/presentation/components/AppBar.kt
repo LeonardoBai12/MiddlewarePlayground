@@ -24,7 +24,13 @@ import io.lb.middleware.android.R
 
 @ExperimentalMaterial3Api
 @Composable
-fun GenericTopAppBar(navController: NavHostController, title: String? = null) {
+fun GenericTopAppBar(
+    navController: NavHostController,
+    title: String? = null,
+    onClickBack: () -> Unit = {
+        navController.popBackStack()
+    },
+) {
     TopAppBar(
         title = {
             title?.let {
@@ -41,7 +47,7 @@ fun GenericTopAppBar(navController: NavHostController, title: String? = null) {
             navigationIconContentColor = MaterialTheme.colorScheme.onSurface,
         ),
         navigationIcon = {
-            IconButton(onClick = { navController.popBackStack() }) {
+            IconButton(onClick = { onClickBack.invoke() }) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Default.ArrowBack,
                     contentDescription = "Arrow Back",

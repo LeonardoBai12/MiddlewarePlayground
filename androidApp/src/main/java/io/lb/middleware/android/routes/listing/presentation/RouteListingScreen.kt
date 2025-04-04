@@ -22,6 +22,7 @@ import androidx.compose.material.icons.filled.ArrowRight
 import androidx.compose.material.icons.filled.Circle
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -35,6 +36,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -54,6 +56,7 @@ import io.lb.middleware.shared.presentation.middleware.listing.RoutesState
 import io.lb.middleware.shared.presentation.middleware.listing.RoutesViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 private const val GROUP_BY_APIS = 0
 
@@ -62,9 +65,11 @@ fun RouteListingScreen(
     state: RoutesState,
     navController: NavHostController,
     eventFlow: CommonFlow<RoutesViewModel.UiEvent>,
-    onEvent: (RoutesEvent) -> Unit
+    drawerState: DrawerState,
+    onEvent: (RoutesEvent) -> Unit,
 ) {
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
     val radioGroup = listOf(
         "Group by APIs",
         "Show all routes"
@@ -94,6 +99,15 @@ fun RouteListingScreen(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             HomeAppBar(
+                onNavigationIconClick = {
+                    scope.launch {
+                        if (drawerState.isOpen) {
+                            drawerState.close()
+                        } else {
+                            drawerState.open()
+                        }
+                    }
+                },
                 trailingIcon = {
                     IconButton(
                         onClick = {
@@ -109,9 +123,7 @@ fun RouteListingScreen(
                         }
                     }
                 }
-            ) {
-
-            }
+            )
         },
         floatingActionButton = {
             FloatingActionButton(

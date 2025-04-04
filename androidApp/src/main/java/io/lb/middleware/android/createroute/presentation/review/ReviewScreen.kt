@@ -1,5 +1,6 @@
 package io.lb.middleware.android.createroute.presentation.review
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -54,7 +55,6 @@ fun ReviewScreen(
     val isFinished = remember {
         mutableStateOf(false)
     }
-
     LaunchedEffect(key1 = Screens.REVIEW) {
         eventFlow.collectLatest {
             when (it) {
@@ -71,10 +71,18 @@ fun ReviewScreen(
         }
     }
 
+    ReviewBackHandler(navController, isFinished.value)
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            GenericTopAppBar(navController, "Step 5/5: Review & Create Route")
+            GenericTopAppBar(navController, "Step 5/5: Review & Create Route") {
+                if (isFinished.value) {
+                    navController.navigate(Screens.ROUTE_LISTING.name)
+                } else {
+                    navController.popBackStack()
+                }
+            }
         },
     ) { padding ->
         LazyColumn(
@@ -185,7 +193,8 @@ fun ReviewScreen(
 
             item {
                 TestColumn(
-                    isLoading = state.isLoading && isFinished.value.not(),
+                    isLoading = state.isLoading,
+                    isFinished = isFinished.value,
                     result = result.value,
                     idleText = "Create Route",
                     progressText = "Creating Route",
@@ -213,6 +222,24 @@ fun ReviewScreen(
                             ignoreEmptyValues = args?.ignoreEmptyFields ?: true
                         )
                     )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun ReviewBackHandler(
+    navController: NavHostController,
+    isFinished: Boolean
+) {
+    BackHandler {
+        if (!isFinished) {
+            navController.popBackStack()
+        } else {
+            navController.navigate(Screens.ROUTE_LISTING.name) {
+                popUpTo(Screens.ROUTE_LISTING.name) {
+                    inclusive = true
                 }
             }
         }

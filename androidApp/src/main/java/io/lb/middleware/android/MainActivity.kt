@@ -7,9 +7,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -39,6 +41,7 @@ import io.lb.middleware.android.routes.details.presentation.AndroidRouteDetailsV
 import io.lb.middleware.android.routes.details.presentation.RouteDetailsScreen
 import io.lb.middleware.android.routes.listing.presentation.AndroidRoutesViewModel
 import io.lb.middleware.android.routes.listing.presentation.RouteListingScreen
+import io.lb.middleware.android.routes.listing.presentation.UserDrawer
 import io.lb.middleware.android.sign_up.presentation.AndroidSignUpViewModel
 import io.lb.middleware.android.sign_up.presentation.SignUpScreen
 import io.lb.middleware.android.splash.presentation.AndroidSplashViewModel
@@ -93,16 +96,29 @@ fun PlaygroundRoot() {
             )
         }
         composable(Screens.ROUTE_LISTING.name) {
-            val viewModel = hiltViewModel<AndroidRoutesViewModel>()
-            val state by viewModel.state.collectAsState()
-            val eventFlow = viewModel.eventFlow
+            val routeViewModel = hiltViewModel<AndroidRoutesViewModel>()
+            val userViewModel = hiltViewModel<AndroidUserViewModel>()
+            val routeState by routeViewModel.state.collectAsState()
+            val userState by userViewModel.state.collectAsState()
+            val userEventFlow = userViewModel.eventFlow
+            val routeEventFlow = routeViewModel.eventFlow
+            val drawerState = rememberDrawerState(DrawerValue.Closed)
 
-            RouteListingScreen(
+            UserDrawer(
                 navController = navController,
-                state = state,
-                eventFlow = eventFlow,
-                onEvent = { viewModel.onEvent(it) }
-            )
+                state = userState,
+                eventFlow = userEventFlow,
+                drawerState = drawerState,
+                onEvent = { userViewModel.onEvent(it) }
+            ) {
+                RouteListingScreen(
+                    navController = navController,
+                    state = routeState,
+                    eventFlow = routeEventFlow,
+                    drawerState = drawerState,
+                    onEvent = { routeViewModel.onEvent(it) }
+                )
+            }
         }
         composable(
             Screens.ROUTE_DETAILS.name

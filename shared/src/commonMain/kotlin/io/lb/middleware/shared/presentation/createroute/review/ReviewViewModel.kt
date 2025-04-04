@@ -52,7 +52,9 @@ class ReviewViewModel(
                     ).collectLatest { result ->
                         when (result) {
                             is Resource.Success -> {
-                                _eventFlow.emit(UiEvent.ShowCreatedRouteMessage(result.data ?: ""))
+                                _eventFlow.emit(UiEvent.ShowCreatedRouteMessage(
+                                    "/v1/" + (result.data ?: "") + "/" + event.mappedPath
+                                ))
                                 _state.update { it.copy(isLoading = false) }
                             }
 

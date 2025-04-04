@@ -266,7 +266,7 @@ class MiddlewareClientServiceImpl(
             )
         }
 
-        if (result.status != HttpStatusCode.OK) {
+        if (result.status.value !in (200..299)) {
             throw MiddlewareException(result.bodyAsText())
         }
 
@@ -289,16 +289,22 @@ class MiddlewareClientServiceImpl(
                         method = data.originalMethod,
                         queries = data.originalQueries,
                         headers = data.originalHeaders,
-                        body = data.originalBody.let {
+                        body = data.originalBody.takeIf {
+                            it.isNotBlank() && it != "null" && it != "{}"
+                        }?.let {
                             json.parseToJsonElement(it).jsonObject
                         }
                     ),
                     method = data.method,
                     preConfiguredQueries = data.preConfiguredQueries,
                     preConfiguredHeaders = data.preConfiguredHeaders,
-                    preConfiguredBody = data.preConfiguredBody?.let {
+                    preConfiguredBody = data.preConfiguredBody?.takeIf {
+                        it.isNotBlank() && it != "null" && it != "{}"
+                    }?.let {
                         json.parseToJsonElement(it).jsonObject
-                    } ?: data.originalBody.let {
+                    } ?: data.originalBody.takeIf {
+                        it.isNotBlank() && it != "null" && it != "{}"
+                    }?.let {
                         json.parseToJsonElement(it).jsonObject
                     },
                     mappingRules = NewBodyMappingRuleParameter(
@@ -314,7 +320,7 @@ class MiddlewareClientServiceImpl(
             )
         }
 
-        if (result.status != HttpStatusCode.OK) {
+        if (result.status.value !in (200..299)) {
             throw MiddlewareException(result.bodyAsText())
         }
 
@@ -328,7 +334,7 @@ class MiddlewareClientServiceImpl(
             bearerAuth(token)
         }
 
-        if (result.status != HttpStatusCode.OK) {
+        if (result.status.value !in (200..299)) {
             throw MiddlewareException(result.bodyAsText())
         }
 
