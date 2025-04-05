@@ -3,11 +3,11 @@ package io.lb.middleware.shared.presentation.user
 import io.lb.middleware.common.state.Resource
 import io.lb.middleware.common.state.toCommonFlow
 import io.lb.middleware.common.state.toCommonStateFlow
-import io.middleware.user.domain.use_cases.DeleteUserUseCase
-import io.middleware.user.domain.use_cases.GetCurrentUserUseCase
-import io.middleware.user.domain.use_cases.LogoutUseCase
-import io.middleware.user.domain.use_cases.UpdatePasswordUseCase
-import io.middleware.user.domain.use_cases.UpdateUserUseCase
+import io.middleware.user.domain.usecases.DeleteUserUseCase
+import io.middleware.user.domain.usecases.GetCurrentUserUseCase
+import io.middleware.user.domain.usecases.LogoutUseCase
+import io.middleware.user.domain.usecases.UpdatePasswordUseCase
+import io.middleware.user.domain.usecases.UpdateUserUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow

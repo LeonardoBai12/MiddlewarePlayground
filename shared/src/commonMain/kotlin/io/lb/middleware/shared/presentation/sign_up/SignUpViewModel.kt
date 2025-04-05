@@ -4,8 +4,8 @@ import io.lb.middleware.common.shared.user.UserData
 import io.lb.middleware.common.state.Resource
 import io.lb.middleware.common.state.toCommonFlow
 import io.lb.middleware.common.state.toCommonStateFlow
-import io.middleware.sign_up.domain.use_cases.LoginUseCase
-import io.middleware.sign_up.domain.use_cases.SignUpUseCase
+import io.middleware.signup.domain.usecases.LoginUseCase
+import io.middleware.signup.domain.usecases.SignUpUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow

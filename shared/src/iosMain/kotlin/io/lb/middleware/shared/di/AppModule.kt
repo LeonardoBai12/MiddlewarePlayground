@@ -12,7 +12,7 @@ import io.lb.middleware.impl.database.factory.DatabaseDriverFactory
 import io.lb.middleware.impl.database.middleware.local.MiddlewareDatabaseServiceImpl
 import io.lb.middleware.impl.database.user.local.UserDatabaseServiceImpl
 
-internal object AppModule {
+class AppModule {
     private val httpClient by lazy {
         HttpClientFactory().create()
     }

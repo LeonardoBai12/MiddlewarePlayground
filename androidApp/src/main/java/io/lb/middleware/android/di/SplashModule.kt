@@ -6,10 +6,10 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
 import io.lb.middleware.common.data.user.local.UserDatabaseService
-import io.lb.middleware.splash.data.data_source.SplashDataSource
+import io.lb.middleware.splash.data.datasource.SplashDataSource
 import io.lb.middleware.splash.data.repository.SplashRepositoryImpl
 import io.middleware.splash.domain.repository.SplashRepository
-import io.middleware.splash.domain.use_cases.GetCurrentUserOnInitUseCase
+import io.middleware.splash.domain.usecases.GetCurrentUserOnInitUseCase
 
 @Module
 @InstallIn(ViewModelComponent::class)

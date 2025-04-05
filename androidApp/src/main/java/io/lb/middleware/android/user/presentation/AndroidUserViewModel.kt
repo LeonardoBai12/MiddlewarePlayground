@@ -5,11 +5,11 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.lb.middleware.shared.presentation.user.UserEvent
 import io.lb.middleware.shared.presentation.user.UserViewModel
-import io.middleware.user.domain.use_cases.DeleteUserUseCase
-import io.middleware.user.domain.use_cases.GetCurrentUserUseCase
-import io.middleware.user.domain.use_cases.LogoutUseCase
-import io.middleware.user.domain.use_cases.UpdatePasswordUseCase
-import io.middleware.user.domain.use_cases.UpdateUserUseCase
+import io.middleware.user.domain.usecases.DeleteUserUseCase
+import io.middleware.user.domain.usecases.GetCurrentUserUseCase
+import io.middleware.user.domain.usecases.LogoutUseCase
+import io.middleware.user.domain.usecases.UpdatePasswordUseCase
+import io.middleware.user.domain.usecases.UpdateUserUseCase
 import javax.inject.Inject
 
 @HiltViewModel

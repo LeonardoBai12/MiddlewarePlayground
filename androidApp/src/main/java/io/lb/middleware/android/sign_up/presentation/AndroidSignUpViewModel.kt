@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.lb.middleware.shared.presentation.sign_up.SignUpEvent
 import io.lb.middleware.shared.presentation.sign_up.SignUpViewModel
-import io.middleware.sign_up.domain.use_cases.LoginUseCase
-import io.middleware.sign_up.domain.use_cases.SignUpUseCase
+import io.middleware.signup.domain.usecases.LoginUseCase
+import io.middleware.signup.domain.usecases.SignUpUseCase
 import javax.inject.Inject
 import kotlin.uuid.ExperimentalUuidApi
 

@@ -7,12 +7,15 @@ import io.middleware.api.domain.usecases.CreateNewRouteUseCase
 import io.middleware.api.domain.usecases.GetAllRoutesUseCase
 import io.middleware.api.domain.usecases.RequestPreviewUseCase
 
-object MiddlewareModule {
+class MiddlewareModule {
+    private val appModule by lazy {
+        AppModule()
+    }
     private val dataSource by lazy {
         MiddlewareDataSource(
-            AppModule.middlewareDatabaseService,
-            AppModule.middlewareClientService,
-            AppModule.userDatabaseService,
+            appModule.middlewareDatabaseService,
+            appModule.middlewareClientService,
+            appModule.userDatabaseService,
         )
     }
     private val repository: MiddlewareRepository by lazy {

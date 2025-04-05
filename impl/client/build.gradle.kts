@@ -28,8 +28,8 @@ kotlin {
         ios.deploymentTarget = "16.0"
         podfile = project.file("../../iosApp/Podfile")
         framework {
-            baseName = "client"
-            isStatic = false
+            baseName = "implClient"
+            isStatic = true
         }
     }
 
@@ -42,7 +42,7 @@ kotlin {
             implementation(libs.ktor.serialization)
             implementation(libs.ktor.serialization.json)
             implementation(project(":common:remote"))
-            implementation(project(":common:shared"))
+            implementation(project(":common:common_shared"))
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

@@ -1,5 +1,36 @@
 target 'iosApp' do
   use_frameworks!
   platform :ios, '16.0'
+  
   pod 'shared', :path => '../shared'
+  
+#  # Common pods
+#  pod 'remote', :path => '../common/remote'
+#  pod 'local', :path => '../common/local'
+#  pod 'common_shared', :path => '../common/common_shared'
+#  pod 'state', :path => '../common/state'
+#  
+#  # Implementation pods
+#  pod 'client', :path => '../impl/client'
+#  pod 'database', :path => '../impl/database'
+#  
+#  # Middleware pods
+#  pod 'middleware_data', :path => '../middleware/middleware_data'
+#  pod 'middleware_domain', :path => '../middleware/middleware_domain'
+#  
+#  # History pods
+#  pod 'history_data', :path => '../history/history_data'
+#  pod 'history_domain', :path => '../history/history_domain'
+#  
+#  # User pods
+#  pod 'user_data', :path => '../user/user_data'
+#  pod 'user_domain', :path => '../user/user_domain'
+#  
+#  # Sign up pods
+#  pod 'sign_up_data', :path => '../sign_up/sign_up_data'
+#  pod 'sign_up_domain', :path => '../sign_up/sign_up_domain'
+#  
+#  # Splash pods
+#  pod 'splash_data', :path => '../splash/splash_data'
+#  pod 'splash_domain', :path => '../splash/splash_domain'
 end

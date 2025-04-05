@@ -27,8 +27,8 @@ kotlin {
         ios.deploymentTarget = "16.0"
         podfile = project.file("../../iosApp/Podfile")
         framework {
-            baseName = "common-remote"
-            isStatic = false
+            baseName = "remote"
+            isStatic = true
         }
     }
 
@@ -38,7 +38,7 @@ kotlin {
         }
         commonMain.dependencies {
             implementation(libs.kotlinx.coroutines.core)
-            implementation(project(":common:shared"))
+            implementation(project(":common:common_shared"))
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

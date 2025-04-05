@@ -1,20 +1,23 @@
 package io.lb.middleware.shared.di
 
-import io.lb.middleware.sign_up.data.data_source.UserDataSource
-import io.lb.middleware.sign_up.data.repository.UserRepositoryImpl
+import io.lb.middleware.signup.data.datasource.UserDataSource
+import io.lb.middleware.signup.data.repository.UserRepositoryImpl
 import io.middleware.user.domain.repository.UserRepository
-import io.middleware.user.domain.use_cases.DeleteUserUseCase
-import io.middleware.user.domain.use_cases.GetCurrentUserUseCase
-import io.middleware.user.domain.use_cases.LogoutUseCase
-import io.middleware.user.domain.use_cases.UpdatePasswordUseCase
-import io.middleware.user.domain.use_cases.UpdateUserUseCase
+import io.middleware.user.domain.usecases.DeleteUserUseCase
+import io.middleware.user.domain.usecases.GetCurrentUserUseCase
+import io.middleware.user.domain.usecases.LogoutUseCase
+import io.middleware.user.domain.usecases.UpdatePasswordUseCase
+import io.middleware.user.domain.usecases.UpdateUserUseCase
 
-object UserModule {
+class UserModule {
+    private val appModule by lazy {
+        AppModule()
+    }
     private val dataSource by lazy {
         UserDataSource(
-            AppModule.middlewareDatabaseService,
-            AppModule.userDatabaseService,
-            AppModule.userClientService
+            appModule.middlewareDatabaseService,
+            appModule.userDatabaseService,
+            appModule.userClientService
         )
     }
     private val repository: UserRepository by lazy {

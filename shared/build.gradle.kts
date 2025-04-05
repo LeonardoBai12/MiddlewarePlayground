@@ -30,6 +30,22 @@ kotlin {
         framework {
             baseName = "shared"
             isStatic = false
+            export(project(":common:remote"))
+            export(project(":common:local"))
+            export(project(":common:common_shared"))
+            export(project(":common:state"))
+            export(project(":impl:client"))
+            export(project(":impl:database"))
+            export(project(":middleware:middleware_data"))
+            export(project(":middleware:middleware_domain"))
+            export(project(":history:history_data"))
+            export(project(":history:history_domain"))
+            export(project(":user:user_data"))
+            export(project(":user:user_domain"))
+            export(project(":sign_up:sign_up_data"))
+            export(project(":sign_up:sign_up_domain"))
+            export(project(":splash:splash_data"))
+            export(project(":splash:splash_domain"))
         }
     }
 
@@ -42,25 +58,26 @@ kotlin {
             implementation(libs.kotlin.datetime)
             implementation(project(":common:remote"))
             implementation(project(":common:local"))
-            implementation(project(":common:shared"))
+            implementation(project(":common:common_shared"))
             implementation(project(":common:state"))
             implementation(project(":impl:client"))
             implementation(project(":impl:database"))
-            implementation(project(":middleware:data"))
-            implementation(project(":middleware:domain"))
-            implementation(project(":history:data"))
-            implementation(project(":history:domain"))
-            implementation(project(":user:data"))
-            implementation(project(":user:domain"))
-            implementation(project(":sign_up:data"))
-            implementation(project(":sign_up:domain"))
-            implementation(project(":splash:data"))
-            implementation(project(":splash:domain"))
+            implementation(project(":middleware:middleware_data"))
+            implementation(project(":middleware:middleware_domain"))
+            implementation(project(":history:history_data"))
+            implementation(project(":history:history_domain"))
+            implementation(project(":user:user_data"))
+            implementation(project(":user:user_domain"))
+            implementation(project(":sign_up:sign_up_data"))
+            implementation(project(":sign_up:sign_up_domain"))
+            implementation(project(":splash:splash_data"))
+            implementation(project(":splash:splash_domain"))
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }
         iosMain.dependencies {
+            implementation(libs.ktor.ios)
             implementation(libs.sqldelight.native.driver)
         }
         commonTest.dependencies {

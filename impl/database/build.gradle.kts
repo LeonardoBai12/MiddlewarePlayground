@@ -29,8 +29,8 @@ kotlin {
         ios.deploymentTarget = "16.0"
         podfile = project.file("../../iosApp/Podfile")
         framework {
-            baseName = "client"
-            isStatic = false
+            baseName = "implDatabase"
+            isStatic = true
         }
     }
 
@@ -44,7 +44,7 @@ kotlin {
             implementation(libs.sqldelight.coroutines.extensions)
             implementation(libs.kotlin.datetime)
             implementation(project(":common:local"))
-            implementation(project(":common:shared"))
+            implementation(project(":common:common_shared"))
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

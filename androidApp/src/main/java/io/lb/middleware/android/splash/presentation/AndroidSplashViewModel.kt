@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.lb.middleware.shared.presentation.splash.SplashEvent
 import io.lb.middleware.shared.presentation.splash.SplashViewModel
-import io.middleware.splash.domain.use_cases.GetCurrentUserOnInitUseCase
+import io.middleware.splash.domain.usecases.GetCurrentUserOnInitUseCase
 import javax.inject.Inject
 
 @HiltViewModel

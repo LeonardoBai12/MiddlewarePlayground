@@ -2,7 +2,7 @@ package io.lb.middleware.shared.presentation.splash
 
 import io.lb.middleware.common.shared.user.UserData
 import io.lb.middleware.common.state.toCommonFlow
-import io.middleware.splash.domain.use_cases.GetCurrentUserOnInitUseCase
+import io.middleware.splash.domain.usecases.GetCurrentUserOnInitUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow

@@ -6,15 +6,15 @@ Pod::Spec.new do |spec|
     spec.authors                  = ''
     spec.license                  = ''
     spec.summary                  = 'Some description for the Shared Module'
-    spec.vendored_frameworks      = 'build/cocoapods/framework/common_remote.framework'
+    spec.vendored_frameworks      = 'build/cocoapods/framework/local.framework'
     spec.libraries                = 'c++'
     spec.ios.deployment_target    = '16.0'
                 
                 
-    if !Dir.exist?('build/cocoapods/framework/common_remote.framework') || Dir.empty?('build/cocoapods/framework/common_remote.framework')
+    if !Dir.exist?('build/cocoapods/framework/local.framework') || Dir.empty?('build/cocoapods/framework/local.framework')
         raise "
 
-        Kotlin framework 'common_remote' doesn't exist yet, so a proper Xcode project can't be generated.
+        Kotlin framework 'local' doesn't exist yet, so a proper Xcode project can't be generated.
         'pod install' should be executed after running ':generateDummyFramework' Gradle task:
 
             ./gradlew :common:local:generateDummyFramework
@@ -28,7 +28,7 @@ Pod::Spec.new do |spec|
                 
     spec.pod_target_xcconfig = {
         'KOTLIN_PROJECT_PATH' => ':common:local',
-        'PRODUCT_MODULE_NAME' => 'common_remote',
+        'PRODUCT_MODULE_NAME' => 'local',
     }
                 
     spec.script_phases = [

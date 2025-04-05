@@ -9,11 +9,11 @@ import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
 import io.lb.middleware.common.data.user.local.UserDatabaseService
 import io.lb.middleware.common.remote.user.remote.UserClientService
-import io.lb.middleware.sign_up.data.data_source.SignUpDataSource
-import io.lb.middleware.sign_up.data.repository.SignUpRepositoryImpl
-import io.middleware.sign_up.domain.repository.SignUpRepository
-import io.middleware.sign_up.domain.use_cases.LoginUseCase
-import io.middleware.sign_up.domain.use_cases.SignUpUseCase
+import io.lb.middleware.signup.data.datasource.SignUpDataSource
+import io.lb.middleware.signup.data.repository.SignUpRepositoryImpl
+import io.middleware.signup.domain.repository.SignUpRepository
+import io.middleware.signup.domain.usecases.LoginUseCase
+import io.middleware.signup.domain.usecases.SignUpUseCase
 import kotlin.uuid.ExperimentalUuidApi
 
 @Module

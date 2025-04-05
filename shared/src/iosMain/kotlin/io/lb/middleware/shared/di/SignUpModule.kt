@@ -1,19 +1,21 @@
-@file:OptIn(ExperimentalUuidApi::class)
-
 package io.lb.middleware.shared.di
 
-import io.lb.middleware.sign_up.data.data_source.SignUpDataSource
-import io.lb.middleware.sign_up.data.repository.SignUpRepositoryImpl
-import io.middleware.sign_up.domain.repository.SignUpRepository
-import io.middleware.sign_up.domain.use_cases.LoginUseCase
-import io.middleware.sign_up.domain.use_cases.SignUpUseCase
+import io.lb.middleware.signup.data.datasource.SignUpDataSource
+import io.lb.middleware.signup.data.repository.SignUpRepositoryImpl
+import io.middleware.signup.domain.repository.SignUpRepository
+import io.middleware.signup.domain.usecases.LoginUseCase
+import io.middleware.signup.domain.usecases.SignUpUseCase
 import kotlin.uuid.ExperimentalUuidApi
 
-object SignUpModule {
+@OptIn(ExperimentalUuidApi::class)
+class SignUpModule {
+    private val appModule by lazy {
+        AppModule()
+    }
     private val dataSource by lazy {
         SignUpDataSource(
-            AppModule.userDatabaseService,
-            AppModule.userClientService,
+            appModule.userDatabaseService,
+            appModule.userClientService,
         )
     }
     private val repository: SignUpRepository by lazy {

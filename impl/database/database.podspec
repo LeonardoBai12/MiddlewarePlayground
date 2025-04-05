@@ -6,15 +6,15 @@ Pod::Spec.new do |spec|
     spec.authors                  = ''
     spec.license                  = ''
     spec.summary                  = 'Some description for the client Module'
-    spec.vendored_frameworks      = 'build/cocoapods/framework/client.framework'
+    spec.vendored_frameworks      = 'build/cocoapods/framework/implDatabase.framework'
     spec.libraries                = 'c++'
     spec.ios.deployment_target    = '16.0'
                 
                 
-    if !Dir.exist?('build/cocoapods/framework/client.framework') || Dir.empty?('build/cocoapods/framework/client.framework')
+    if !Dir.exist?('build/cocoapods/framework/implDatabase.framework') || Dir.empty?('build/cocoapods/framework/implDatabase.framework')
         raise "
 
-        Kotlin framework 'client' doesn't exist yet, so a proper Xcode project can't be generated.
+        Kotlin framework 'implDatabase' doesn't exist yet, so a proper Xcode project can't be generated.
         'pod install' should be executed after running ':generateDummyFramework' Gradle task:
 
             ./gradlew :impl:database:generateDummyFramework
@@ -28,7 +28,7 @@ Pod::Spec.new do |spec|
                 
     spec.pod_target_xcconfig = {
         'KOTLIN_PROJECT_PATH' => ':impl:database',
-        'PRODUCT_MODULE_NAME' => 'client',
+        'PRODUCT_MODULE_NAME' => 'implDatabase',
     }
                 
     spec.script_phases = [
