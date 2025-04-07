@@ -1,0 +1,2 @@
+${PODS_ROOT}/Target Support Files/shared/shared-xcframeworks.sh
+${PODS_ROOT}/../../shared/build/XCFrameworks/debug/Shared.xcframework

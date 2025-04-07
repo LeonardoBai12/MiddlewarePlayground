@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -17,10 +18,6 @@ kotlin {
             }
         }
     }
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
-
     cocoapods {
         summary = "Some description for the Shared Module"
         homepage = "Link to the Shared Module homepage"
@@ -30,24 +27,26 @@ kotlin {
         framework {
             baseName = "shared"
             isStatic = false
-            export(project(":common:remote"))
-            export(project(":common:local"))
-            export(project(":common:common_shared"))
-            export(project(":common:state"))
-            export(project(":impl:client"))
-            export(project(":impl:database"))
-            export(project(":middleware:middleware_data"))
-            export(project(":middleware:middleware_domain"))
-            export(project(":history:history_data"))
-            export(project(":history:history_domain"))
-            export(project(":user:user_data"))
-            export(project(":user:user_domain"))
-            export(project(":sign_up:sign_up_data"))
-            export(project(":sign_up:sign_up_domain"))
-            export(project(":splash:splash_data"))
-            export(project(":splash:splash_domain"))
         }
     }
+
+
+    val xcf = XCFramework("Shared")
+
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64(),
+    ).forEach {
+        it.binaries.framework {
+            baseName = "Shared"
+            binaryOption("bundleId", "io.lb.middleware.shared")
+            binaryOption("bundleVersion", "0.0.1")
+            embedBitcode("disable")
+            xcf.add(this)
+        }
+    }
+
 
     sourceSets {
         androidMain.dependencies {

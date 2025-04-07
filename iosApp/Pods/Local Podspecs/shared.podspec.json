@@ -8,7 +8,7 @@
   "authors": "",
   "license": "",
   "summary": "Some description for the Shared Module",
-  "vendored_frameworks": "build/cocoapods/framework/shared.framework",
+  "vendored_frameworks": "build/XCFrameworks/debug/Shared.xcframework",
   "libraries": "c++",
   "platforms": {
     "ios": "16.0"

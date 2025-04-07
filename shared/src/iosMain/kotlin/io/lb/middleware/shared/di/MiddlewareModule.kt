@@ -5,7 +5,10 @@ import io.lb.middleware.api.data.repository.MiddlewareRepositoryImpl
 import io.middleware.api.domain.repository.MiddlewareRepository
 import io.middleware.api.domain.usecases.CreateNewRouteUseCase
 import io.middleware.api.domain.usecases.GetAllRoutesUseCase
+import io.middleware.api.domain.usecases.RequestMappedRouteUseCase
 import io.middleware.api.domain.usecases.RequestPreviewUseCase
+import io.middleware.api.domain.usecases.SaveRouteInHistoryUseCase
+import io.middleware.api.domain.usecases.TestOriginalRouteUseCase
 
 class MiddlewareModule {
     private val appModule by lazy {
@@ -29,5 +32,14 @@ class MiddlewareModule {
     }
     val requestPreviewUseCase by lazy {
         RequestPreviewUseCase(repository)
+    }
+    val testOriginalRouteUseCase by lazy {
+        TestOriginalRouteUseCase(repository)
+    }
+    val requestMappedRouteUseCase by lazy {
+        RequestMappedRouteUseCase(repository)
+    }
+    val saveRouteInHistoryUseCase by lazy {
+        SaveRouteInHistoryUseCase(repository)
     }
 }
