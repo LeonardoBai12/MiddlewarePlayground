@@ -36,7 +36,6 @@ struct DefaultIcon: View {
             containerColor
                 .frame(width: size.width, height: size.height)
                 .cornerRadius(cornerRadius)
-            
             image
                 .resizable()
                 .scaledToFit()

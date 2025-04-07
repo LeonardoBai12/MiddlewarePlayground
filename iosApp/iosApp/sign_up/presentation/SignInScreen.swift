@@ -9,13 +9,15 @@ import SwiftUI
 import Shared
 
 struct SignInScreen: View {
-    private let signUpUseCase: Sign_up_domainSignUpUseCase
-    private let loginUseCase: Sign_up_domainLoginUseCase
+    @Environment(\.replace) private var navigate
     @ObservedObject private var viewModel: IOSSignUpViewModel
     @State private var eventSubscription: StateDisposableHandle?
-
-    @State private var showAuthSheet = false
-    @State private var isLoginMode = true
+    
+    @State private var name = ""
+    @State private var email = ""
+    @State private var phone = ""
+    @State private var password = ""
+    @State private var repeatedPassword = ""
     @State private var showErrorAlert = false
     @State private var errorMessage = ""
     
@@ -23,8 +25,6 @@ struct SignInScreen: View {
         signUpUseCase: Sign_up_domainSignUpUseCase,
         loginUseCase: Sign_up_domainLoginUseCase
     ) {
-        self.signUpUseCase = signUpUseCase
-        self.loginUseCase = loginUseCase
         self.viewModel = IOSSignUpViewModel(
             signUpUseCase: signUpUseCase,
             loginUseCase: loginUseCase
@@ -32,13 +32,75 @@ struct SignInScreen: View {
     }
     
     var body: some View {
-        ZStack {
-            Text("Login Screen")
-                .font(.largeTitle)
-                .foregroundColor(.white)
-                .padding()
+        ScrollView {
+            VStack(spacing: 24) {
+                // Header
+                VStack(spacing: 12) {
+                    MiddlewareLogoIcon(size: CGSize(width: 80, height: 80))
+                    Text("Create Account")
+                        .font(.title2)
+                        .foregroundColor(Color.onBackground)
+                }
+                .padding(.top, 32)
+                
+                // Form
+                VStack(spacing: 16) {
+                    DefaultTextField(
+                        text: $name,
+                        label: "Full Name",
+                        icon: Image(systemName: "person"),
+                        isEnabled: !viewModel.state.isLoading
+                    )
+                    
+                    DefaultTextField(
+                        text: $email,
+                        label: "Email",
+                        icon: Image(systemName: "envelope"),
+                        isEnabled: !viewModel.state.isLoading,
+                        keyboardType: .emailAddress
+                    )
+                    
+                    DefaultTextField(
+                        text: $phone,
+                        label: "Phone",
+                        icon: Image(systemName: "phone"),
+                        isEnabled: !viewModel.state.isLoading,
+                        keyboardType: .phonePad
+                    )
+                    
+                    DefaultTextField(
+                        text: $password,
+                        label: "Password",
+                        icon: Image(systemName: "lock"),
+                        isPassword: true,
+                        isEnabled: !viewModel.state.isLoading
+                    )
+                    
+                    DefaultTextField(
+                        text: $repeatedPassword,
+                        label: "Repeat Password",
+                        icon: Image(systemName: "lock"),
+                        isPassword: true,
+                        isEnabled: !viewModel.state.isLoading
+                    )
+                    Spacer()
+                    DefaultTextButton(
+                        text: viewModel.state.isLoading ? "Creating Account..." : "Create Account",
+                        onClick: handleSignUp,
+                        enabled: !viewModel.state.isLoading && isFormValid
+                    )
+                }
+                .padding(.horizontal, 24)
+                
+                Spacer()
+            }
+            .background(Color.background)
+            .navigationTitle("Sign Up")
+            .navigationBarTitleDisplayMode(.inline)
         }
+        .background(Color.background)
         .onAppear {
+            viewModel.startObserving()
             subscribeToEvents()
         }
         .onDisappear {
@@ -46,17 +108,36 @@ struct SignInScreen: View {
             eventSubscription?.dispose()
         }
         .alert("Error", isPresented: $showErrorAlert) {
-            Button("OK", role: .cancel) {}
+            Button("OK", role: .cancel) { }
         } message: {
             Text(errorMessage)
         }
     }
     
+    private var isFormValid: Bool {
+        !name.isEmpty &&
+        !email.isEmpty &&
+        !phone.isEmpty &&
+        !password.isEmpty &&
+        password == repeatedPassword
+    }
+    
+    private func handleSignUp() {
+        viewModel.onEvent(event: SignUpEvent.RequestSignUp(
+            userName: name,
+            phone: phone,
+            email: email,
+            profilePictureUrl: nil,
+            password: password,
+            repeatedPassword: repeatedPassword
+        ))
+    }
+    
     private func subscribeToEvents() {
         eventSubscription = viewModel.eventFlow.subscribe(
             onCollect: { event in
-                guard let event = event else { return }
                 DispatchQueue.main.async {
+                    guard let event = event else { return }
                     handleUiEvent(event)
                 }
             }
@@ -69,13 +150,10 @@ struct SignInScreen: View {
             errorMessage = event.message
             showErrorAlert = true
             
-        case is SignUpViewModel.UiEventShowLoginSuccess,
-             is SignUpViewModel.UiEventShowSignUpSuccess:
-            // Navigation handled automatically by parent
-            break
+        case is SignUpViewModel.UiEventShowSignUpSuccess:
+            navigate(.routeListing)
             
-        default:
-            break
+        default: break
         }
     }
 }
