@@ -8,6 +8,7 @@ struct ContentView: View {
     private let signUpModule = SignUpModule()
     private let splashModule = SplashModule()
     
+    // Screen instances as you defined them
     private var signUpScreen: SignUpScreen {
         SignUpScreen(
             signUpUseCase: signUpModule.signUpUseCase,

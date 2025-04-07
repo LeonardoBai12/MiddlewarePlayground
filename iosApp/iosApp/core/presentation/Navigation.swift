@@ -14,21 +14,6 @@ enum AppScreen: String, CaseIterable, Identifiable {
     var id: String { self.rawValue }
 }
 
-extension View {
-    func withNavigationHandler(onNavigate: @escaping (AppScreen) -> Void) -> some View {
-        self.modifier(NavigationHandlerModifier(onNavigate: onNavigate))
-    }
-}
-
-struct NavigationHandlerModifier: ViewModifier {
-    let onNavigate: (AppScreen) -> Void
-    
-    func body(content: Content) -> some View {
-        content
-            .environment(\.navigate, onNavigate)
-    }
-}
-
 struct NavigationKey: EnvironmentKey {
     static let defaultValue: (AppScreen) -> Void = { _ in }
 }
