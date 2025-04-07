@@ -9,10 +9,9 @@
 /* Begin PBXAggregateTarget section */
 		8777C9F6889E59EFFD631D80AEE9048B /* shared */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = CE4402B7FD9568A772BDB19713A878A1 /* Build configuration list for PBXAggregateTarget "shared" */;
+			buildConfigurationList = 8E2EA256735C813161913AB602FE3FAC /* Build configuration list for PBXAggregateTarget "shared" */;
 			buildPhases = (
-				BB9FA35B9866BC9067158121B8B387E4 /* [CP-User] Build shared */,
-				0AF51473E4638B54CE9753243ADD3E67 /* [CP] Copy XCFrameworks */,
+				A6D4E816565211785CE2EA61DB3F82B1 /* [CP] Copy XCFrameworks */,
 			);
 			dependencies = (
 			);
@@ -246,7 +245,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0AF51473E4638B54CE9753243ADD3E67 /* [CP] Copy XCFrameworks */ = {
+		A6D4E816565211785CE2EA61DB3F82B1 /* [CP] Copy XCFrameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -262,16 +261,6 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/shared/shared-xcframeworks.sh\"\n";
 			showEnvVarsInLog = 0;
-		};
-		BB9FA35B9866BC9067158121B8B387E4 /* [CP-User] Build shared */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			name = "[CP-User] Build shared";
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "                if [ \"YES\" = \"$OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED\" ]; then\n                  echo \"Skipping Gradle build task invocation due to OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED environment variable set to \"YES\"\"\n                  exit 0\n                fi\n                set -ev\n                REPO_ROOT=\"$PODS_TARGET_SRCROOT\"\n                \"$REPO_ROOT/../gradlew\" -p \"$REPO_ROOT\" $KOTLIN_PROJECT_PATH:syncFramework                     -Pkotlin.native.cocoapods.platform=$PLATFORM_NAME                     -Pkotlin.native.cocoapods.archs=\"$ARCHS\"                     -Pkotlin.native.cocoapods.configuration=\"$CONFIGURATION\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -333,23 +322,6 @@
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
-		};
-		1868EAA3E7001C102393E3DE3A476AD3 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = DDF58BF2E0CC22D80E7B3D2948A3D003 /* shared.debug.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
 		};
 		30E0B9EFD9A5C45D0D351231E81B30B3 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -450,7 +422,7 @@
 			};
 			name = Debug;
 		};
-		74ACC358F057446026D5DEE718D73504 /* Release */ = {
+		64EC7830BB8DA91630D5D7845183B24D /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D78A292487CC1DCB1CE5F59539CA5109 /* shared.release.xcconfig */;
 			buildSettings = {
@@ -467,6 +439,23 @@
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
+		};
+		96E0506513A2EC357330262750D632F3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDF58BF2E0CC22D80E7B3D2948A3D003 /* shared.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
 		};
 		F4FF6A0D1970CA9705974E3CB2134802 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -546,20 +535,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		8E2EA256735C813161913AB602FE3FAC /* Build configuration list for PBXAggregateTarget "shared" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				96E0506513A2EC357330262750D632F3 /* Debug */,
+				64EC7830BB8DA91630D5D7845183B24D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		9F1E85ECB672A0CC96333A6C6DF60EE6 /* Build configuration list for PBXNativeTarget "Pods-iosApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5D61A0D386909A90D35FAA1B9A95207D /* Debug */,
 				03527EFE33C6B1E7347416F7E6E66403 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		CE4402B7FD9568A772BDB19713A878A1 /* Build configuration list for PBXAggregateTarget "shared" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				1868EAA3E7001C102393E3DE3A476AD3 /* Debug */,
-				74ACC358F057446026D5DEE718D73504 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
