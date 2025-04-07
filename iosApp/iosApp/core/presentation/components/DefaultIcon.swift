@@ -29,7 +29,7 @@ struct DefaultIcon: View {
     var containerColor: Color = Color.onPrimary
     var contentColor: Color = Color.primaryColor
     var contentDescription: String
-    var cornerRadius: CGFloat = 24
+    var cornerRadius: CGFloat = 16
     
     var body: some View {
         ZStack {
@@ -41,7 +41,7 @@ struct DefaultIcon: View {
                 .resizable()
                 .scaledToFit()
                 .foregroundColor(contentColor)
-                .frame(width: size.width * 0.7, height: size.height * 0.7)
+                .frame(width: size.width, height: size.height)
         }
         .accessibilityLabel(contentDescription)
         .frame(width: size.width, height: size.height)

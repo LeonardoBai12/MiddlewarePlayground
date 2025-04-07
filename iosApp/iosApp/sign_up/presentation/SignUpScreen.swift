@@ -10,24 +10,67 @@ import SwiftUI
 import Shared
 
 struct SignUpScreen: View {
-    private var signUpUseCase: Sign_up_domainSignUpUseCase
-    private var loginUseCase: Sign_up_domainLoginUseCase
-    
-    @ObservedObject private var viewModel: IOSSignUpViewModel
-    
-    init(
-        signUpUseCase: Sign_up_domainSignUpUseCase,
-        loginUseCase: Sign_up_domainLoginUseCase
-    ) {
-        self.signUpUseCase = signUpUseCase
-        self.loginUseCase = loginUseCase
-        self.viewModel = IOSSignUpViewModel(
-            signUpUseCase: signUpUseCase,
-            loginUseCase: loginUseCase
-        )
-    }
-    
+    @Environment(\.navigate) private var navigate
+
     var body: some View {
-        Text("SignUp")
+        ZStack {
+            Color.black
+                .overlay(
+                    Image("sign_up_background")
+                        .resizable()
+                        .scaledToFill()
+                        .opacity(0.8)
+                )
+                .edgesIgnoringSafeArea(.all)
+            
+            LinearGradient(
+                gradient: Gradient(
+                    colors: [
+                        Color.black,
+                        Color.clear,
+                        Color.black
+                    ]
+                ),
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .edgesIgnoringSafeArea(.all)
+            
+            VStack(alignment: .leading) {
+                VStack(alignment: .leading, spacing: 12) {
+                    MiddlewareLogoIcon()
+                    Text("Middleware")
+                        .font(.system(size: 40, weight: .bold))
+                        .foregroundColor(.white)
+                }
+                .padding(.top, 48)
+                .padding(.leading, 48)
+                
+                Spacer()
+                
+                VStack(spacing: 16) {
+                    DefaultTextButton(
+                        text: "Login",
+                        onClick: {
+                            navigate(.login)
+                        }
+                    )
+                    .padding(.horizontal, 36)
+                    
+                    DefaultTextButton(
+                        text: "Sign Up",
+                        onClick: {
+                            navigate(.signIn)
+                        },
+                        containerColor: Color.surface,
+                        contentColor: Color.onSurface
+                    )
+                    .padding(.horizontal, 36)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.bottom, 36)
+            }
+        }
     }
 }

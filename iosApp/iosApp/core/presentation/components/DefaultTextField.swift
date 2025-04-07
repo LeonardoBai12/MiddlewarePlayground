@@ -57,7 +57,7 @@ struct DefaultTextField: View {
                     .buttonStyle(.plain)
                 }
             }
-            .padding()
+            .padding(12)
             .background(Color.surface)
             .cornerRadius(12)
             .overlay(

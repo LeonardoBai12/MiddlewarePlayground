@@ -10,7 +10,7 @@ import SwiftUI
 import Shared
 
 struct SplashScreen: View {
-    @Environment(\.navigate) private var navigate
+    @Environment(\.replace) private var navigate
     @StateObject private var viewModel: IOSSplashViewModel
     @State private var eventSubscription: StateDisposableHandle?
     

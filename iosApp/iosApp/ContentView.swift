@@ -8,9 +8,19 @@ struct ContentView: View {
     private let signUpModule = SignUpModule()
     private let splashModule = SplashModule()
     
-    // Screen instances as you defined them
     private var signUpScreen: SignUpScreen {
-        SignUpScreen(
+        SignUpScreen()
+    }
+    
+    private var loginScreen: LoginScreen {
+        LoginScreen(
+            signUpUseCase: signUpModule.signUpUseCase,
+            loginUseCase: signUpModule.loginUseCase
+        )
+    }
+    
+    private var signInScreen: SignInScreen {
+        SignInScreen(
             signUpUseCase: signUpModule.signUpUseCase,
             loginUseCase: signUpModule.loginUseCase
         )
@@ -72,37 +82,61 @@ struct ContentView: View {
     }
     
     @State private var navigationPath = NavigationPath()
+    @State private var rootScreen: AppScreen? = .splash
     
     var body: some View {
         NavigationStack(path: $navigationPath) {
-            splashScreen
-                .navigationDestination(for: AppScreen.self) { screen in
-                    switch screen {
+            Group {
+                if let rootScreen {
+                    switch rootScreen {
                     case .splash:
                         splashScreen
                     case .signUp:
                         signUpScreen
                     case .routeListing:
                         routeListingScreen
-                    case .routeDetails:
-                        routeDetailsScreen
-                    case .fillRouteFields:
-                        fillRouteFieldsScreen
-                    case .fillPreConfigs:
-                        fillPreConfigsScreen
-                    case .preview:
-                        previewScreen
-                    case .originalRoute:
-                        originalRouteScreen
-                    case .review:
-                        reviewScreen
-                    case .user:
-                        userScreen
+                    default:
+                        EmptyView()
                     }
+                } else {
+                    ProgressView()
                 }
+            }
+            .navigationDestination(for: AppScreen.self) { screen in
+                switch screen {
+                case .splash:
+                    splashScreen
+                case .signUp:
+                    signUpScreen
+                case .routeListing:
+                    routeListingScreen
+                case .routeDetails:
+                    routeDetailsScreen
+                case .fillRouteFields:
+                    fillRouteFieldsScreen
+                case .fillPreConfigs:
+                    fillPreConfigsScreen
+                case .preview:
+                    previewScreen
+                case .originalRoute:
+                    originalRouteScreen
+                case .review:
+                    reviewScreen
+                case .user:
+                    userScreen
+                case .signIn:
+                    signInScreen
+                case .login:
+                    loginScreen
+                }
+            }
         }
         .environment(\.navigate) { screen in
             navigationPath.append(screen)
+        }
+        .environment(\.replace) { screen in
+            navigationPath.removeLast(navigationPath.count)
+            rootScreen = screen
         }
     }
 }

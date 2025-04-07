@@ -20,16 +20,16 @@ struct DefaultTextButton: View {
             HStack(spacing: 8) {
                 icon?
                     .foregroundColor(contentColor)
-                
                 Text(text)
                     .font(.system(size: 18, weight: .semibold))
                     .foregroundColor(contentColor)
             }
+            .frame(maxWidth: .infinity)
             .padding(.horizontal, 16)
         }
         .frame(height: 48)
         .background(containerColor)
-        .cornerRadius(36)
+        .cornerRadius(8)
         .opacity(enabled ? 1.0 : 0.5)
         .disabled(!enabled)
     }

@@ -33,9 +33,8 @@
 		86004DE92DA347200001F2DB /* RouteDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86004DE82DA347200001F2DB /* RouteDetails.swift */; };
 		86004DEB2DA347E20001F2DB /* TestColumn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86004DEA2DA347E20001F2DB /* TestColumn.swift */; };
 		86004DF12DA352070001F2DB /* Navigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86004DF02DA352070001F2DB /* Navigation.swift */; };
-		86004DF42DA3684C0001F2DB /* SignInTextFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86004DF32DA3684C0001F2DB /* SignInTextFields.swift */; };
-		86004DF62DA369030001F2DB /* SignUpSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86004DF52DA369030001F2DB /* SignUpSheet.swift */; };
-		86004DF82DA3693F0001F2DB /* LoginSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86004DF72DA3693F0001F2DB /* LoginSheet.swift */; };
+		86004DFA2DA379AD0001F2DB /* LoginScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86004DF92DA379AD0001F2DB /* LoginScreen.swift */; };
+		86004DFC2DA379B70001F2DB /* SignInScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86004DFB2DA379B70001F2DB /* SignInScreen.swift */; };
 		863CE4902DA2E0C400A04ED8 /* SignUpScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863CE48F2DA2E0C400A04ED8 /* SignUpScreen.swift */; };
 		863CE4922DA2E0E500A04ED8 /* IOSSignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863CE4912DA2E0D800A04ED8 /* IOSSignUpViewModel.swift */; };
 		863CE4942DA2EA4200A04ED8 /* SplashScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863CE4932DA2EA4200A04ED8 /* SplashScreen.swift */; };
@@ -78,9 +77,8 @@
 		86004DE82DA347200001F2DB /* RouteDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteDetails.swift; sourceTree = "<group>"; };
 		86004DEA2DA347E20001F2DB /* TestColumn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestColumn.swift; sourceTree = "<group>"; };
 		86004DF02DA352070001F2DB /* Navigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Navigation.swift; sourceTree = "<group>"; };
-		86004DF32DA3684C0001F2DB /* SignInTextFields.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInTextFields.swift; sourceTree = "<group>"; };
-		86004DF52DA369030001F2DB /* SignUpSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpSheet.swift; sourceTree = "<group>"; };
-		86004DF72DA3693F0001F2DB /* LoginSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSheet.swift; sourceTree = "<group>"; };
+		86004DF92DA379AD0001F2DB /* LoginScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginScreen.swift; sourceTree = "<group>"; };
+		86004DFB2DA379B70001F2DB /* SignInScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInScreen.swift; sourceTree = "<group>"; };
 		863CE48F2DA2E0C400A04ED8 /* SignUpScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpScreen.swift; sourceTree = "<group>"; };
 		863CE4912DA2E0D800A04ED8 /* IOSSignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOSSignUpViewModel.swift; sourceTree = "<group>"; };
 		863CE4932DA2EA4200A04ED8 /* SplashScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreen.swift; sourceTree = "<group>"; };
@@ -231,16 +229,6 @@
 			path = components;
 			sourceTree = "<group>";
 		};
-		86004DF22DA368350001F2DB /* components */ = {
-			isa = PBXGroup;
-			children = (
-				86004DF72DA3693F0001F2DB /* LoginSheet.swift */,
-				86004DF52DA369030001F2DB /* SignUpSheet.swift */,
-				86004DF32DA3684C0001F2DB /* SignInTextFields.swift */,
-			);
-			path = components;
-			sourceTree = "<group>";
-		};
 		863CE4882DA2E02000A04ED8 /* core */ = {
 			isa = PBXGroup;
 			children = (
@@ -304,9 +292,10 @@
 		863CE49F2DA31F5700A04ED8 /* presentation */ = {
 			isa = PBXGroup;
 			children = (
-				86004DF22DA368350001F2DB /* components */,
 				863CE4912DA2E0D800A04ED8 /* IOSSignUpViewModel.swift */,
 				863CE48F2DA2E0C400A04ED8 /* SignUpScreen.swift */,
+				86004DF92DA379AD0001F2DB /* LoginScreen.swift */,
+				86004DFB2DA379B70001F2DB /* SignInScreen.swift */,
 			);
 			path = presentation;
 			sourceTree = "<group>";
@@ -461,8 +450,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				86004DF62DA369030001F2DB /* SignUpSheet.swift in Sources */,
-				86004DF82DA3693F0001F2DB /* LoginSheet.swift in Sources */,
 				863CE4942DA2EA4200A04ED8 /* SplashScreen.swift in Sources */,
 				863CE4962DA2EA5400A04ED8 /* IOSSplashViewModel.swift in Sources */,
 				86004DCE2DA326060001F2DB /* FillRouteFieldsScreen.swift in Sources */,
@@ -474,12 +461,14 @@
 				86004DDD2DA32F2B0001F2DB /* DefaultIconButton.swift in Sources */,
 				86004DE72DA3344F0001F2DB /* MethodBox.swift in Sources */,
 				863CE4A32DA3215D00A04ED8 /* UserScreen.swift in Sources */,
+				86004DFC2DA379B70001F2DB /* SignInScreen.swift in Sources */,
 				86004DD62DA327930001F2DB /* IOSPreviewViewModel.swift in Sources */,
 				863CE4922DA2E0E500A04ED8 /* IOSSignUpViewModel.swift in Sources */,
 				86004DD02DA3263B0001F2DB /* IOSFillPreConfigsViewModel.swift in Sources */,
 				86004DBC2DA322B10001F2DB /* RouteDetailsScreen.swift in Sources */,
 				86004DD42DA327050001F2DB /* IOSOriginalRouteViewModel.swift in Sources */,
 				86004DD22DA326900001F2DB /* IOSFillRouteFieldsViewModel.swift in Sources */,
+				86004DFA2DA379AD0001F2DB /* LoginScreen.swift in Sources */,
 				86004DC82DA325D70001F2DB /* PreviewScreen.swift in Sources */,
 				863CE4AC2DA3222C00A04ED8 /* IOSRoutesViewModel.swift in Sources */,
 				863CE4AA2DA3222400A04ED8 /* RoutesListingScreen.swift in Sources */,
@@ -496,7 +485,6 @@
 				863CE4902DA2E0C400A04ED8 /* SignUpScreen.swift in Sources */,
 				86004DE52DA331820001F2DB /* MapElement.swift in Sources */,
 				86004DCA2DA325E10001F2DB /* ReviewScreen.swift in Sources */,
-				86004DF42DA3684C0001F2DB /* SignInTextFields.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
