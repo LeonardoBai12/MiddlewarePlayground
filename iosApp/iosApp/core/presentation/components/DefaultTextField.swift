@@ -62,7 +62,7 @@ struct DefaultTextField: View {
             .cornerRadius(12)
             .overlay(
                 RoundedRectangle(cornerRadius: 12)
-                    .stroke(isFocused ? Color.primaryColor : Color.onSurface.opacity(0.2), lineWidth: 1)
+                    .stroke(isFocused ? Color.primaryColor : Color.onSurface.opacity(0.0), lineWidth: 1)
             )
             .disabled(!isEnabled)
             .opacity(isEnabled ? 1.0 : 0.6)

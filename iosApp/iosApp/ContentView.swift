@@ -138,7 +138,7 @@ struct ContentView: View {
             navigationPath.removeLast(navigationPath.count)
             rootScreen = screen
         }
-        .accentColor(Color.primaryPink)
+        .accentColor(Color.primaryColor)
         .background(Color.background)
     }
 }

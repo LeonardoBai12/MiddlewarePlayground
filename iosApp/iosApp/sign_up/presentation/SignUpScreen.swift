@@ -40,7 +40,7 @@ struct SignUpScreen: View {
             VStack(alignment: .leading) {
                 VStack(alignment: .leading, spacing: 12) {
                     MiddlewareLogoIcon()
-                    Text("Middleware")
+                    Text("Playground")
                         .font(.system(size: 40, weight: .bold))
                         .foregroundColor(.white)
                 }
