@@ -52,6 +52,10 @@ struct MappedRoute: Identifiable, Equatable, Hashable {
         self.preConfiguredBody = preConfiguredBody
         self.isFavourite = isFavourite
     }
+    
+    func toModel() -> Common_sharedMappedRoute {
+        return Common_sharedMappedRoute(uuid: id, path: path, method: method, originalBaseUrl: originalBaseUrl, originalPath: originalPath, originalMethod: originalMethod, originalQueries: originalQueries, originalHeaders: originalHeaders, originalBody: originalBody, preConfiguredQueries: preConfiguredQueries, preConfiguredHeaders: preConfiguredHeaders, preConfiguredBody: preConfiguredBody, isFavourite: isFavourite)
+    }	
 }
 
 extension MappedRoute {

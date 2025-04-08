@@ -23,7 +23,6 @@ struct MethodBox: View {
             Text(method.name)
                 .font(.system(size: 16, weight: .medium))
                 .foregroundColor(.white)
-                .frame(maxWidth: .infinity)
                 .padding(.vertical, 6)
                 .padding(.horizontal, 12)
                 .background(Color(hex: method.color))
