@@ -15,8 +15,8 @@ struct OriginalRouteScreen: View {
     
     @State private var result = ""
     @State private var code = 0
-    @State private var originalBaseUrl = "https://www.themealdb.com/"
-    @State private var originalPath = "api/json/v1/1/categories.php"
+    @State private var originalBaseUrl = "https://"
+    @State private var originalPath = ""
     @State private var originalMethodExpanded = false
     @State private var originalMethod = Common_sharedMiddlewareHttpMethods.get
     @State private var originalBody = ""
