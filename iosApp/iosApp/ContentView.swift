@@ -48,13 +48,6 @@ struct ContentView: View {
         )
     }
     
-    private var routeDetailsScreen: RouteDetailsScreen {
-        RouteDetailsScreen(
-            requestMappedRouteUseCase: middlewareModule.requestMappedRouteUseCase,
-            saveRouteInHistoryUseCase: middlewareModule.saveRouteInHistoryUseCase
-        )
-    }
-    
     private var fillPreConfigsScreen: FillPreConfigsScreen {
         FillPreConfigsScreen()
     }
@@ -110,8 +103,12 @@ struct ContentView: View {
                     signUpScreen
                 case .routeListing:
                     routeListingScreen
-                case .routeDetails:
-                    routeDetailsScreen
+                case .routeDetails(let route):
+                    RouteDetailsScreen(
+                        route: route,
+                        requestMappedRouteUseCase: middlewareModule.requestMappedRouteUseCase,
+                        saveRouteInHistoryUseCase: middlewareModule.saveRouteInHistoryUseCase
+                    )
                 case .fillRouteFields:
                     fillRouteFieldsScreen
                 case .fillPreConfigs:

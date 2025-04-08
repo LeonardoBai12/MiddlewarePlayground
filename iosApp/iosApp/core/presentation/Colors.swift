@@ -42,7 +42,7 @@ extension Color {
     static let primaryColor = Color(light: .primaryDarkPink, dark: .primaryPink)
     static let background = Color(light: .backgroundLightBlue, dark: .darkBlue)
     static let onPrimary = Color(light: .white, dark: .darkGrayBlue)
-    static let onBackground = Color(light: .primaryDarkPink, dark: .primaryPink)
+    static let onBackground = Color(light: .black, dark: .white)
     static let surface = Color(light: .surfaceBlue, dark: .darkGrayBlue)
     static let onSurface = Color(light: .primaryDarkPink, dark: .primaryPink)
     static let secondary = Color(light: .secondaryPurple, dark: .secondaryPurple)

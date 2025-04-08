@@ -44,6 +44,7 @@
 		863CE4A52DA3216000A04ED8 /* IOSUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863CE4A42DA3216000A04ED8 /* IOSUserViewModel.swift */; };
 		863CE4AA2DA3222400A04ED8 /* RoutesListingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863CE4A92DA3222400A04ED8 /* RoutesListingScreen.swift */; };
 		863CE4AC2DA3222C00A04ED8 /* IOSRoutesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863CE4AB2DA3222C00A04ED8 /* IOSRoutesViewModel.swift */; };
+		86F101002DA42712000F6597 /* MappedRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F100FF2DA42712000F6597 /* MappedRoute.swift */; };
 		CBC31D925D363525F43EEA24 /* Pods_iosApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5AF8D677673401FB13DC780 /* Pods_iosApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -88,6 +89,7 @@
 		863CE4A42DA3216000A04ED8 /* IOSUserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOSUserViewModel.swift; sourceTree = "<group>"; };
 		863CE4A92DA3222400A04ED8 /* RoutesListingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutesListingScreen.swift; sourceTree = "<group>"; };
 		863CE4AB2DA3222C00A04ED8 /* IOSRoutesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOSRoutesViewModel.swift; sourceTree = "<group>"; };
+		86F100FF2DA42712000F6597 /* MappedRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MappedRoute.swift; sourceTree = "<group>"; };
 		DB961C43C0063771AA75D913 /* Pods-iosApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosApp.release.xcconfig"; path = "Target Support Files/Pods-iosApp/Pods-iosApp.release.xcconfig"; sourceTree = "<group>"; };
 		E5AF8D677673401FB13DC780 /* Pods_iosApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iosApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -303,6 +305,7 @@
 		863CE4A62DA3220400A04ED8 /* routes */ = {
 			isa = PBXGroup;
 			children = (
+				86F100FE2DA42665000F6597 /* model */,
 				863CE4A82DA3221400A04ED8 /* details */,
 				863CE4A72DA3220B00A04ED8 /* listing */,
 			);
@@ -325,6 +328,14 @@
 				86004DBB2DA322B10001F2DB /* RouteDetailsScreen.swift */,
 			);
 			path = details;
+			sourceTree = "<group>";
+		};
+		86F100FE2DA42665000F6597 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				86F100FF2DA42712000F6597 /* MappedRoute.swift */,
+			);
+			path = model;
 			sourceTree = "<group>";
 		};
 		A0A582D98DCAC1F380BAACB6 /* Pods */ = {
@@ -484,6 +495,7 @@
 				863CE4A52DA3216000A04ED8 /* IOSUserViewModel.swift in Sources */,
 				863CE4902DA2E0C400A04ED8 /* SignUpScreen.swift in Sources */,
 				86004DE52DA331820001F2DB /* MapElement.swift in Sources */,
+				86F101002DA42712000F6597 /* MappedRoute.swift in Sources */,
 				86004DCA2DA325E10001F2DB /* ReviewScreen.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
