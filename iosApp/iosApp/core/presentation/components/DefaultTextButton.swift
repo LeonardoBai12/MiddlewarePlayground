@@ -27,7 +27,7 @@ struct DefaultTextButton: View {
             .frame(maxWidth: .infinity)
             .padding(.horizontal, 16)
         }
-        .frame(height: 48)
+        .frame(height: 36)
         .background(containerColor)
         .cornerRadius(8)
         .opacity(enabled ? 1.0 : 0.5)

@@ -83,10 +83,18 @@ struct RoutesListingScreen: View {
     
     private var groupedByApiContent: some View {
         ForEach(filteredApis, id: \.self) { api in
-            ApiSection(
-                api: api,
-                routes: viewModel.state.apis[api]?.map(MappedRoute.init) ?? []
-            )
+            let filteredRoutes = (viewModel.state.apis[api] ?? [])
+                .map(MappedRoute.init)
+                .filter { route in
+                    searchFilter.isEmpty || routeMatchesSearch(route)
+                }
+
+            if !filteredRoutes.isEmpty {
+                ApiSection(
+                    api: api,
+                    routes: filteredRoutes
+                )
+            }
         }
     }
     
@@ -175,9 +183,7 @@ struct RoutesListingScreen: View {
     private func setupScreen() {
         viewModel.startObserving()
         subscribeToEvents()
-        if viewModel.state.routes.isEmpty {
-            viewModel.onEvent(event: RoutesEvent.GetRoutes())
-        }
+        viewModel.onEvent(event: RoutesEvent.GetRoutes())
     }
     
     private func cleanup() {

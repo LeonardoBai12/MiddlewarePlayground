@@ -48,7 +48,7 @@ struct TestColumn: View {
             .disabled(isLoading || isFinished)
             .background(isLoading || isFinished ? Color.gray : Color.buttonGreen)
             .foregroundColor(.white)
-            .cornerRadius(36)
+            .cornerRadius(8)
             .frame(maxWidth: UIScreen.main.bounds.width * 0.7)
             
             // Loading Indicator

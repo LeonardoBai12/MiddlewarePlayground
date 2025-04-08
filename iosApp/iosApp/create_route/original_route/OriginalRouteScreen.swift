@@ -15,8 +15,8 @@ struct OriginalRouteScreen: View {
     
     @State private var result = ""
     @State private var code = 0
-    @State private var originalBaseUrl = "https://"
-    @State private var originalPath = ""
+    @State private var originalBaseUrl = "https://www.themealdb.com/"
+    @State private var originalPath = "api/json/v1/1/categories.php"
     @State private var originalMethodExpanded = false
     @State private var originalMethod = Common_sharedMiddlewareHttpMethods.get
     @State private var originalBody = ""
@@ -69,8 +69,13 @@ struct OriginalRouteScreen: View {
                         Image(systemName: "chevron.right")
                             .foregroundColor(Color.primaryColor)
                     }
-                }.disabled(viewModel.state.isLoading || result.isEmpty)
+                }
             }
+        }
+        .alert("Error", isPresented: $showErrorAlert) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text(errorMessage)
         }
         .navigationTitle("Step 1/5: Original Route")
     }
@@ -252,9 +257,8 @@ struct OriginalRouteScreen: View {
         case let showResult as OriginalRouteViewModel.UiEventShowResult:
             code = Int(showResult.code)
             result = showResult.result
-            
         case is OriginalRouteViewModel.UiEventNavigateToNextStep:
-            // Prepare data for next screen and navigate
+            let oldFields = generateOldBodyFieldsFromJson(result)
             let args = CreateRouteArgs(
                 originalResponse: result,
                 originalBaseUrl: originalBaseUrl,
@@ -262,11 +266,58 @@ struct OriginalRouteScreen: View {
                 originalMethod: originalMethod,
                 originalBody: originalBody,
                 originalQueries: viewModel.state.originalQueries,
-                originalHeaders: viewModel.state.originalHeaders
+                originalHeaders: viewModel.state.originalHeaders,
+                oldBodyFields: oldFields
             )
             navigate(.fillRouteFields(args))
         default:
             break
+        }
+    }
+    
+    // Add this JSON parsing function
+    private func generateOldBodyFieldsFromJson(_ jsonString: String) -> [String: OldBodyField] {
+        guard let data = jsonString.data(using: .utf8) else { return [:] }
+        
+        do {
+            let json = try JSONSerialization.jsonObject(with: data)
+            var fields: [String: OldBodyField] = [:]
+            processJsonElement(json, fields: &fields, parents: [])
+            return fields
+        } catch {
+            print("JSON parsing error: \(error)")
+            return [:]
+        }
+    }
+    
+    private func processJsonElement(_ element: Any, fields: inout [String: OldBodyField], parents: [String]) {
+        if let dict = element as? [String: Any] {
+            for (key, value) in dict {
+                if let nestedDict = value as? [String: Any] {
+                    processJsonElement(nestedDict, fields: &fields, parents: parents + [key])
+                } else if let array = value as? [Any], let firstObject = array.first as? [String: Any] {
+                    processJsonElement(firstObject, fields: &fields, parents: parents + [key])
+                } else {
+                    let fieldName = parents.isEmpty ? key : (parents + [key]).joined(separator: "_")
+                    let type: String
+                    
+                    switch value {
+                    case is String: type = "String"
+                    case is Int: type = "Int"
+                    case is Double: type = "Double"
+                    case is Bool: type = "Boolean"
+                    default: type = "String" // fallback
+                    }
+                    
+                    fields[fieldName] = OldBodyField(
+                        keys: [key],
+                        type: type,
+                        parents: parents
+                    )
+                }
+            }
+        } else if let array = element as? [Any], let firstObject = array.first as? [String: Any] {
+            processJsonElement(firstObject, fields: &fields, parents: parents)
         }
     }
 }

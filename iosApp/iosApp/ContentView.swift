@@ -89,18 +89,20 @@ struct ContentView: View {
                         requestMappedRouteUseCase: middlewareModule.requestMappedRouteUseCase,
                         saveRouteInHistoryUseCase: middlewareModule.saveRouteInHistoryUseCase
                     )
-                case .fillRouteFields:
-                    FillRouteFieldsScreen()
-                case .fillPreConfigs:
-                    FillPreConfigsScreen()
-                case .preview:
+                case .fillRouteFields(let args):
+                    FillRouteFieldsScreen(args: args)
+                case .fillPreConfigs(let args):
+                    FillPreConfigsScreen(args: args)
+                case .preview(let args):
                     PreviewScreen(
+                        args: args,
                         requestPreviewUseCase: middlewareModule.requestPreviewUseCase
                     )
                 case .originalRoute:
                     originalRouteScreen
-                case .review:
+                case .review(let args):
                     ReviewScreen(
+                        args: args,
                         createNewRouteUseCase: middlewareModule.createNewRouteUseCase
                     )
                 case .user:
