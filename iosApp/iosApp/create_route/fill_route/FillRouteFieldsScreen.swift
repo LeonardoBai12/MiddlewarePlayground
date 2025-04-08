@@ -9,9 +9,11 @@
 import SwiftUI
 
 struct FillRouteFieldsScreen: View {
+    private var args: CreateRouteArgs
     @ObservedObject private var viewModel: IOSFillRouteFieldsViewModel
     
-    init() {
+    init(args: CreateRouteArgs) {
+        self.args = args
         self.viewModel = IOSFillRouteFieldsViewModel()
     }
     

@@ -48,30 +48,10 @@ struct ContentView: View {
         )
     }
     
-    private var fillPreConfigsScreen: FillPreConfigsScreen {
-        FillPreConfigsScreen()
-    }
-    
-    private var previewScreen: PreviewScreen {
-        PreviewScreen(
-            requestPreviewUseCase: middlewareModule.requestPreviewUseCase
-        )
-    }
-    
-    private var reviewScreen: ReviewScreen {
-        ReviewScreen(
-            createNewRouteUseCase: middlewareModule.createNewRouteUseCase
-        )
-    }
-    
     private var originalRouteScreen: OriginalRouteScreen {
         OriginalRouteScreen(
             testOriginalRouteUseCase: middlewareModule.testOriginalRouteUseCase
         )
-    }
-    
-    private var fillRouteFieldsScreen: FillRouteFieldsScreen {
-        FillRouteFieldsScreen()
     }
     
     @State private var navigationPath = NavigationPath()
@@ -110,15 +90,19 @@ struct ContentView: View {
                         saveRouteInHistoryUseCase: middlewareModule.saveRouteInHistoryUseCase
                     )
                 case .fillRouteFields:
-                    fillRouteFieldsScreen
+                    FillRouteFieldsScreen()
                 case .fillPreConfigs:
-                    fillPreConfigsScreen
+                    FillPreConfigsScreen()
                 case .preview:
-                    previewScreen
+                    PreviewScreen(
+                        requestPreviewUseCase: middlewareModule.requestPreviewUseCase
+                    )
                 case .originalRoute:
                     originalRouteScreen
                 case .review:
-                    reviewScreen
+                    ReviewScreen(
+                        createNewRouteUseCase: middlewareModule.createNewRouteUseCase
+                    )
                 case .user:
                     userScreen
                 case .signIn:

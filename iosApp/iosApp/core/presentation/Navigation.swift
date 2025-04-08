@@ -14,11 +14,11 @@ enum AppScreen: Hashable, Identifiable {
     case signIn
     case routeListing
     case routeDetails(MappedRoute)
-    case fillRouteFields
-    case fillPreConfigs
-    case preview
+    case fillRouteFields(CreateRouteArgs)
+    case fillPreConfigs(CreateRouteArgs)
+    case preview(CreateRouteArgs)
     case originalRoute
-    case review
+    case review(CreateRouteArgs)
     case user
     
     var id: String {
@@ -29,11 +29,11 @@ enum AppScreen: Hashable, Identifiable {
         case .signIn: return "signIn"
         case .routeListing: return "routeListing"
         case .routeDetails(let route): return "routeDetails_\(route.id)"
-        case .fillRouteFields: return "fillRouteFields"
-        case .fillPreConfigs: return "fillPreConfigs"
-        case .preview: return "preview"
+        case .fillRouteFields(let args): return "fillRouteFields_\(args.id)"
+        case .fillPreConfigs(let args): return "fillPreConfigs_\(args.id)"
+        case .preview(let args): return "preview_\(args.id)"
         case .originalRoute: return "originalRoute"
-        case .review: return "review"
+        case .review(let args): return "review_\(args.id)"
         case .user: return "user"
         }
     }

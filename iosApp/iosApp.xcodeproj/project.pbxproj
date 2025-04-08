@@ -45,6 +45,9 @@
 		863CE4AA2DA3222400A04ED8 /* RoutesListingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863CE4A92DA3222400A04ED8 /* RoutesListingScreen.swift */; };
 		863CE4AC2DA3222C00A04ED8 /* IOSRoutesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863CE4AB2DA3222C00A04ED8 /* IOSRoutesViewModel.swift */; };
 		86F101002DA42712000F6597 /* MappedRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F100FF2DA42712000F6597 /* MappedRoute.swift */; };
+		86F101052DA4B1A2000F6597 /* OldBodyField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F101042DA4B1A2000F6597 /* OldBodyField.swift */; };
+		86F101072DA4B1EA000F6597 /* NewBodyField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F101062DA4B1EA000F6597 /* NewBodyField.swift */; };
+		86F101092DA4B2D2000F6597 /* CreateRouteArgs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F101082DA4B2D2000F6597 /* CreateRouteArgs.swift */; };
 		CBC31D925D363525F43EEA24 /* Pods_iosApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5AF8D677673401FB13DC780 /* Pods_iosApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -90,6 +93,9 @@
 		863CE4A92DA3222400A04ED8 /* RoutesListingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutesListingScreen.swift; sourceTree = "<group>"; };
 		863CE4AB2DA3222C00A04ED8 /* IOSRoutesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOSRoutesViewModel.swift; sourceTree = "<group>"; };
 		86F100FF2DA42712000F6597 /* MappedRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MappedRoute.swift; sourceTree = "<group>"; };
+		86F101042DA4B1A2000F6597 /* OldBodyField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldBodyField.swift; sourceTree = "<group>"; };
+		86F101062DA4B1EA000F6597 /* NewBodyField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBodyField.swift; sourceTree = "<group>"; };
+		86F101082DA4B2D2000F6597 /* CreateRouteArgs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRouteArgs.swift; sourceTree = "<group>"; };
 		DB961C43C0063771AA75D913 /* Pods-iosApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosApp.release.xcconfig"; path = "Target Support Files/Pods-iosApp/Pods-iosApp.release.xcconfig"; sourceTree = "<group>"; };
 		E5AF8D677673401FB13DC780 /* Pods_iosApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iosApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -161,6 +167,7 @@
 		86004DBF2DA324F30001F2DB /* create_route */ = {
 			isa = PBXGroup;
 			children = (
+				86F101032DA4B19D000F6597 /* model */,
 				86004DC42DA3253B0001F2DB /* fill_preconfigs */,
 				86004DC32DA325300001F2DB /* preview */,
 				86004DC22DA3252C0001F2DB /* review */,
@@ -338,6 +345,16 @@
 			path = model;
 			sourceTree = "<group>";
 		};
+		86F101032DA4B19D000F6597 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				86F101082DA4B2D2000F6597 /* CreateRouteArgs.swift */,
+				86F101062DA4B1EA000F6597 /* NewBodyField.swift */,
+				86F101042DA4B1A2000F6597 /* OldBodyField.swift */,
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
 		A0A582D98DCAC1F380BAACB6 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -476,6 +493,7 @@
 				86004DD62DA327930001F2DB /* IOSPreviewViewModel.swift in Sources */,
 				863CE4922DA2E0E500A04ED8 /* IOSSignUpViewModel.swift in Sources */,
 				86004DD02DA3263B0001F2DB /* IOSFillPreConfigsViewModel.swift in Sources */,
+				86F101052DA4B1A2000F6597 /* OldBodyField.swift in Sources */,
 				86004DBC2DA322B10001F2DB /* RouteDetailsScreen.swift in Sources */,
 				86004DD42DA327050001F2DB /* IOSOriginalRouteViewModel.swift in Sources */,
 				86004DD22DA326900001F2DB /* IOSFillRouteFieldsViewModel.swift in Sources */,
@@ -486,7 +504,9 @@
 				86004DBE2DA322C40001F2DB /* IOSRouteDetailsViewModel.swift in Sources */,
 				86004DE12DA3300D0001F2DB /* DefaultIcon.swift in Sources */,
 				863CE4992DA31CDA00A04ED8 /* Colors.swift in Sources */,
+				86F101092DA4B2D2000F6597 /* CreateRouteArgs.swift in Sources */,
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
+				86F101072DA4B1EA000F6597 /* NewBodyField.swift in Sources */,
 				86004DE92DA347200001F2DB /* RouteDetails.swift in Sources */,
 				86004DC62DA325C90001F2DB /* FillPreConfigsScreen.swift in Sources */,
 				86004DEB2DA347E20001F2DB /* TestColumn.swift in Sources */,

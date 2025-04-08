@@ -10,12 +10,15 @@ import SwiftUI
 import Shared
 
 struct PreviewScreen: View {
+    private var args: CreateRouteArgs
     private var requestPreviewUseCase: Middleware_domainRequestPreviewUseCase
     @ObservedObject private var viewModel: IOSPreviewViewModel
 
     init(
+        args: CreateRouteArgs,
         requestPreviewUseCase: Middleware_domainRequestPreviewUseCase
     ) {
+        self.args = args
         self.requestPreviewUseCase = requestPreviewUseCase
         self.viewModel = IOSPreviewViewModel(
             requestPreviewUseCase: requestPreviewUseCase

@@ -8,7 +8,7 @@
 import SwiftUI
 import Shared
 
-struct MappedRoute: Identifiable, Equatable, Hashable {
+struct MappedRoute : Identifiable, Equatable, Hashable {
     let id: String
     let path: String
     let method: Common_sharedMiddlewareHttpMethods

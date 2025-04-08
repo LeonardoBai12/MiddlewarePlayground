@@ -9,9 +9,11 @@
 import SwiftUI
 
 struct FillPreConfigsScreen: View {
+    private var args: CreateRouteArgs
     @ObservedObject private var viewModel: IOSFillPreConfigsViewModel
 
-    init() {
+    init(args: CreateRouteArgs) {
+        self.args = args
         self.viewModel = IOSFillPreConfigsViewModel()
     }
     

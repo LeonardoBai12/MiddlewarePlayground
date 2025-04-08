@@ -51,7 +51,13 @@ struct MapElement: View {
             
             // Add/Remove Button
             Button(action: {
-                isAdded ? onClickRemove(mapKey) : onClickAdd(mapKey, mapValue)
+                if isAdded {
+                    onClickRemove(mapKey)
+                } else {
+                    onClickAdd(mapKey, mapValue)
+                    mapKey = ""
+                    mapValue = ""
+                }
             }) {
                 Image(systemName: isAdded ? "minus" : "plus")
                     .font(.system(size: 18, weight: .medium))
@@ -66,7 +72,6 @@ struct MapElement: View {
             .buttonStyle(.plain)
         }
         .frame(maxWidth: .infinity)
-        .padding(.vertical, 8)
     }
 }
 
