@@ -34,7 +34,7 @@ class UpdateUserUseCase(
             throw UserException("Invalid email.")
         }
 
-        if (phone.isValidPhone()) {
+        if (phone.isValidPhone().not()) {
             throw UserException("Invalid phone")
         }
 

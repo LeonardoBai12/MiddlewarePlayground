@@ -12,7 +12,7 @@ kotlin {
         compilations.all {
             compileTaskProvider.configure {
                 compilerOptions {
-                    jvmTarget.set(JvmTarget.JVM_1_8)
+                    jvmTarget.set(JvmTarget.JVM_17)
                 }
             }
         }
@@ -43,7 +43,9 @@ kotlin {
             implementation(project(":common:state"))
         }
         commonTest.dependencies {
-            implementation(libs.kotlin.test)
+            implementation(kotlin("test"))
+            implementation(libs.kotlinx.coroutines.test)
+            implementation(libs.kotlin.test.annotations.common)
         }
     }
 }

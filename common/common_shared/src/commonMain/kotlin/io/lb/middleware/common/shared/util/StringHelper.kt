@@ -11,7 +11,7 @@ fun String.isValidPhone(): Boolean {
 }
 
 fun String.isStrongPassword(): Boolean {
-    val passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$"
+    val passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!?])(?=\\S+$).{8,}$"
     return this.matches(passwordRegex.toRegex())
 }
 

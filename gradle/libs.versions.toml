@@ -62,6 +62,9 @@ assertk = { group = "com.willowtreeapps.assertk", name = "assertk", version = "0
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
 turbine = { group = "app.cash.turbine", name = "turbine", version = "1.2.0" }
 mockk = { group = "io.mockk", name = "mockk", version = "1.13.4" }
+kotlin-test-common = { module = "org.jetbrains.kotlin:kotlin-test-common", version.ref = "kotlin" }
+kotlin-test-annotations-common = { module = "org.jetbrains.kotlin:kotlin-test-annotations-common", version.ref = "kotlin" }
+kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 
 # Kotlin - Coroutines
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
@@ -87,3 +90,5 @@ sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "serialization" }
 ktor-plugin = { id = "io.ktor.plugin", version.ref = "ktor" }
 hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+ksp = { id = "com.google.devtools.ksp", version = "2.1.10-1.0.31" }
+mockmp = { id = "org.kodein.mock.mockmp", version = "2.0.0" }
