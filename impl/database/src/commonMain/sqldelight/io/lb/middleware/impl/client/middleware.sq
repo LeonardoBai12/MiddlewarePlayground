@@ -1,0 +1,96 @@
+-- UserEntity table
+CREATE TABLE UserEntity (
+    token TEXT NOT NULL,
+    userId TEXT NOT NULL PRIMARY KEY,
+    userName TEXT NOT NULL,
+    phone TEXT NOT NULL,
+    email TEXT NOT NULL,
+    profilePictureUrl TEXT
+);
+
+-- MappedRouteEntity table
+CREATE TABLE MappedRouteEntity (
+    uuid TEXT NOT NULL PRIMARY KEY,
+    path TEXT NOT NULL,
+    method TEXT NOT NULL,
+    originalBaseUrl TEXT NOT NULL,
+    originalPath TEXT NOT NULL,
+    originalMethod TEXT NOT NULL,
+    originalQueries TEXT NOT NULL,
+    originalHeaders TEXT NOT NULL,
+    originalBody TEXT,
+    preConfiguredQueries TEXT NOT NULL,
+    preConfiguredHeaders TEXT NOT NULL,
+    preConfiguredBody TEXT,
+    favourite INTEGER DEFAULT 0
+);
+
+-- MappedApiEntity table
+CREATE TABLE MappedApiEntity (
+    uuid TEXT NOT NULL PRIMARY KEY,
+    baseUrl TEXT NOT NULL,
+    originalApiBaseUrl TEXT NOT NULL,
+    favourite INTEGER DEFAULT 0
+);
+
+-- Queries for UserDatabaseService
+insertUser:
+INSERT INTO UserEntity (token, userId, userName, phone, email, profilePictureUrl)
+VALUES (?, ?, ?, ?, ?, ?);
+
+getUser:
+SELECT * FROM UserEntity LIMIT 1;
+
+updateUser:
+UPDATE UserEntity
+SET token = ?, userName = ?, phone = ?, email = ?, profilePictureUrl = ?
+WHERE userId = ?;
+
+switchRouteToFavourite:
+UPDATE MappedRouteEntity
+SET favourite = ?
+WHERE uuid = ?;
+
+switchApiToFavourite:
+UPDATE MappedApiEntity
+SET favourite = ?
+WHERE uuid = ?;
+
+deleteUser:
+DELETE FROM UserEntity WHERE userId = ?;
+
+-- Queries for MiddlewareDatabaseService
+getRoutesHistory:
+SELECT * FROM MappedRouteEntity;
+
+getApiHistory:
+SELECT * FROM MappedApiEntity;
+
+getRouteByApiId:
+SELECT * FROM MappedRouteEntity WHERE uuid = ?;
+
+getRouteById:
+SELECT * FROM MappedRouteEntity WHERE uuid = ?;
+
+getApiByBaseUrl:
+SELECT * FROM MappedApiEntity WHERE baseUrl = ?;
+
+saveRoute:
+INSERT INTO MappedRouteEntity (uuid, path, method, originalBaseUrl, originalPath, originalMethod, originalQueries, originalHeaders, originalBody, preConfiguredQueries, preConfiguredHeaders, preConfiguredBody)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+saveApi:
+INSERT INTO MappedApiEntity (uuid, baseUrl, originalApiBaseUrl)
+VALUES (?, ?, ?);
+
+deleteRoute:
+DELETE FROM MappedRouteEntity WHERE uuid = ?;
+
+deleteApi:
+DELETE FROM MappedApiEntity WHERE uuid = ?;
+
+deleteAllRoutes:
+DELETE FROM MappedRouteEntity;
+
+deleteAllApis:
+DELETE FROM MappedApiEntity;

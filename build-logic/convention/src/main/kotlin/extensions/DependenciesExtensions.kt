@@ -5,7 +5,7 @@ import org.gradle.api.artifacts.MinimalExternalModuleDependency
 import org.gradle.api.provider.Provider
 import org.gradle.kotlin.dsl.DependencyHandlerScope
 
-val COMPILE_VERSION = JavaVersion.VERSION_1_8
+val COMPILE_VERSION = JavaVersion.VERSION_17
 
 /**
  * Adds an implementation dependency to the project.

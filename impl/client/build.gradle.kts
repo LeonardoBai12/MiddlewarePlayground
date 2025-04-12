@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinCocoapods)
+    alias(libs.plugins.serialization)
     id("io.lb.android.library")
 }
 
@@ -11,7 +12,7 @@ kotlin {
         compilations.all {
             compileTaskProvider.configure {
                 compilerOptions {
-                    jvmTarget.set(JvmTarget.JVM_1_8)
+                    jvmTarget.set(JvmTarget.JVM_17)
                 }
             }
         }
@@ -27,8 +28,8 @@ kotlin {
         ios.deploymentTarget = "16.0"
         podfile = project.file("../../iosApp/Podfile")
         framework {
-            baseName = "client"
-            isStatic = false
+            baseName = "implClient"
+            isStatic = true
         }
     }
 
@@ -40,17 +41,20 @@ kotlin {
             implementation(libs.ktor.core)
             implementation(libs.ktor.serialization)
             implementation(libs.ktor.serialization.json)
-            implementation(project(":common:data"))
+            implementation(project(":common:remote"))
+            implementation(project(":common:common_shared"))
+        }
+        commonTest.dependencies {
+            implementation(kotlin("test"))
+            implementation(libs.kotlinx.coroutines.test)
+            implementation(libs.kotlin.test.annotations.common)
         }
         iosMain.dependencies {
             implementation(libs.ktor.ios)
-        }
-        commonTest.dependencies {
-            implementation(libs.kotlin.test)
         }
     }
 }
 
 android {
-    namespace = "io.lb.middleware.client"
+    namespace = "io.lb.middleware.impl.client"
 }

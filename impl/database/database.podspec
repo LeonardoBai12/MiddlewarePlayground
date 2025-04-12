@@ -1,20 +1,20 @@
 Pod::Spec.new do |spec|
     spec.name                     = 'database'
     spec.version                  = '1.0'
-    spec.homepage                 = 'Link to the database Module homepage'
+    spec.homepage                 = 'Link to the client Module homepage'
     spec.source                   = { :http=> ''}
     spec.authors                  = ''
     spec.license                  = ''
-    spec.summary                  = 'Some description for the database Module'
-    spec.vendored_frameworks      = 'build/cocoapods/framework/database.framework'
+    spec.summary                  = 'Some description for the client Module'
+    spec.vendored_frameworks      = 'build/cocoapods/framework/implDatabase.framework'
     spec.libraries                = 'c++'
     spec.ios.deployment_target    = '16.0'
                 
                 
-    if !Dir.exist?('build/cocoapods/framework/database.framework') || Dir.empty?('build/cocoapods/framework/database.framework')
+    if !Dir.exist?('build/cocoapods/framework/implDatabase.framework') || Dir.empty?('build/cocoapods/framework/implDatabase.framework')
         raise "
 
-        Kotlin framework 'database' doesn't exist yet, so a proper Xcode project can't be generated.
+        Kotlin framework 'implDatabase' doesn't exist yet, so a proper Xcode project can't be generated.
         'pod install' should be executed after running ':generateDummyFramework' Gradle task:
 
             ./gradlew :impl:database:generateDummyFramework
@@ -28,7 +28,7 @@ Pod::Spec.new do |spec|
                 
     spec.pod_target_xcconfig = {
         'KOTLIN_PROJECT_PATH' => ':impl:database',
-        'PRODUCT_MODULE_NAME' => 'database',
+        'PRODUCT_MODULE_NAME' => 'implDatabase',
     }
                 
     spec.script_phases = [

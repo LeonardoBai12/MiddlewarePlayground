@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Playground</string>
+    <string name="login">Login</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="password">Password</string>
+    <string name="repeat_password">Repeat your password</string>
+    <string name="email">Email</string>
+    <string name="logging_in">Logging in</string>
+    <string name="signing_up">Signing up</string>
+</resources>
