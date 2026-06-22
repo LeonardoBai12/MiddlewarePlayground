@@ -52,7 +52,10 @@ The application was developed following Clean Architecture and SOLID principles:
 
 The iOS app consumes the shared KMP module via CocoaPods. Follow these steps every time the shared module changes:
 
-1. **Sync the project** in Android Studio to generate the framework.
+1. **Generate the shared framework:**
+   ```bash
+   ./gradlew assembleSharedXCFramework
+   ```
 
 2. **Install/update CocoaPods dependencies** (from the `iosApp/` directory):
    ```bash
