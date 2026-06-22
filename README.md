@@ -48,6 +48,24 @@ The application was developed following Clean Architecture and SOLID principles:
 * **Adapter Pattern**: For sharing ViewModels between platforms
 * **Dependency Inversion**: To ensure business code doesn't depend on external frameworks
 
+## Building for iOS
+
+The iOS app consumes the shared KMP module via CocoaPods. Follow these steps every time the shared module changes:
+
+1. **Sync the project** in Android Studio to generate the framework.
+
+2. **Install/update CocoaPods dependencies** (from the `iosApp/` directory):
+   ```bash
+   cd iosApp && pod install
+   ```
+
+3. **Open the workspace** (not the `.xcodeproj`) in Xcode:
+   ```
+   iosApp/iosApp.xcworkspace
+   ```
+
+> **Note:** The shared framework is built as a **static** library (`isStatic = true` in `shared/build.gradle.kts`). If you see a `dyld: Library not loaded: @rpath/shared.framework/shared` crash, confirm that setting is in place and re-sync.
+
 ## How to Use
 
 ### Getting Started
