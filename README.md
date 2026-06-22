@@ -8,7 +8,7 @@ Integrating with the route mapping middleware, the app provides an intuitive gra
 
 ## Official Documentation and Resources
 
-* [Project Middleware Documentation](https://leonardos-organization-15.gitbook.io/projectmiddleware-public-docs)
+* [Project Middleware Documentation](https://leonardobai12.github.io/ProjectMiddleware)
 * [Middleware Backend Repository](https://github.com/LeonardoBai12/ProjectMiddleware)
 * [Authentication Service Repository](https://github.com/LeonardoBai12/MIddlewareUserService)
 * [Postman Documentation](https://documenter.getpostman.com/view/28162587/2sAXjRX9p1#intro)
