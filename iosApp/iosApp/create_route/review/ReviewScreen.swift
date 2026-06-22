@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import Shared
+import shared
 
 struct ReviewScreen: View {
     private var args: CreateRouteArgs

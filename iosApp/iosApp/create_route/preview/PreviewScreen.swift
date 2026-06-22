@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import Shared
+import shared
 
 struct PreviewScreen: View {
     private var args: CreateRouteArgs

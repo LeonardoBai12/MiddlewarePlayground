@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import Shared
+import shared
 
 struct RouteDetailsScreen: View {
     private var route: MappedRoute

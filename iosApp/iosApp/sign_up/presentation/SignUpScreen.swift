@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import Shared
+import shared
 
 struct SignUpScreen: View {
     @Environment(\.navigate) private var navigate

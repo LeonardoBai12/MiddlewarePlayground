@@ -5,7 +5,7 @@
 //  Created by Leonardo Bai on 06/04/25.
 //  Copyright © 2025 orgName. All rights reserved.
 //
-import Shared
+import shared
 
 extension RoutesListingScreen {
     @MainActor class IOSRoutesViewModel: ObservableObject {

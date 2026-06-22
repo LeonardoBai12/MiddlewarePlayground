@@ -5,7 +5,7 @@
 //  Created by Leonardo Bai on 07/04/25.
 //  Copyright © 2025 orgName. All rights reserved.
 //
-import Shared
+import shared
 
 struct NewBodyField : Identifiable, Equatable, Hashable {
     let id = UUID()

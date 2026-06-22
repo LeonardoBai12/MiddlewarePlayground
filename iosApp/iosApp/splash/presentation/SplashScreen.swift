@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import Shared
+import shared
 
 struct SplashScreen: View {
     @Environment(\.replace) private var navigate

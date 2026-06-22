@@ -1,5 +1,5 @@
 import SwiftUI
-import Shared
+import shared
 
 struct ContentView: View {
     private let appModule = AppModule()
