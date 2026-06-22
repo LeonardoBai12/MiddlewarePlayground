@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import Shared
+import shared
 
 struct FillPreConfigsScreen: View {
     @ObservedObject private var viewModel: IOSFillPreConfigsViewModel

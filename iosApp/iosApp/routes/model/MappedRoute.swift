@@ -6,7 +6,7 @@
 //  Copyright © 2025 orgName. All rights reserved.
 //
 import SwiftUI
-import Shared
+import shared
 
 struct MappedRoute : Identifiable, Equatable, Hashable {
     let id: String

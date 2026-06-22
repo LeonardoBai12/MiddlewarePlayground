@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import Shared
+import shared
 
 struct RoutesListingScreen: View {
     @Environment(\.navigate) private var navigate

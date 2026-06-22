@@ -6,7 +6,7 @@
 //  Copyright © 2025 orgName. All rights reserved.
 //
 
-import Shared
+import shared
 
 extension SplashScreen {
     @MainActor class IOSSplashViewModel: ObservableObject {

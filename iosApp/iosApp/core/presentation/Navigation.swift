@@ -5,7 +5,7 @@
 //  Created by Leonardo Bai on 06/04/25.
 //
 
-import SwiftUICore
+import SwiftUI
 
 enum AppScreen: Hashable, Identifiable {
     case splash

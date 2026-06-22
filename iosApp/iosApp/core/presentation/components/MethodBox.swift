@@ -6,7 +6,7 @@
 //  Copyright © 2025 orgName. All rights reserved.
 //
 import SwiftUI
-import Shared
+import shared
 
 struct MethodBox: View {
     let method: Common_sharedMiddlewareHttpMethods

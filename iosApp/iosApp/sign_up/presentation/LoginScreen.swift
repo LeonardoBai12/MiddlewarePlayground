@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import Shared
+import shared
 
 struct LoginScreen: View {
     @Environment(\.replace) private var navigate

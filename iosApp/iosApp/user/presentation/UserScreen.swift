@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import Shared
+import shared
 
 struct UserScreen: View {
     private var getCurrentUserUseCase: User_domainGetCurrentUserUseCase

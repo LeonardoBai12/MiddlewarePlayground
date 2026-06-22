@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import Shared
+import shared
 
 struct OriginalRouteScreen: View {
     private var testOriginalRouteUseCase: Middleware_domainTestOriginalRouteUseCase

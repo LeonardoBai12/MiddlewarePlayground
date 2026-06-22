@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import Shared
+import shared
 
 struct FillRouteFieldsScreen: View {
     @ObservedObject private var viewModel: IOSFillRouteFieldsViewModel

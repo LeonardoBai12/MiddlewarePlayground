@@ -1,4 +1,4 @@
-import Shared
+import shared
 
 //
 //  IOSSignUpViewModel.swift
